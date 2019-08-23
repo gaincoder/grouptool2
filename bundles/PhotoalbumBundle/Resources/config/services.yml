@@ -1,0 +1,43 @@
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    # automatically injects dependencies in your services
+    autowire: true
+    # automatically registers your services as commands, event subscribers, etc.
+    autoconfigure: true
+    # this means you cannot fetch services directly from the container via $container->get()
+    # if you need to do this, you can override this setting on individual services
+    public: false
+
+
+  PhotoalbumBundle\Form\PhotoalbumFormType: ~
+
+  PhotoalbumBundle\Services\Menu:
+    tags:
+      - { name: 'grouptool.menu', priority: 100 }
+
+  PhotoalbumBundle\Command\CloseAlbumCommand:
+    tags:
+      - { name: 'console.command' }
+
+  PhotoalbumBundle\BotCommands\Createalbum:
+    arguments: ['@app.telegram.bot']
+    tags:
+      - { name: 'telegram.botcommand' }
+
+  PhotoalbumBundle\BotCommands\Endefotos:
+    arguments: ['@app.telegram.bot']
+    tags:
+      - { name: 'telegram.botcommand' }
+
+  PhotoalbumBundle\BotCommands\Fotos:
+    arguments: ['@app.telegram.bot']
+    tags:
+      - { name: 'telegram.botcommand' , priority: 50 }
+
+
+  photoalbum_routes:
+    class: App\Services\AddRouting
+    arguments: ['PhotoalbumBundle/Resources/config/routing.yml']
+    tags:
+      - { name: 'app.addrouting' }

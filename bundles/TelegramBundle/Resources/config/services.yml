@@ -1,0 +1,68 @@
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    # automatically injects dependencies in your services
+    autowire: true
+    # automatically registers your services as commands, event subscribers, etc.
+    autoconfigure: true
+    # this means you cannot fetch services directly from the container via $container->get()
+    # if you need to do this, you can override this setting on individual services
+    public: false
+
+  TelegramBundle\Subscriber\EventSubscriber:
+    arguments: ['@router.default','@app.telegram.bot']
+    tags:
+      - { name: kernel.event_subscriber}
+
+  TelegramBundle\Subscriber\InfoSubscriber:
+    arguments: ['@router.default','@app.telegram.bot']
+    tags:
+      - { name: kernel.event_subscriber}
+
+  TelegramBundle\Subscriber\PhotoalbumSubscriber:
+    arguments: ['@router.default','@app.telegram.bot']
+    tags:
+      - { name: kernel.event_subscriber}
+
+  TelegramBundle\Subscriber\BirthdaySubscriber:
+    arguments: ['@app.telegram.bot']
+    tags:
+      - { name: kernel.event_subscriber}
+
+  TelegramBundle\Subscriber\PollSubscriber:
+    arguments: ['@router.default','@app.telegram.bot']
+    tags:
+      - { name: kernel.event_subscriber}
+
+
+  telegrambotcommand:
+    class: TelegramBundle\Services\TelegramBotCommand
+    public: true
+    arguments: [!tagged telegram.botcommand]
+
+
+  TelegramBundle\BotCommands\Hilfe:
+    arguments: ['@app.telegram.bot','@telegrambotcommand']
+    public: true
+    tags:
+      - { name: 'telegram.botcommand' , priority: 500 }
+
+  TelegramBundle\BotCommands\Portal:
+    arguments: ['@app.telegram.bot']
+    tags:
+      - { name: 'telegram.botcommand' , priority: 100  }
+
+  TelegramBundle\BotCommands\Moin:
+    arguments: ['@app.telegram.bot']
+    tags:
+      - { name: 'telegram.botcommand' }
+
+  TelegramBundle\Services\MessageParser: ~
+
+
+
+  telegram_routes:
+    class: App\Services\AddRouting
+    arguments: ['TelegramBundle/Resources/config/routing.yml']
+    tags:
+      - { name: 'app.addrouting' }

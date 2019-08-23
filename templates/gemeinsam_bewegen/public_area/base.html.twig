@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }}</title>
+    {% block head_style %}
+        {{ encore_entry_link_tags('gemeinsam_bewegen/public_area') }}
+    {% endblock head_style %}
+
+</head>
+
+<body>
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="masthead">
+        <div class="inner">
+            <a href="{{ path('home') }}"><img class="masthead-brand" src="{{ asset('build/images/gemeinsambewegen.png') }}" /></a>
+            <div class="headright" />
+        </div>
+    </header>
+
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-9">
+                {% block content %}{% endblock %}
+            </div>
+
+            <aside class="col-md-3 p-1">
+                <div class="p-4 mb-3 bg-light rounded">
+                    {{ render('login') }}
+                </div>
+                <div class="p-4 mb-3 bg-light rounded network">
+                    {{ include('public_area/netzwerk.html.twig') }}
+                </div>
+
+            </aside><!-- /.blog-sidebar -->
+
+        </div><!-- /.row -->
+
+    </main>
+    <footer class="mastfoot mt-auto text-center">
+        <div class="inner">
+            <p><a href="{{ path('impressum') }}">Impressum</a> | <a href="{{ path('datenschutz') }}">Datenschutzerklärung</a></p>
+        </div>
+    </footer>
+
+</div>
+{{ encore_entry_script_tags('gemeinsam_bewegen/public_area') }}
+{% block endscripts %}
+{% endblock %}
+</body>
+</html>

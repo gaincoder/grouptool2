@@ -1,0 +1,8 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% block content %}
+        <h3>Registrieren</h3>
+        <p><small><strong>Info:</strong> Nach der Registrierung muss diese erst durch einen Admin freigeschaltet werden!</small></p>
+
+    {% include "@FOSUser/Registration/register_content.html.twig" %}
+{% endblock %}

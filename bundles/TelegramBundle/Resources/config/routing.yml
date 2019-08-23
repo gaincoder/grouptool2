@@ -1,0 +1,3 @@
+telegram:
+  resource: '@TelegramBundle/Controller'
+  type: annotation

@@ -1,0 +1,83 @@
+{% extends 'closed_area/base.html.twig' %}
+{% block content_row %}
+    <script type="text/javascript">
+        var updateAnswers = function (elem) {
+            {% if  poll.open %}
+            elem = $(elem);
+            if (!elem.hasClass('active')) {
+                {% if poll.type == 0 %}
+                onlyOne(elem);
+                {% else %}
+                toggle(elem);
+                {% endif %}
+            }
+            {% endif %}
+        };
+
+        var onlyOne = function (elem) {
+            $('#answercontainer').find('.btn-group').each(function (key, el) {
+                    setValueForGroup($(el), false);
+                }
+            );
+            toggle(elem);
+        };
+
+        var toggle = function (elem) {
+            if (elem.hasClass('no')) {
+                setValueForGroup(elem.parent(), false);
+            } else {
+                setValueForGroup(elem.parent(), true);
+            }
+        };
+
+
+        var setValueForGroup = function (group, value) {
+            group.find('.off').prop("checked", false);
+            group.find('.no').removeClass('active');
+            group.find('.on').prop("checked", false);
+            group.find('.yes').removeClass('active');
+            if (value === false) {
+                group.find('.no').addClass('active');
+                group.find('.off').prop("checked", true);
+            } else {
+                group.find('.yes').addClass('active');
+                group.find('.on').prop("checked", true);
+            }
+        };
+
+    </script>
+
+
+
+
+    <div class="row-fluid" id="about">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2 class="page-title" id="scroll_up"> Umfrage: {{ poll.name }}</h2>
+                    {{ include('closed_area/Poll/view_toolbar.html.twig') }}
+                </div>
+            </div>
+            {{ include('closed_area/Poll/view_data.html.twig') }}
+            {{ include('closed_area/Poll/view_answers.html.twig') }}
+
+            {% set obj = poll %}
+            {% include 'closed_area/comment/view.html.twig' %}
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
+
+{% block footscripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $('#myTabs a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        });
+
+    </script>
+{% endblock %}

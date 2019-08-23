@@ -1,0 +1,9 @@
+    <div class="widget col-md-6 ">
+        <h2 class="page-title" id="scroll_up"><span class="glyphicon glyphicon-question-sign"></span></small> Umfragen
+        </h2>
+        <p>Die 5 aktuellsten Umfragen <a href="{{ path('poll') }}" class="btn btn-sm btn-default">alle ansehen</a></p>
+        {% for poll in polls %}
+            <p>{% if poll.isAnsweredByUser(app.user) %}<span class="glyphicon glyphicon-ok"></span> {% endif %}<a
+                        href='{{ path('poll_view',{poll:poll.id}) }}'>{{ poll.name }}</a></p>
+        {% endfor %}
+    </div>

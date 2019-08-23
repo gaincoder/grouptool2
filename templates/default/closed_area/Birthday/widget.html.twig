@@ -1,0 +1,28 @@
+<div class="row-fluid item">
+    <div class="col-md-6 updates" id="updates">
+        <h2 class="page-title" id="scroll_up"> Geburtstage</h2>
+        <!-- UPDATES & RELEASE NOTES -->
+        <h3 class="version">Dieser Monat</h3>
+        <ul>
+            {% if birthday_current_month|length == 0 %}
+                <li><i>-- keine --</i></li>
+            {% endif %}
+            {% for birthday in birthday_current_month %}
+                <li>{{ birthday.birthdate|date('d.m') }} {{ birthday.name }} <span
+                            class="badge {% if birthday.thisYearBirthdayIsRound %}success{% endif %}">{{ birthday.ageThisYear }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <h3 class="version">Nächster Monat</h3>
+        <ul>
+            {% if birthday_next_month|length == 0 %}
+                <li><i>-- keine --</i></li>
+            {% endif %}
+            {% for birthday in birthday_next_month %}
+                <li>{{ birthday.birthdate|date('d.m') }} {{ birthday.name }} <span
+                            class="badge {% if birthday.nextBirthdayIsRound %}success{% endif %}">{{ birthday.getNextAge }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

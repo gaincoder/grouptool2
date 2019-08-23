@@ -1,0 +1,3 @@
+birthday:
+  resource: '@BirthdayBundle/Controller/'
+  type: annotation

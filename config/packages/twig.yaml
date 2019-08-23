@@ -1,0 +1,13 @@
+twig:
+    default_path: '%kernel.project_dir%/templates/default'
+    paths:
+       - '%kernel.project_dir%/templates/gemeinsam_bewegen'
+
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    form_themes:
+        - 'bootstrap_3_layout.html.twig'
+    globals:
+        menuservice: '@app.mainmenu'
+        widgetservice: '@app.widgets'
+        page_title: '%env(resolve:PAGE_TITLE)%'

@@ -1,0 +1,29 @@
+<a href="{{ path('poll') }}" class="btn btn-sm btn-default" name="_submit">
+    <span class="glyphicon glyphicon-backward"></span> zurück
+</a>
+
+{% if poll.open and (poll.allowAdd or (app.user == poll.owner or is_granted('ROLE_ADMIN'))) %}
+    <a href="{{ path('poll_edit',{poll:poll.id}) }}" class="btn btn-sm btn-warning">
+        <span class="glyphicon glyphicon-pencil"></span> bearbeiten
+    </a>
+{% endif %}
+                    {% if poll.open and (app.user == poll.owner or is_granted('ROLE_ADMIN')) %}
+                        <a href="{{ path('poll_toggle_status',{poll:poll.id}) }}" class="btn btn-sm btn-primary">
+                            <span class="glyphicon glyphicon-lock"></span> beenden
+                        </a>
+                    {% endif %}
+                    {% if (not poll.open) and is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('poll_toggle_status',{poll:poll.id}) }}" class="btn btn-sm btn-primary">
+                            <span class="glyphicon glyphicon-repeat"></span> öffnen
+                        </a>
+                    {% endif %}
+                    {% if app.user == poll.owner or is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('poll_delete',{poll:poll.id}) }}" class="btn btn-sm btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span> löschen
+                        </a>
+                    {% endif %}
+                    {% if poll.open %}
+                        <a href="{{ path('poll_share',{poll:poll.id}) }}" class="btn btn-sm btn-default">
+                            <span class="glyphicon glyphicon-share-alt"></span> Telegram
+                        </a>
+                    {% endif %}

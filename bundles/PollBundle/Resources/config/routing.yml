@@ -1,0 +1,3 @@
+poll:
+  resource: '@PollBundle/Controller'
+  type: annotation

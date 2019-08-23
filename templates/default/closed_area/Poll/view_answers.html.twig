@@ -1,0 +1,75 @@
+<h3 class="page-title"> Antworten</h3>
+<div>
+
+
+
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#myanswers" role="tab" aria-controls="myanswers" aria-selected="true">Meine Antworten</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#allanswers" role="tab" aria-controls="allanswers" aria-selected="false">Alle Antworten</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+
+        <div role="tabpanel" class="tab-pane active p-3" id="myanswers">
+            <form method="post" action="{{ path('poll_save',{poll:poll.id}) }}">
+                <div id="answercontainer">
+                    {% for answer in poll.answers %}
+                        {% set yesno = -1 %}
+                        {% if answer.voteForUser(app.user).vote  is defined %}
+                            {% set yesno = answer.voteForUser(app.user).vote %}
+                        {% endif %}
+                        <div class="funkyradio row">
+                            <div class="funkyradio-success col-sm-12">
+                                <input type="{{ poll.type ? 'checkbox' : 'radio' }}" name="answer[]"
+                                       value="{{ answer.id }}" id="{{ answer.id }}"
+                                       {% if yesno == 1 %}checked{% endif %} {% if not poll.open %}disabled{% endif %}/>
+                                <label for="{{ answer.id }}">{{ answer.label }}</label>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% if poll.open %}
+                        <br>
+                        <input type="submit" value="speichern" class="btn btn-primary">
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+
+        <div role="tabpanel" class="tab-pane p-3" id="allanswers">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                {% for answer in answers %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading{{ answer.id }}">
+
+                            <div class="row voffset3">
+                                <div class="col-sm-12 font-weight-bold"><span
+                                            class="badge badge-success">{{ answer.votesForVote(1)|length }}</span> {{ answer.label }}
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div role="tabpanel" aria-labelledby="heading{{ answer.id }}">
+                            <div class="panel-body">
+
+                                {% for vote in answer.votesForVote(1) %}
+                                    {{ vote.user.username }}{% if loop.index < answer.votesForVote(1)|length %},{% endif %}
+                                {% endfor %}
+
+                            </div>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+</div>

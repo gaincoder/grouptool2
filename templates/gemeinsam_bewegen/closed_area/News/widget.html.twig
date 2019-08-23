@@ -1,0 +1,7 @@
+    <div class="widget col-md-12 ">
+        <h2 class="page-title" id="scroll_up"><span class="glyphicon glyphicon-bullhorn"></span> Neuigkeiten </h2>
+        {% for news in newslist %}
+            <p><strong>
+                    <small>{{ news.date|date('d.m.y') }}</small> {{ news.headline }}</strong> {{ news.text|raw }}</p>
+        {% endfor %}
+    </div>

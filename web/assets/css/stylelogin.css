@@ -7,7 +7,7 @@ body {
     line-height: 30px;
     text-align: center;
     background-color: #101010;
-    background-image: url('/assets/bg.jpg');
+    background-image: url('../../../assets/images/bg.jpg');
 }
 
 strong { font-weight: 500; }

@@ -1,0 +1,3 @@
+photoalbun:
+  resource: '@PhotoalbumBundle/Controller'
+  type: annotation

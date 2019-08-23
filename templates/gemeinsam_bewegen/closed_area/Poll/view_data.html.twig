@@ -1,0 +1,27 @@
+<div class="bg-light p-3 m-3 rounded">
+    <div class="row voffset5">
+        <div class="col-sm-2 font-weight-bold">Erstellt von:</div>
+        <div class="col-sm-10">{{ poll.owner.username }}</div>
+    </div>
+    <div class="row voffset3">
+        <div class="col-sm-2 font-weight-bold">Teilnahme bis:</div>
+        <div class="col-sm-10">{{ poll.endDate|date('d.m.Y') }}</div>
+    </div>
+    <div class="row voffset3">
+        <div class="col-sm-2 font-weight-bold">Typ:</div>
+        <div class="col-sm-10">{{ poll.type ? 'Mitglieder dürfen mehere Antworten auswählen' : 'Eine Antwort pro Mitglied' }}</div>
+    </div>
+    <div class="row voffset3">
+        <div class="col-sm-2 font-weight-bold">Antworten hinzufügen:</div>
+        <div class="col-sm-10">{{ poll.allowAdd ? 'Ja' : 'Nein' }}</div>
+    </div>
+    <div class="row voffset3">
+        <div class="col-sm-2 font-weight-bold">Info:</div>
+        <div class="col-sm-10">{{ (poll.info ~ " ")|raw }}</div>
+    </div>
+    {% if poll.updated is defined and poll.updated.timestamp > 100 %}
+        <br><br>
+        <small>Letzte Änderung von {{ poll.updatedBy }} am {{ poll.updated|date('d.m.y') }}
+            um {{ poll.updated|date('H:i') }}</small>
+    {% endif %}
+</div>

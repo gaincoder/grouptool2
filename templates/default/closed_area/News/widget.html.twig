@@ -1,0 +1,12 @@
+    <div class="widget col-md-12 ">
+        {% if app.user.telegramUsername|length == 0 %}
+            <div class="alert alert-warning">Für mehr Funktionsumfang bitte <a href="{{ path('settings') }}">hier</a>
+                deinen Telegram-Benutzernamen hinterlegen.
+            </div>
+        {% endif %}
+        <h2 class="page-title" id="scroll_up"><span class="glyphicon glyphicon-bullhorn"></span> Neuigkeiten </h2>
+        {% for news in newslist %}
+            <p><strong>
+                    <small>{{ news.date|date('d.m.y') }}</small> {{ news.headline }}</strong> {{ news.text|raw }}</p>
+        {% endfor %}
+    </div>

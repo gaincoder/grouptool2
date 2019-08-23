@@ -1,0 +1,17 @@
+{% block form_top %}
+    <h4 class="font-italic">Mitglieder-Bereich</h4>
+    {% if error is defined and error %}
+        <div class="mb-3 text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+{% endblock %}
+
+
+{% block fos_user_content %}
+    {{ include('@FOSUser/Security/login_content.html.twig') }}
+{% endblock fos_user_content %}
+
+{% block bottom %}
+    <span class="regsterlink">Noch keinen Account? <a href="{{ path('fos_user_registration_register') }}">
+                    Jetzt registrieren!
+        </a></span>
+{% endblock %}

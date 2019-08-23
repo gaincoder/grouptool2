@@ -6,9 +6,9 @@
 !/var/cache
 /var/cache/*
 !var/cache/.gitkeep
-!/var/logs
-/var/logs/*
-!var/logs/.gitkeep
+!/var/log
+/var/log/*
+!var/log/.gitkeep
 !/var/sessions
 /var/sessions/*
 !var/sessions/.gitkeep
@@ -16,3 +16,23 @@
 /vendor/
 /web/bundles/
 /.idea/
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###

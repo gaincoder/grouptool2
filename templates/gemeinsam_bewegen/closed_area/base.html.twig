@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }}</title>
+        {% block head_style %}
+            {{ encore_entry_link_tags('gemeinsam_bewegen/closed_area') }}
+        {% endblock head_style %}
+
+
+{% block body_tag %}
+<body>
+{% endblock body_tag %}
+
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="masthead">
+        <div class="inner">
+        <div class="row">      <div class="col-md-12">
+
+            <a href="{{ path('home') }}"><img class="masthead-brand" src="{{ asset('build/images/gemeinsambewegen.png') }}" /></a>
+            <div class="headright" />
+        </div>
+        </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {% block navbar %}
+                    {% include 'closed_area/navbar.html.twig' %}
+                {% endblock navbar %}
+
+            </div>
+        </div>
+    </header>
+    {% block flashes %}
+
+        {% for label, messages in app.flashes() %}
+            {% for message in messages %}
+                <div class="row">
+                    <div class="col-sm-12 voffset5">
+                        <div class="alert alert-{{ label }}">
+                            {{ message }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endblock flashes %}
+    {% block content_row %}
+    {% endblock %}
+    <footer class="mastfoot mt-auto text-center">
+        <div class="inner">
+            <p><a href="{{ path('impressum') }}">Impressum</a> | <a href="{{ path('datenschutz') }}">Datenschutzerklärung</a></p>
+        </div>
+    </footer>
+</div>
+{{ encore_entry_script_tags('gemeinsam_bewegen/closed_area') }}
+{% block endscripts %}
+{% endblock %}
+</body>
+</html>
+

@@ -1,0 +1,93 @@
+{% extends 'closed_area/base.html.twig' %}
+{% block content_row %}
+    <div class="row-fluid">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2 class="page-title" id="scroll_up"> Veranstaltung {{ event.name }}</h2>
+                    <a href="{{ path('event') }}" class="btn btn-sm btn-default" name="_submit"><span
+                                class="glyphicon glyphicon-backward"></span> zurück</a> <a href="{{ path
+                        ('event_edit',{event:event.id}) }}" class="btn btn-sm btn-warning"><span
+                                class="glyphicon glyphicon-pencil"></span> bearbeiten</a> <a href="{{ path
+                        ('event_delete',{event:event.id}) }}" class="btn btn-sm btn-danger"><span
+                                class="glyphicon glyphicon-trash"></span> löschen</a>
+                    <br><br>
+                </div>
+            </div>
+            <div class="bg-light rounded m-3 p-3">
+                <div class="row voffset5">
+                    <div class="col-sm-2 font-weight-bold">Datum:</div>
+                    <div class="col-sm-10">{{ event.date|date('d.m.Y H:i') }}</div>
+                </div>
+                <div class="row voffset3">
+                    <div class="col-sm-2 font-weight-bold">Name:</div>
+                    <div class="col-sm-10">{{ event.name }}</div>
+                </div>
+                <div class="row voffset3">
+                    <div class="col-sm-2 font-weight-bold">Ort:</div>
+                    <div class="col-sm-10">{{ event.location }}</div>
+                </div>
+                <div class="row voffset3">
+                    <div class="col-sm-2 font-weight-bold">Info:</div>
+                    <div class="col-sm-10">{{ (event.info ~ " ")|raw }}</div>
+                </div>
+                <div class="row voffset3">
+                    <div class="col-sm-2 font-weight-bold">Spontan abschalten:</div>
+                    <div class="col-sm-10">{{ event.disableImpulse ? 'Ja' : 'Nein' }}</div>
+                </div>
+                <div class="row voffset3">
+                    <div class="col-sm-2 font-weight-bold">Öffentlich:</div>
+                    <div class="col-sm-10">{{ event.public ? 'Ja' : 'Nein' }}</div>
+                </div>
+                {% if event.updated is defined and event.updated.timestamp > 100 %}
+            <br><br>
+                <small>Letzte Änderung von {{ event.updatedBy }} am {{ event.updated|date('d.m.y') }}
+                    um {{ event.updated|date('H:i') }}</small>
+                {% endif %}<br><br>
+            </div>
+            <h3 class="page-title"> Teilnahme</h3>
+
+                    <form method="post" action="{{ path('event_save',{event:event.id}) }}">
+                        <div class="funkyradio row">
+                            <div class="funkyradio-success col-md-4">
+                                <input id="aone" type="radio" value="1" {{ current == 1 ? "checked" }} name="answer"/>
+                                <label for="aone" >Dabei <span class="count">{{ voteRepo.getForEventAndVote(event,1)|length }}</span></label>
+                                <div class="p-3">
+                                    {% for userVote in voteRepo.getForEventAndVote(event,1) %}
+                                        {{ userVote.user.username }}<br>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="funkyradio-danger col-md-4">
+                                <input id="atwo" type="radio" value="2" {{ current == 2 ? "checked" }} name="answer"/>
+                                <label for="atwo" >Nein <span class="count">{{ voteRepo.getForEventAndVote(event,2)|length }}</span></label>
+                                <div class="p-3">
+                                    {% for userVote in voteRepo.getForEventAndVote(event,2) %}
+                                        {{ userVote.user.username }}<br>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% if event.disableImpulse != true %}
+                                <div class="funkyradio-primary col-md-4">
+                                    <input id="athree" type="radio" value="3" {{ current == 3 ? "checked" }} name="answer"/>
+                                    <label for="athree" >Spontan <span class="count">{{ voteRepo.getForEventAndVote(event,3)|length }}</span></label>
+                                    <div class="p-3">
+                                        {% for userVote in voteRepo.getForEventAndVote(event,3) %}
+                                            {{ userVote.user.username }}<br>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <br>
+                        <input type="submit" value="speichern" class="btn btn-primary">
+                    </form>
+                    <br><br>
+
+
+            {% set obj = event %}
+            {% include 'closed_area/comment/view.html.twig' %}
+        </div>
+    </div>
+
+{% endblock %}

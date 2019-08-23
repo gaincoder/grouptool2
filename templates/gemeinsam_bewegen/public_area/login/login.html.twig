@@ -1,0 +1,8 @@
+<h4 class="font-italic">Mitglieder-Bereich</h4>
+{% if not is_granted('ROLE_USER') %}
+    {% include('public_area/login/login_form.html.twig') %}
+{% else %}
+    Sie sind eingeloggt als <b>{{ app.user.username }}</b><br>
+    <a href="{{ path('homepage') }}" class="btn btn-success m-2">Mitglieder-Bereich öffnen</a>
+    <a href="{{ path('fos_user_security_logout') }}" class="btn btn-dark m-2">abmelden</a>
+{% endif %}

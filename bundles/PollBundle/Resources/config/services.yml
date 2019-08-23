@@ -1,0 +1,29 @@
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    # automatically injects dependencies in your services
+    autowire: true
+    # automatically registers your services as commands, event subscribers, etc.
+    autoconfigure: true
+    # this means you cannot fetch services directly from the container via $container->get()
+    # if you need to do this, you can override this setting on individual services
+    public: false
+
+
+  PollBundle\Form\PollFormType: ~
+
+  PollBundle\Services\Menu:
+    tags:
+      - { name: 'grouptool.menu' , priority: 300  }
+
+
+  PollBundle\Services\Widget:
+    tags:
+      - { name: 'grouptool.widget' , priority: 300  }
+
+
+  poll_routes:
+    class: App\Services\AddRouting
+    arguments: ['PollBundle/Resources/config/routing.yml']
+    tags:
+      - { name: 'app.addrouting' }

@@ -1,0 +1,11 @@
+{% extends 'closed_area/base.html.twig' %}
+{% block content_row %}
+
+    <div class="container container-fluid visible-lg" id="home">
+        <div class="row">
+        {{ widgetservice.renderedWidgets|raw }}
+        </div>
+    </div>
+
+
+{% endblock %}

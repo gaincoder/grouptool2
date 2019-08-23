@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+{% block html_tag %}
+<html lang="{{ app.request.locale }}">
+{% endblock html_tag %}
+
+{% block head %}
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+        <meta charset="{{ _charset }}" />
+        {% block head_style %}
+            {{ encore_entry_link_tags('default/closed_area') }}
+        {% endblock head_style %}
+
+
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        {% block head_script %}
+
+            '
+        {% endblock head_script %}
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+        <title>{% block title %}Gruppenportal Lipper Gruppe{% endblock title %}</title>
+        {% block favicon %}<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />{% endblock %}
+        {% block head_bottom %}
+        {% endblock head_bottom %}
+    </head>
+{% endblock head %}
+
+{% block body_tag %}
+<body>
+{% endblock body_tag %}
+
+
+
+{% block body_start %}
+{% endblock body_start %}
+
+{% block body %}
+    {% block navbar %}
+        {% include 'closed_area/navbar.html.twig' %}
+    {% endblock navbar %}
+
+
+
+{% block container %}
+{% block container_div_start %}{% endblock container_div_start %}
+    {% block header %}
+    {% endblock header %}
+
+{% block content_div_start %}<div class="content">{% endblock content_div_start %}
+
+    <div class="container container-fluid">
+        <!-- HOME -->
+
+        <!-- ABOUT & UPDATES -->
+        <div class="row-fluid">
+
+            <div class="span12">
+                {% block flashes %}
+
+                    {% for label, messages in app.flashes() %}
+                        {% for message in messages %}
+                            <div class="row">
+                                <div class="col-sm-12 voffset5">
+                                    <div class="alert alert-{{ label }}">
+                                        {{ message }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endblock flashes %}
+    {% block content_row %}
+
+    {% endblock content_row %}
+            </div>
+        </div>
+    </div>
+{% block content_div_end %}</div>{% endblock content_div_end %}
+
+
+{% block container_div_end %}{% endblock container_div_end %}
+{% endblock container %}
+
+    {% block body_end_before_js %}
+    {% endblock body_end_before_js %}
+{% block foot_script %}
+    {{ encore_entry_script_tags('default/closed_area') }}
+        <script>
+            $(document).ready(function() {
+                $('.summernote').summernote();
+            });
+        </script>
+{% endblock foot_script %}
+{% endblock body %}
+
+{% block body_end %}
+{% endblock body_end %}
+</body>
+</html>

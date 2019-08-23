@@ -1,0 +1,3 @@
+info:
+  resource: '@InfoBundle/Controller/'
+  type: annotation

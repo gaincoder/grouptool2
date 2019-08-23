@@ -1,0 +1,42 @@
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    # automatically injects dependencies in your services
+    autowire: true
+    # automatically registers your services as commands, event subscribers, etc.
+    autoconfigure: true
+    # this means you cannot fetch services directly from the container via $container->get()
+    # if you need to do this, you can override this setting on individual services
+    public: false
+
+  EventBundle\Form\EventFormType: ~
+
+  EventBundle\Services\Menu:
+    tags:
+      - { name: 'grouptool.menu' , priority: 400  }
+
+
+  EventBundle\Services\Widget:
+    tags:
+      - { name: 'grouptool.widget' , priority: 400  }
+
+  EventBundle\Command\EventReminderCommand:
+    tags:
+      - { name: 'console.command' }
+
+  EventBundle\BotCommands\Veranstaltungen:
+    arguments: ['@app.telegram.bot']
+    tags:
+      - { name: 'telegram.botcommand' , priority: 400  }
+
+  EventBundle\BotCommands\Gruppenveranstaltungen:
+    arguments: ['@app.telegram.bot']
+    tags:
+      - { name: 'telegram.botcommand' , priority: 300  }
+
+
+  event_routes:
+    class: App\Services\AddRouting
+    arguments: ['EventBundle/Resources/config/routing.yml']
+    tags:
+      - { name: 'app.addrouting' }

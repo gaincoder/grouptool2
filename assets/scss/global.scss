@@ -1,0 +1,7 @@
+@import "node_modules/bootstrap/scss/bootstrap";
+$bootstrap-sass-asset-helper: false;
+$icon-font-name: 'glyphicons-halflings-regular';
+$icon-font-svg-id: 'glyphicons_halflingsregular';
+$icon-font-path: '../fonts/';
+@import "_glyphicons.scss";
+@import "cookie.scss";

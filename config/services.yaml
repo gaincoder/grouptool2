@@ -1,0 +1,114 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: grouptool2
+    database_user: root
+    database_password: null
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: x@y.de
+    mailer_password: null
+    secret: nklnkljniohiuzh980ijbk
+    bot_id: '439735189:AAHHg6-CONNI4AdQjckxTlEfHnilH28TvAE'
+    chat_id: '-230818886'
+    admin_chat_id: '29439698'
+    router.request_context.host: localhost
+    router.request_context.scheme: https
+
+
+    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+    # makes classes in src/App available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+
+
+
+
+    App\Extension\AutoLinkTwigExtension:
+        tags:
+            - { name: twig.extension }
+
+    app.telegram.bot:
+        class: App\Services\TelegramBot
+        public: true
+        arguments: ['%bot_id%','%chat_id%']
+
+    app.telegram.adminbot:
+        class: App\Services\TelegramBot
+        public: true
+        arguments: ['%bot_id%','%admin_chat_id%']
+
+    app.telegram.updatebot:
+        class: App\Services\TelegramBot
+        public: true
+        arguments: ['445436422:AAGihz08aEGGc4H6ISPmdJWnRaE1Hm1iwyM','%admin_chat_id%']
+
+    app.telegram.photoupload:
+        class: App\Services\PhotoUpload
+        public: true
+        arguments: ['@app.telegram.adminbot', '@doctrine.orm.entity_manager']
+
+    app.telegram.receiver:
+        class: App\Services\TelegramReceiver
+        public: true
+        arguments: ['@app.telegram.adminbot', '@doctrine.orm.entity_manager', '@router.default','@app.telegram.photoupload']
+
+
+    gedmo.listener.softdeleteable:
+        class: Gedmo\SoftDeleteable\SoftDeleteableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ '@annotation_reader' ] ]
+
+
+
+
+
+    App\Controller\RegistrationController:
+        arguments:
+            $formFactory: '@fos_user.registration.form.factory'
+
+    app.mainmenu:
+        class: App\Services\Menu
+        public: true
+        arguments: [!tagged grouptool.menu]
+
+
+
+    app.widgets:
+        class: App\Services\Widget
+        public: true
+        arguments: [!tagged grouptool.widget]
+
+
+
+    App\Routing\ExtraLoader:
+        tags: [routing.loader]
+        arguments: [!tagged app.addrouting]

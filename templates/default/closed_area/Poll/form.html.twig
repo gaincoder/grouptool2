@@ -1,0 +1,43 @@
+{% extends 'closed_area/base.html.twig' %}
+{% block content_row %}
+    <div class="container container-fluid" id="home">
+        <!-- HOME -->
+
+        <!-- ABOUT & UPDATES -->
+        <div class="row-fluid" id="about">
+            {{ form_start(form) }}
+            <div class="span12">
+                <h2 class="page-title" id="scroll_up"> {{ page_title }}</h2>
+                {{ form_row(form.name) }}
+                {{ form_row(form.endDate) }}
+                {{ form_row(form.type) }}
+                {{ form_row(form.allowAdd) }}
+                {% if form.permission is defined %}
+                    {{ form_row(form.permission) }}
+                {% endif %}
+                {{ form_row(form.info) }}
+                <h3 class="page-title" id="scroll_up"> Antwortmöglichkeiten</h3>
+                <div id="answer-fields-list"
+                     data-prototype="{{ form_widget(form.answers.vars.prototype)|e }}">
+                    {% for answerField in form.answers %}
+                        <div class="elem col-sm-12">
+                            {{ form_errors(answerField) }}
+                            {{ form_widget(answerField) }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <a href="#" class="btn btn-default" id="add-another-answer"><i class="glyphicon glyphicon-plus"></i>
+                    weitere Antwortmöglichkeit</a><br><br>
+            </div>
+            <button type="submit" class="btn btn-success" name="_submit">speichern</button>
+            <a href="{{ path('poll') }}" class="btn btn-default" name="_submit">zurück</a>
+            {{ form_end(form) }}
+        </div>
+
+
+    </div>
+
+{% endblock %}
+{% block endscripts %}
+    {{ encore_entry_script_tags('pollform') }}
+{% endblock %}
