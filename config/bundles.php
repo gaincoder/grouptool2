@@ -44,6 +44,9 @@ if((bool)getenv('DISABLE_POLL_BUNDLE') === false) {
     $bundles[\PollBundle\PollBundle::class] = ['all' => true];
 }
 
+if((bool)getenv('DISABLE_COMPANY_BUNDLE') === false) {
+    $bundles[\CompanyBundle\CompanyBundle::class] = ['all' => true];
+}
 //if((bool)getenv('DISABLE_TELEGRAM_BUNDLE') === false) {
 //    $bundles[\TelegramBundle\TelegramBundle::class] = ['all' => true];
 //}

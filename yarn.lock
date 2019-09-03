@@ -1092,9 +1092,17 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
 
-bootstrap@3.3.*:
-  version "3.3.7"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.3.7.tgz#5a389394549f23330875a3b150656574f8a9eb71"
+bootstrap-cookie-alert@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/bootstrap-cookie-alert/-/bootstrap-cookie-alert-1.1.1.tgz#e8926b29c03d9e390f848a959e6e8ff047d0bc78"
+
+bootstrap4-toggle@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/bootstrap4-toggle/-/bootstrap4-toggle-3.5.0.tgz#792fd58b4661e8923f608edebd487af92dda7ac0"
+
+bootstrap@4.3.*:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.3.1.tgz#280ca8f610504d99d7b6b4bfc4b68cec601704ac"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -1408,6 +1416,10 @@ coa@^2.0.2:
 code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
+
+codemirror@^5.48.4:
+  version "5.48.4"
+  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.48.4.tgz#4210fbe92be79a88f0eea348fab3ae78da85ce47"
 
 collection-visit@^1.0.0:
   version "1.0.0"
@@ -4911,6 +4923,10 @@ select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
 
+select2@^4.0.10:
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.10.tgz#c8d4e3e2504f49956b3dfd9018ab1d7bc601a41b"
+
 selfsigned@^1.10.4:
   version "1.10.4"
   resolved "https://registry.yarnpkg.com/selfsigned/-/selfsigned-1.10.4.tgz#cdd7eccfca4ed7635d47a08bf2d5d3074092e2cd"
@@ -5328,6 +5344,10 @@ stylehacks@^4.0.0:
     browserslist "^4.0.0"
     postcss "^7.0.0"
     postcss-selector-parser "^3.0.0"
+
+summernote-webpack-fix@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/summernote-webpack-fix/-/summernote-webpack-fix-0.8.2.tgz#c404b23ee9da32064329872e348c2c0c9ff1f781"
 
 supports-color@^2.0.0:
   version "2.0.0"

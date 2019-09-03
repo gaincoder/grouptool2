@@ -1,0 +1,57 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Tim
+ * Date: 28.07.2017
+ * Time: 20:41
+ */
+
+namespace CompanyBundle\Entity;
+
+use App\Entity\Group;
+use App\Entity\User;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+
+/**
+ * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks()
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
+ */
+class Company
+{
+    use SoftDeleteableEntity;
+
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    public $id;
+
+    /**
+     * @ORM\Column(type="string",length=255)
+     */
+    public $name;
+
+
+    /**
+     * @var Group
+     * @ORM\OneToOne(targetEntity="App\Entity\Group")
+     */
+    public $group;
+
+    /**
+     * @var User[]
+     * @ORM\ManyToMany(targetEntity="App\Entity\User")
+     */
+    public $registrationsTo;
+
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+}

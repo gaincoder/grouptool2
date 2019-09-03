@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "bootstrap-cookie-alert": "^1.1.1",
+    "bootstrap4-toggle": "^3.5.0",
     "codemirror": "^5.48.4",
+    "select2": "^4.0.10",
     "summernote-webpack-fix": "^0.8.2"
   }
 }

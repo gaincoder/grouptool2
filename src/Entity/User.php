@@ -9,6 +9,7 @@
 namespace App\Entity;
 
 
+use CompanyBundle\Entity\Company;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -36,6 +37,23 @@ class User extends BaseUser
      * @ORM\Column(type="string",length=255,nullable=true)
      */
     public $telegramChatId;
+
+    /**
+     * @var Company
+     * @ORM\ManyToOne(targetEntity="CompanyBundle\Entity\Company")
+     */
+    public $company;
+
+    /**
+     * @ORM\Column(type="string",length=255,nullable=true)
+     */
+    public $firstname;
+
+    /**
+     * @ORM\Column(type="string",length=255,nullable=true)
+     */
+    public $lastname;
+
 
 
     public function __construct()

@@ -1,0 +1,3 @@
+company:
+  resource: '@CompanyBundle/Controller/'
+  type: annotation

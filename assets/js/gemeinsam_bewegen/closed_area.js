@@ -8,8 +8,10 @@ const $ = require('jquery');
 // the bootstrap module doesn't export/return anything
 require('bootstrap');
 require('../../js/summernote.js');
-
+require('select2');
+require('bootstrap4-toggle');
 
 $(document).ready(function() {
     $('.summernote').summernote();
+    $('select[data-select="true"]').select2();
 });

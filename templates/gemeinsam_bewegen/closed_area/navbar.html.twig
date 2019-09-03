@@ -40,8 +40,13 @@
 
             {{ menuservice.renderedMenu|raw }}
             {% if is_granted('ROLE_ADMIN') %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('administration') }}">Administration</a>
+                <li class="nav-item dropdown" data-dropdown="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Administration <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <a class="dropdown-item" href="{{ path('userlist') }}">Benutzer</a>
+                        <a class="dropdown-item" href="{{ path('company') }}">Firmen</a>
+                        <a class="dropdown-item" href="{{ path('group') }}">Gruppen</a>
+                    </ul>
                 </li>
             {% endif %}
             <li class="nav-item dropdown" data-dropdown="dropdown">
