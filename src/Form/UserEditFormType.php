@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Group;
 use App\Entity\User;
 use App\Enums\Roles;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -34,8 +35,14 @@ class UserEditFormType extends AbstractType
             ->add('firstname', null, array('label' => 'Vorname'))
             ->add('lastname', null, array('label' => 'Nachname'))
             ->add('email', EmailType::class, array('label' => 'E-Mail'))
-            ->add('enabled',CheckboxType::class,['label'=>false, 'required'=>false ,'attr' => ['data-toggle'=>'toggle', 'data-on'=>'aktiviert','data-off'=>'deaktiviert',"data-onstyle"=>"success", "data-offstyle"=>"danger"]]);
 
+            ->add('groups', EntityType::class, array(
+                'label' => 'Gruppen',
+                'multiple' => true,
+                'class' => Group::class,
+                'attr' => ['data-select' => 'true']
+            ))
+            ->add('enabled',CheckboxType::class,['label'=>false, 'required'=>false ,'attr' => ['data-toggle'=>'toggle', 'data-on'=>'aktiviert','data-off'=>'deaktiviert',"data-onstyle"=>"success", "data-offstyle"=>"danger"]]);
 
     }
 
@@ -49,6 +56,7 @@ class UserEditFormType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\User',
+            'cascade_validation' => true,
         ));
     }
 }

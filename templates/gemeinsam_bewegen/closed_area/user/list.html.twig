@@ -18,7 +18,7 @@
                     </thead>
                     <tbody>
                         {% for user in users %}
-                        <tr>
+                        <tr {% if not user.enabled %}class="table-dark" style="text-decoration: line-through"{% endif %}>
                             <td>{{ user.username }}</span></td>
                             <td>{{ user.company.name|default }}</span></td>
                             <td>{{ user.firstname }}</span></td>

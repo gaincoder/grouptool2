@@ -19,4 +19,15 @@ class Group extends BaseGroup
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    public $hidden=false;
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

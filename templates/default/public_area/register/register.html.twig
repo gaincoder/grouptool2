@@ -1,8 +1,27 @@
 {% extends "@FOSUser/layout.html.twig" %}
-
+{% trans_default_domain 'FOSUserBundle' %}
 {% block content %}
         <h3>Registrieren</h3>
         <p><small><strong>Info:</strong> Nach der Registrierung muss diese erst durch einen Admin freigeschaltet werden!</small></p>
 
-    {% include "@FOSUser/Registration/register_content.html.twig" %}
+    {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+
+    {{ form_row(form.company) }}
+    {{ form_row(form.firstname) }}
+    {{ form_row(form.lastname) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.username) }}
+    {{ form_row(form.plainPassword) }}
+    <span style="display:inline-block">
+    {{ form_widget(form.privacy) }}
+    </span>
+    <span style="display:inline-block">
+           Ich habe die <a href="{{ path('datenschutz') }}">Datenschutzerklärung</a> gelesen
+    </span>
+    <div>
+        <input type="submit" value="{{ 'registration.submit'|trans }}" />
+    </div>
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+
 {% endblock %}

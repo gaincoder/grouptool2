@@ -112,3 +112,8 @@ services:
     App\Routing\ExtraLoader:
         tags: [routing.loader]
         arguments: [!tagged app.addrouting]
+
+    app.form.registration:
+        class: App\Form\RegistrationType
+        tags:
+            - { name: form.type, alias: app_user_registration }

@@ -54,19 +54,20 @@ class User extends BaseUser
      */
     public $lastname;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Group")
+     * @ORM\JoinTable(name="fos_user_user_group",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    protected $groups;
 
 
     public function __construct()
     {
         parent::__construct();
         // your own logic
-    }
-
-    public function setUsername($username)
-    {
-        $this->setEmail($username . '@localhost.dev');
-        $this->setEmailCanonical($username . '@localhost.dev');
-        return parent::setUsername($username);
     }
 
     /**
