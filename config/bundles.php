@@ -1,5 +1,7 @@
 <?php
 
+use EmailBundle\EmailBundle;
+
 $bundles = [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
@@ -51,5 +53,8 @@ if((bool)getenv('DISABLE_COMPANY_BUNDLE') === false) {
 //    $bundles[\TelegramBundle\TelegramBundle::class] = ['all' => true];
 //}
 
+if((bool)getenv('DISABLE_EMAIL_BUNDLE') === false) {
+    $bundles[EmailBundle::class] = ['all' => true];
+}
 
 return $bundles;

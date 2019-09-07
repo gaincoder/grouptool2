@@ -1,0 +1,17 @@
+{% block subject %}Willkommen {{  user.username  }}{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Hallo {{ user.username }}!
+
+vielen Dank für deine Registrierung.
+
+Bitte bestätige deine E-Mail-Adresse hier:
+
+{{ confirmationUrl }}
+
+Nach der Bestätigung wird ein Administrator deine Angaben überprüfen.
+
+Wir sehen uns bald!
+{% endautoescape %}
+{% endblock %}

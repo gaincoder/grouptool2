@@ -1,0 +1,19 @@
+{% block subject %}Neue Registrierung: {{  newUser.username  }}{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Hallo {{ receiver.username }}!
+
+ein Neuer Benutzer hat sich für die Firma {{ newUser.company.name }} registriert.
+
+Username: {{  newUser.username  }}
+Vorname: {{  newUser.firstname  }}
+Nachname: {{  newUser.lastname  }}
+E-Mail: {{  newUser.email  }}
+
+Bitte überprüfen Sie die Angaben und schalten Sie den Benutzer ggf. frei:
+{{ approveLink  }}
+
+Vielen Dank!
+{% endautoescape %}
+{% endblock %}

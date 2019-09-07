@@ -11,9 +11,10 @@ parameters:
     database_user: root
     database_password: null
     mailer_transport: smtp
-    mailer_host: 127.0.0.1
-    mailer_user: x@y.de
-    mailer_password: null
+    mailer_host: s129.goserver.host
+    mailer_user: gemeinsam-bewegen@grouptool.de
+    mailer_from: gemeinsam-bewegen@grouptool.de
+    mailer_password: V8IltGkWw4ANrc2o
     secret: nklnkljniohiuzh980ijbk
     bot_id: '439735189:AAHHg6-CONNI4AdQjckxTlEfHnilH28TvAE'
     chat_id: '-230818886'
@@ -89,12 +90,6 @@ services:
 
 
 
-
-
-    App\Controller\RegistrationController:
-        arguments:
-            $formFactory: '@fos_user.registration.form.factory'
-
     app.mainmenu:
         class: App\Services\Menu
         public: true
@@ -116,4 +111,8 @@ services:
     app.form.registration:
         class: App\Form\RegistrationType
         tags:
-            - { name: form.type, alias: app_user_registration }
+           - { name: form.type, alias: app_user_registration }
+
+    App\Subscriber\RegistrationSubscriber:
+        tags:
+            - { name: kernel.event_subscriber}

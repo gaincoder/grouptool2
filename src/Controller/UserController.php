@@ -147,4 +147,14 @@ class UserController
     {
         return new RedirectResponse($url, $status);
     }
+
+    /**
+     * @Route("/registration/isConfirmed", name="registration_isconfirmed")
+     */
+    public function registrationConfirmed()
+    {
+        return new Response($this->twig->render('public_area/register/confirmed.html.twig'));
+    }
+
+
 }

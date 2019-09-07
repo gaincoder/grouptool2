@@ -2,7 +2,7 @@
 {% trans_default_domain 'FOSUserBundle' %}
 {% block content %}
         <h3>Registrieren</h3>
-        <p><small><strong>Info:</strong> Nach der Registrierung muss diese erst durch einen Admin freigeschaltet werden!</small></p>
+
 
     {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
 

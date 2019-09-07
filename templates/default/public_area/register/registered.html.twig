@@ -1,0 +1,15 @@
+{% extends "@FOSUser/layout.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block content %}
+    <h3>Vielen Dank!</h3>
+    <br>
+    Deine Registrierung wurde gespeichert, <strong>aber</strong> es müssen jetzt noch 2 Dinge passieren:
+    <br><br>
+    <ol>
+        <li>Du hast eine E-Mail erhalten. Bitte klicke auf den Link in der E-Mail um deine E-Mail-Adresse zu bestätigen.</li>
+        <li>Ein Administrator wird deine Registrierung überprüfen. Du bekommst eine weitere E-Mail wenn dies passiert ist. <strong>Erst danach</strong> kannst du dich einloggen.</li>
+    </ol>
+    <br>
+    Wir sehen uns bald!
+
+{% endblock %}
