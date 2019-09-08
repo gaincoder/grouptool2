@@ -7,7 +7,36 @@
         <div class="row-fluid" id="about">
             <div class="span12">
                 <h2 class="page-title" id="scroll_up"> Administration</h2>
-                <table class="table table-sm table-striped">
+                {% if notApprovedUsers|length > 0 %}
+                    <h3>Benutzerfreischaltungen</h3>
+                    <table class="table table-sm table-striped datatable">
+                        <thead>
+                        <th>Benutername</th>
+                        <th>Firma</th>
+                        <th>Vorname</th>
+                        <th>Nachname</th>
+                        <th>E-Mail</th>
+                        <th></th>
+                        </thead>
+                        <tbody>
+                        {% for user in notApprovedUsers %}
+                            <tr>
+                                <td>{{ user.username }}</span></td>
+                                <td>{{ user.company.name|default }}</span></td>
+                                <td>{{ user.firstname }}</span></td>
+                                <td>{{ user.lastname }}</span></td>
+                                <td>{{ user.email }}</span></td>
+                                {#                            <td>{% if user.enabled %}<span class="alert-success">aktiviert{% else %}<span class="alert-danger">deaktiviert{% endif %}</span> <a href="{{ path('administration_toggle_user',{user:user.id}) }}" class="btn btn-sm btn-primany">ändern</a></td>#}
+                                <td>
+                                    <a href="{{ path('user_approval',{ user:user.id }) }}" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-question-sign"></span></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+                <h3>Alle Benutzer</h3>
+                <table class="table table-sm table-striped datatable">
                     <thead>
                         <th>Benutername</th>
                         <th>Firma</th>

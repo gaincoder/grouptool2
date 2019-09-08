@@ -66,11 +66,12 @@ class UserController
      */
     public function indexAction()
     {
-        if (!$this->security->isGranted('ROLE_ADMIN')) {
+        if (!($this->security->isGranted('ROLE_MANAGE_USER') || !$this->security->isGranted('ROLE_MANAGE_ALL_USER'))) {
             throw new AccessDeniedException();
         }
-        $users = $this->userRepository->findAllOrdered();
-        return new Response($this->twig->render('closed_area/user/list.html.twig', ['users' => $users]));
+        $users = $this->userRepository->findAllOrdered($this->security->getUser()->company->id,$this->security->isGranted('ROLE_MANAGE_ALL_USER'));
+        $notApprovedUsers = $this->userRepository->findNotApproved($this->security->getUser()->company->id,$this->security->isGranted('ROLE_MANAGE_ALL_USER'));
+        return new Response($this->twig->render('closed_area/user/list.html.twig', ['users' => $users,'notApprovedUsers'=>$notApprovedUsers]));
     }
 
 

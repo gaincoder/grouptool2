@@ -8,9 +8,11 @@ use Doctrine\ORM\EntityManagerInterface;
 interface UserRepositoryInterface
 {
     /**
+     * @param $companyId
+     * @param bool $all
      * @return Entity[]
      */
-    public function findAllOrdered();
+    public function findAllOrdered($companyId, $all = false);
 
     /**
      * @return EntityManagerInterface

@@ -10,8 +10,10 @@ require('bootstrap');
 require('../../js/summernote.js');
 require('select2');
 require('bootstrap4-toggle');
+require( 'datatables.net-bs4');
 
 $(document).ready(function() {
     $('.summernote').summernote();
     $('select[data-select="true"]').select2();
+    $('.datatable').dataTable();
 });
