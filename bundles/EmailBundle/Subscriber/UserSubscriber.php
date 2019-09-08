@@ -9,6 +9,7 @@
 namespace EmailBundle\Subscriber;
 
 
+use App\Event\UserApprovedEvent;
 use EmailBundle\Services\TwigMailerInterface;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
@@ -23,7 +24,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
 
-class RegistrationSubscriber implements EventSubscriberInterface
+class UserSubscriber implements EventSubscriberInterface
 {
 
     /**
@@ -45,24 +46,15 @@ class RegistrationSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            FOSUserEvents::REGISTRATION_CONFIRM => 'onRegistrationConfirmed'
+            UserApprovedEvent::class => 'onUserApproved'
         ];
     }
 
-    public function onRegistrationConfirmed(GetResponseUserEvent $event)
+    public function onUserApproved(UserApprovedEvent $event)
     {
-        $recievers = $event->getUser()->company->registrationsTo;
+        $parameters = ['user'=>$event->getUser(),'link'=>$this->router->generate('home',[],Router::ABSOLUTE_URL)];
+        $this->mailer->sendMessage('email/approval_succesful.html.twig',$parameters,$event->getUser()->getEmail());
 
-        $parameters = [
-            'newUser' => $event->getUser(),
-            'approveLink' => $this->router->generate('user_approval',['user'=>$event->getUser()->getId()],Router::ABSOLUTE_URL)
-        ];
-
-        foreach ($recievers as $reciever) {
-            $mail = $reciever->getEmail();
-            $parameters['receiver'] = $reciever;
-            $this->mailer->sendMessage('email/new_registration.html.twig',$parameters,$mail);
-        }
     }
 
 }

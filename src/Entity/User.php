@@ -63,6 +63,11 @@ class User extends BaseUser
      */
     protected $groups;
 
+    /**
+     * @ORM\Column(type="smallint",nullable=true)
+     */
+    public $approval;
+
 
     public function __construct()
     {

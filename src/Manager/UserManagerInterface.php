@@ -15,4 +15,8 @@ interface UserManagerInterface
     public function handleEdit(User $user);
 
     public function handleDelete(User $user);
+
+    public function handleApproved(User $user);
+
+    public function handleRefusal(User $user);
 }

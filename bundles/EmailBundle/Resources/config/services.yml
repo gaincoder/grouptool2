@@ -17,3 +17,7 @@ services:
     tags:
       - { name: kernel.event_subscriber}
 
+  EmailBundle\Subscriber\UserSubscriber:
+    arguments: ['@router.default','@EmailBundle\Services\TwigMailer' ]
+    tags:
+      - { name: kernel.event_subscriber}

@@ -1,0 +1,47 @@
+{% extends 'closed_area/base.html.twig' %}
+{% block content_row %}
+    <div class="container container-fluid" id="home">
+        <!-- HOME -->
+
+        <!-- ABOUT & UPDATES -->
+        <div class="row-fluid">
+            <div class="span12">
+                <h2 class="page-title" id="scroll_up"> {{ page_title }}</h2>
+                <div class="row">
+                    <div class="col-md-6 font-weight-bold">Firma</div>
+                    <div class="col-md-6">{{ user.company.name }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 font-weight-bold">Vorname</div>
+                    <div class="col-md-6">{{ user.firstname }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 font-weight-bold">Nachname</div>
+                    <div class="col-md-6">{{ user.lastname }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 font-weight-bold">E-Mail-Adresse</div>
+                    <div class="col-md-6">{{ user.email }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 font-weight-bold">Benutzername</div>
+                    <div class="col-md-6">{{ user.username }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><br></div>
+                </div>
+                {% if user.approval == null %}
+                    <div class="row">
+                        <div class="col-md-6"><a href="{{ path('user_approved',{user:user.id}) }}" class="btn btn-success">freischalten</a></div>
+                        <div class="col-md-6"><a href="{{ path('user_refused',{user:user.id}) }}" class="btn btn-danger">ablehnen</a></div>
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning">Der Benutzer wurde bereits {% if user.approval == 1 %}freigeschaltet{% else %}abgelehnt{% endif %}.</div>
+                {% endif %}
+            </div>
+
+        </div>
+
+
+    </div>
+{% endblock %}

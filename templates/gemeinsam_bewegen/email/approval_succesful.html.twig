@@ -1,0 +1,16 @@
+{% block subject %}Freischaltung erfolgreich!{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Hallo {{ user.username }}!
+
+gute Neuigkeiten: ein Administrator hat deine Angaben überprüft und dich freigeschaltet.
+
+Du kannst dich nun in den Mitgliederbereich einloggen:
+
+{{ link }}
+
+Viel Spaß beim störbern und ausprobieren.
+
+{% endautoescape %}
+{% endblock %}

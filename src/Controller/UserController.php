@@ -93,46 +93,6 @@ class UserController
     }
 
 
-    /**
-     * @Route("/administration/toggleUse/{user}", name="administration_toggle_user")
-     */
-    public function toggleUser(User $user, Request $request)
-    {
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
-        $user->setEnabled(!$user->isEnabled());
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
-        $em->flush();
-
-        return $this->redirectToRoute('administration');
-    }
-
-
-    /**
-     * @Route("/administration/toggleStammi/{user}", name="administration_toggle_stammi")
-     */
-    public function toggleStammi(User $user, Request $request)
-    {
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
-        if ($user->hasRole('ROLE_STAMMI')) {
-            $user->removeRole('ROLE_STAMMI');
-        } else {
-            $user->addRole('ROLE_STAMMI');
-        }
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
-        $em->flush();
-
-        return $this->redirectToRoute('administration');
-    }
-
     protected function redirectToRoute(string $route, array $parameters = [], int $status = 302): RedirectResponse
     {
         return $this->redirect($this->generateUrl($route, $parameters), $status);
@@ -156,5 +116,39 @@ class UserController
         return new Response($this->twig->render('public_area/register/confirmed.html.twig'));
     }
 
+    /**
+     * @Route("/user/approval/{user}", name="user_approval")
+     * @param User
+     * @param Request $request
+     * @return Response
+     */
+    public function approval(User $user, Request $request)
+    {
+        return new Response($this->twig->render('closed_area/user/approval.html.twig', ['user' => $user, 'page_title' => 'Benutzer freischalten']));
+    }
+
+    /**
+     * @Route("/user/approve/{user}", name="user_approved")
+     * @param User
+     * @param Request $request
+     * @return Response
+     */
+    public function approve(User $user, Request $request)
+    {
+        $this->userManager->handleApproved($user);
+        return $this->redirectToRoute('userlist');
+    }
+
+    /**
+     * @Route("/user/refuse/{user}", name="user_refused")
+     * @param User
+     * @param Request $request
+     * @return Response
+     */
+    public function refuse(User $user, Request $request)
+    {
+        $this->userManager->handleRefusal($user);
+        return $this->redirectToRoute('userlist');
+    }
 
 }

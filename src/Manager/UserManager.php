@@ -9,12 +9,10 @@
 namespace App\Manager;
 
 
+use App\Event\UserApprovedEvent;
+use App\Event\UserRefusedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
-use App\Event\UserCreatedEvent;
-use App\Event\UserDeletedEvent;
-use App\Event\UserEditedEvent;
-use App\Event\UserSharedEvent;
 use App\Repository\UserRepositoryInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -84,5 +82,23 @@ class UserManager implements UserManagerInterface
     {
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+    }
+
+    public function handleApproved(User $user)
+    {
+        $user->approval = 1;
+        $user->setEnabled(true);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+        $this->eventDispatcher->dispatch(new UserApprovedEvent($user));
+    }
+
+    public function handleRefusal(User $user)
+    {
+        $user->approval = 2;
+        $user->setEnabled(false);
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+        $this->eventDispatcher->dispatch(new UserRefusedEvent($user));
     }
 }
