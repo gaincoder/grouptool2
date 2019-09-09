@@ -26,6 +26,9 @@ abstract class AbstractEventEvent extends Event
         $this->user = $user;
     }
 
+    /**
+     * @return \EventBundle\Entity\Event
+     */
     public function getEvent()
     {
         return $this->event;

@@ -6,6 +6,8 @@ use App\Entity\Comment;
 use EventBundle\Entity\Event;
 use EventBundle\Entity\EventVote;
 use App\Form\CommentFormType;
+use EventBundle\Event\EventDeletedEvent;
+use EventBundle\Event\EventEditedEvent;
 use EventBundle\Form\EventFormType;
 use EventBundle\Event\EventAnsweredEvent;
 use EventBundle\Event\EventCommentedEvent;
@@ -70,6 +72,7 @@ class EventController extends AbstractController
             $em->persist($event);
             $em->flush();
             $this->addFlash('success', 'Veranstaltung wurde gespeichert!');
+            $this->get('event_dispatcher')->dispatch(new EventEditedEvent($event, $this->getUser()));
             return $this->redirectToRoute('event');
         }
         return $this->render('closed_area/Event/form.html.twig', ['form' => $form->createView(), 'page_title' => 'Veranstaltung bearbeiten']);
@@ -89,6 +92,7 @@ class EventController extends AbstractController
         $em->remove($event);
         $em->flush();
         $this->addFlash('success', 'Veranstaltung wurde gelöscht!');
+        $this->get('event_dispatcher')->dispatch(new EventDeletedEvent($event, $this->getUser()));
         return $this->redirectToRoute('event');
 
     }

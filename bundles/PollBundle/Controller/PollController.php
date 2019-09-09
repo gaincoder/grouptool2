@@ -7,6 +7,8 @@ use PollBundle\Entity\Poll;
 use PollBundle\Entity\UserVote;
 use App\Form\CommentFormType;
 use PollBundle\Entity\PollAnswer;
+use PollBundle\Event\PollDeletedEvent;
+use PollBundle\Event\PollEditedEvent;
 use PollBundle\Form\PollFormType;
 use PollBundle\Form\PollSimpleFormType;
 use PollBundle\Event\PollAnsweredEvent;
@@ -81,6 +83,7 @@ class PollController extends AbstractController
             $em->persist($poll);
             $em->flush();
             $this->addFlash('success', 'Umfrage wurde gespeichert!');
+            $this->get('event_dispatcher')->dispatch(new PollEditedEvent($poll, $this->getUser()));
             return $this->redirectToRoute('poll_view', ['poll' => $poll->id]);
         }
         return $this->render($tpl, ['form' => $form->createView(), 'page_title' => 'Umfrage bearbeiten', 'poll' => $poll]);
@@ -99,6 +102,7 @@ class PollController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->remove($poll);
         $em->flush();
+        $this->get('event_dispatcher')->dispatch(new PollDeletedEvent($poll, $this->getUser()));
         $this->addFlash('success', 'Umfrage wurde gelöscht!');
         return $this->redirectToRoute('poll');
 

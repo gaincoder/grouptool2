@@ -9,8 +9,11 @@
 namespace App\Flash\Subscriber;
 
 
-use PhotoalbumBundle\Event\PhotoalbumEvent;
+use PhotoalbumBundle\Event\PhotoalbumCreatedEvent;
+use PhotoalbumBundle\Event\PhotoalbumDeletedEvent;
+use PhotoalbumBundle\Event\PhotoalbumEditedEvent;
 
+use PhotoalbumBundle\Event\PhotoalbumEventInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
@@ -33,13 +36,13 @@ class PhotoalbumSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            PhotoalbumEvent::NAME_CREATED => 'onPhotoalbumCreated',
-            PhotoalbumEvent::NAME_DELETED => 'onPhotoalbumDeleted',
-            PhotoalbumEvent::NAME_EDITED => 'onPhotoalbumEdited'
+            PhotoalbumCreatedEvent::class => 'onPhotoalbumCreated',
+            PhotoalbumEditedEvent::class => 'onPhotoalbumEdited',
+            PhotoalbumDeletedEvent::class => 'onPhotoalbumDeleted'
         ];
     }
 
-    public function onPhotoalbumCreated(PhotoalbumEvent $event)
+    public function onPhotoalbumCreated(PhotoalbumEventInterface $event)
     {
         $this->flashbag->add('success', 'Fotoalbum wurde gespeichert!');
     }

@@ -18,11 +18,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * The order.placed event is dispatched each time an order is created
  * in the system.
  */
-class PhotoalbumEvent extends Event
+class PhotoalbumDeletedEvent extends Event implements PhotoalbumEventInterface
 {
-    public const NAME_CREATED = 'photoalbum.event.created';
-    public const NAME_DELETED = 'photoalbum.event.deleted';
-    public const NAME_EDITED = 'photoalbum.event.edited';
 
     protected $photoalbum;
     /**

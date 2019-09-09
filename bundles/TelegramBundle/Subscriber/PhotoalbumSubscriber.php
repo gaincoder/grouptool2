@@ -14,8 +14,12 @@ use App\Services\TelegramBot;
 use App\Interfaces\TelegramBotInterface;
 
 use PhotoalbumBundle\Event\PhotoalbumClosedEvent;
+use PhotoalbumBundle\Event\PhotoalbumCreatedEvent;
+use PhotoalbumBundle\Event\PhotoalbumDeletedEvent;
+use PhotoalbumBundle\Event\PhotoalbumEditedEvent;
 use PhotoalbumBundle\Event\PhotoalbumEvent;
 
+use PhotoalbumBundle\Event\PhotoalbumEventInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
@@ -42,12 +46,13 @@ class PhotoalbumSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            PhotoalbumEvent::NAME_CREATED => 'onPhotoalbumCreated',
+            PhotoalbumCreatedEvent::class => 'onPhotoalbumCreated',
             PhotoalbumClosedEvent::class => 'onPhotoAlbumClosed'
         ];
     }
 
-    public function onPhotoalbumCreated(PhotoalbumEvent $event)
+
+    public function onPhotoalbumCreated(PhotoalbumEventInterface $event)
     {
         $user = $event->getUser();
         $photoalbum = $event->getPhotoalbum();

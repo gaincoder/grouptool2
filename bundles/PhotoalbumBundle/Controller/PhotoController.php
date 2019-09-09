@@ -2,10 +2,13 @@
 
 namespace PhotoalbumBundle\Controller;
 
+use InfoBundle\Event\InfoCreatedEvent;
 use PhotoalbumBundle\Entity\Photo;
 use PhotoalbumBundle\Entity\Photoalbum;
+use PhotoalbumBundle\Event\PhotoalbumCreatedEvent;
+use PhotoalbumBundle\Event\PhotoalbumDeletedEvent;
+use PhotoalbumBundle\Event\PhotoalbumEditedEvent;
 use PhotoalbumBundle\Form\PhotoalbumFormType;
-use PhotoalbumBundle\Event\PhotoalbumEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,8 +44,7 @@ class PhotoController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($photoalbum);
             $em->flush();
-
-            $this->get('event_dispatcher')->dispatch(PhotoalbumEvent::NAME_CREATED, new PhotoalbumEvent($photoalbum, $this->getUser()));
+            $this->get('event_dispatcher')->dispatch(new PhotoalbumCreatedEvent($photoalbum, $this->getUser()));
 
             return $this->redirectToRoute('photoalbum');
         }
@@ -65,7 +67,7 @@ class PhotoController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($photoalbum);
             $em->flush();;
-            $this->get('event_dispatcher')->dispatch(PhotoalbumEvent::NAME_EDITED, new PhotoalbumEvent($photoalbum, $this->getUser()));
+            $this->get('event_dispatcher')->dispatch(new PhotoalbumEditedEvent($photoalbum, $this->getUser()));
             return $this->redirectToRoute('photoalbum');
         }
         return $this->render('closed_area/Photoalbum/form.html.twig', ['form' => $form->createView(), 'page_title' => 'Fotoalbum bearbeiten']);
@@ -83,9 +85,10 @@ class PhotoController extends AbstractController
             return $this->render('closed_area/confirm.html.twig', ['type' => 'Fotoalbum']);
         }
         $em = $this->getDoctrine()->getManager();
+        $this->get('event_dispatcher')->dispatch(new PhotoalbumDeletedEvent($photoalbum, $this->getUser()));
         $em->remove($photoalbum);
         $em->flush();
-        $this->get('event_dispatcher')->dispatch(PhotoalbumEvent::NAME_DELETED, new PhotoalbumEvent($photoalbum, $this->getUser()));
+
         return $this->redirectToRoute('photoalbum');
 
     }

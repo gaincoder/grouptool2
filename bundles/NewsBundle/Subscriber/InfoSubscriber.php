@@ -9,6 +9,8 @@
 namespace NewsBundle\Subscriber;
 
 
+use InfoBundle\Event\InfoDeletedEvent;
+use InfoBundle\Event\InfoEditedEvent;
 use NewsBundle\Entity\News;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,6 +35,9 @@ class InfoSubscriber implements EventSubscriberInterface
     private $router;
 
 
+    private static $headline = 'Neue Info erstellt';
+    private static $text = '%s hat  <a href="%s">%s</a> erstellt';
+
     public function __construct(EntityManagerInterface $em, RouterInterface $router)
     {
         $this->em = $em;
@@ -44,7 +49,9 @@ class InfoSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            InfoCreatedEvent::class => 'onInfoCreated'
+            InfoCreatedEvent::class => 'onInfoCreated',
+            InfoEditedEvent::class => 'onInfoEdited',
+            InfoDeletedEvent::class => 'onInfoDeleted'
         ];
     }
 
@@ -55,11 +62,45 @@ class InfoSubscriber implements EventSubscriberInterface
 
         $url = $this->router->generate('info', [], Router::ABSOLUTE_URL);
 
-        $news = new News('Neue Info erstellt', ucfirst($user->getUsername()) . ' hat "' . '<a href=\'' . $url . '#' . $info->id . '\'>' . $info->headline
-            . '</a>" erstellt', $info->permission);
+        $news = new News();
+        $news->headline = self::$headline;
+        $news->text = sprintf(self::$text, ucfirst($user->getUsername()), $url, $info->headline);
+        $news->referenceType = get_class($info);
+        $news->referenceId = $info->id;
 
         $this->em->persist($news);
         $this->em->flush();
 
     }
+
+    public function onInfoEdited(AbstractInfoEvent $event)
+    {
+        $user = $event->getUser();
+        $info = $event->getInfo();
+
+        $url = $this->router->generate('info', [], Router::ABSOLUTE_URL);
+        $news = $this->em->getRepository(News::class)->findOneBy(['referenceType'=>get_class($info),'referenceId'=>$info->id]);
+        if($news instanceof News)
+        {
+            $news->text = sprintf(self::$text, ucfirst($user->getUsername()), $url, $info->headline);
+            $this->em->persist($news);
+            $this->em->flush();
+        }
+
+    }
+
+
+    public function onInfoDeleted(AbstractInfoEvent $event)
+    {
+        $info = $event->getInfo();
+        $news = $this->em->getRepository(News::class)->findOneBy(['referenceType'=>get_class($info),'referenceId'=>$info->id]);
+        if($news instanceof News)
+        {
+            $this->em->remove($news);
+            $this->em->flush();
+        }
+
+    }
+    
+    
 }

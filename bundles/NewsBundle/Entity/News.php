@@ -44,16 +44,24 @@ class News
     public $permission = 0;
 
     /**
+     * @ORM\Column(type="string",length=255)
+     */
+    public $referenceType;
+
+    /**
+     * @ORM\Column(type="string",length=255)
+     */
+    public $referenceId;
+
+
+    /**
      * NewsBundle constructor.
      * @param $headline
      * @param $text
      * @param \DateTime $date
      */
-    public function __construct($headline, $text, $permission = 0)
+    public function __construct()
     {
-        $this->headline = $headline;
-        $this->text = $text;
-        $this->permission = $permission;
         $this->date = new \DateTime();
     }
 

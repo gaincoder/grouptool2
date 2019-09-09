@@ -12,7 +12,10 @@ namespace NewsBundle\Subscriber;
 use NewsBundle\Entity\News;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use PollBundle\Event\AbstractPollEvent;
 use PollBundle\Event\PollCreatedEvent;
+use PollBundle\Event\PollDeletedEvent;
+use PollBundle\Event\PollEditedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
@@ -29,6 +32,8 @@ class PollSubscriber implements EventSubscriberInterface
      * @var RouterInterface
      */
     private $router;
+    private static $headline = 'Neue Umfrage erstellt';
+    private static $text = '<a href="%s">%s</a> wurde von %s erstellt';
 
 
     public function __construct(EntityManagerInterface $em, RouterInterface $router)
@@ -38,42 +43,65 @@ class PollSubscriber implements EventSubscriberInterface
 
     }
 
-    /**
-     * Returns an array of event names this subscriber wants to listen to.
-     *
-     * The array keys are event names and the value can be:
-     *
-     *  * The method name to call (priority defaults to 0)
-     *  * An array composed of the method name to call and the priority
-     *  * An array of arrays composed of the method names to call and respective
-     *    priorities, or 0 if unset
-     *
-     * For instance:
-     *
-     *  * ['eventName' => 'methodName']
-     *  * ['eventName' => ['methodName', $priority]]
-     *  * ['eventName' => [['methodName1', $priority], ['methodName2']]]
-     *
-     * @return array The event names to listen to
-     */
     public static function getSubscribedEvents()
     {
         return [
-            PollCreatedEvent::class => 'onPollCreated'
+            PollCreatedEvent::class => 'onPollCreated',
+            PollEditedEvent::class => 'onPollEdited',
+            PollDeletedEvent::class => 'onPollDeleted'
         ];
     }
 
-    public function onPollCreated(PollCreatedEvent $event)
+
+
+
+    public function onPollCreated(AbstractPollEvent $event)
     {
         $user = $event->getUser();
         $poll = $event->getPoll();
 
-        $url = $this->router->generate('poll_view', ['poll' => $poll->id], Router::ABSOLUTE_URL);
+        $url = $this->router->generate('poll_view', ['poll'=>$poll->id], Router::ABSOLUTE_URL);
 
-        $news = new News('Neue Umfrage erstellt', '"<a href="' . $url . '">' . $poll->name . '</a>" wurde 
-            von ' . $user->getUsername() . ' erstellt', $poll->permission);
+        $news = new News();
+        $news->headline = self::$headline;
+        $news->text = sprintf(self::$text,  $url, $poll->name, ucfirst($user->getUsername()));
+        $news->referenceType = get_class($poll);
+        $news->referenceId = $poll->id;
+
         $this->em->persist($news);
         $this->em->flush();
 
     }
+
+    public function onPollEdited(AbstractPollEvent $event)
+    {
+        $user = $event->getUser();
+        $poll = $event->getPoll();
+
+        $url = $this->router->generate('poll_view', ['poll'=>$poll->id], Router::ABSOLUTE_URL);
+
+
+        $news = $this->em->getRepository(News::class)->findOneBy(['referenceType'=>get_class($poll),'referenceId'=>$poll->id]);
+        if($news instanceof News)
+        {
+            $news->text = sprintf(self::$text,  $url, $poll->name, ucfirst($user->getUsername()));
+            $this->em->persist($news);
+            $this->em->flush();
+        }
+
+    }
+
+
+    public function onPollDeleted(AbstractPollEvent $event)
+    {
+        $poll = $event->getPoll();
+        $news = $this->em->getRepository(News::class)->findOneBy(['referenceType'=>get_class($poll),'referenceId'=>$poll->id]);
+        if($news instanceof News)
+        {
+            $this->em->remove($news);
+            $this->em->flush();
+        }
+
+    }
+
 }
