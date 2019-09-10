@@ -24,7 +24,7 @@ class Photo
     public $id;
 
     /**
-     * @ORM\Column(type="string",length=255)
+     * @ORM\Column(type="string",length=255,nullable=true)
      */
     public $thumbnail;
 
@@ -53,6 +53,11 @@ class Photo
     public function __construct()
     {
         $this->created = new DateTime();
+    }
+
+    public function getWebPath()
+    {
+        return 'upload/'.$this->photo;
     }
 
 }

@@ -8,14 +8,12 @@
             {{ form_start(form) }}
             <div class="span12">
                 <h2 class="page-title" id="scroll_up"> {{ page_title }}</h2>
+                <br><br>
                 {{ form_widget(form) }}
             </div>
-            <button type="submit" class="btn btn-success" name="_submit">speichern</button>
-            {% if album is defined %}
-                        <a href="{{ path('photoalbum_view',{'photoalbum':album.id}) }}" class="btn btn-default" name="_submit">zurück</a>
-            {% else %}
-                <a href="{{ path('photoalbum') }}" class="btn btn-default" name="_submit">zurück</a>
-            {% endif %}
+            <br><br>
+            <button type="submit" class="btn btn-success" name="_submit">hochladen</button>
+            <a href="{{ path('photoalbum_view',{'photoalbum':album.id}) }}" class="btn btn-default" name="_submit">zurück</a>
             {{ form_end(form) }}
         </div>
 

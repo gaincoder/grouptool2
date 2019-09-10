@@ -19,19 +19,23 @@
                         <a href="{{ path('photoalbum') }}" class="btn btn-sm btn-default" name="_submit"><span
                                     class="glyphicon glyphicon-backward"></span> zurück</a> <a href="{{ path
                             ('photoalbum_edit',{photoalbum:photoalbum.id}) }}" class="btn btn-sm btn-warning"><span
-                                    class="glyphicon glyphicon-pencil"></span> bearbeiten</a> <a href="{{ path
+                                    class="glyphicon glyphicon-pencil"></span> bearbeiten</a>
+                        <a href="{{ path('photoalbum_upload',{photoalbum:photoalbum.id}) }}" class="btn btn-sm btn-primary"><span
+                                class="glyphicon glyphicon-upload"></span> Fotos hochladen</a>
+                        <a href="{{ path
                             ('photoalbum_delete',{photoalbum:photoalbum.id}) }}" class="btn btn-sm btn-danger"><span
                                     class="glyphicon glyphicon-trash"></span> löschen</a><br><br>
                     </div>
                 </div>
                 <div class="row text-center text-lg-left">
                     {% for photo in photoalbum.photos %}
-                        <div class="col-lg-3 col-md-4 col-xs-6">
-                            <a href="{{ path('photo_display',{photo:photo.id}) }}{% if photo.type == 1 %}?swipeboxvideo=1{% endif %}"
-                               class="swipebox {% if photo.type == 1 %}swipebox-video{% endif %} d-block mb-4 h-100">
+                        <div class="col-lg-3 col-md-4 col-xs-6 text-center">
+                            <a href="{{ path('photo_display',{photo:photo.id}) }}" d-block mb-4 h-100">
                                 <img class="img-fluid img-thumbnail"
-                                     src="{{ path('photo_display',{photo:photo.id,thumb:1}) }}" alt="">
+                                     src="{{ photo.webpath|imagine_filter('square') }}" alt="">
                             </a>
+                            <a href="{{ path('photo_delete',{'photo':photo.id}) }}" class="btn btn-sm btn-danger m-1"><span
+                                        class="glyphicon glyphicon-trash"></span></a>
                             <br><br>
                         </div>
                     {% endfor %}

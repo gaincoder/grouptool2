@@ -5,10 +5,12 @@ namespace PhotoalbumBundle\Controller;
 use InfoBundle\Event\InfoCreatedEvent;
 use PhotoalbumBundle\Entity\Photo;
 use PhotoalbumBundle\Entity\Photoalbum;
+use PhotoalbumBundle\Entity\Photoupload;
 use PhotoalbumBundle\Event\PhotoalbumCreatedEvent;
 use PhotoalbumBundle\Event\PhotoalbumDeletedEvent;
 use PhotoalbumBundle\Event\PhotoalbumEditedEvent;
 use PhotoalbumBundle\Form\PhotoalbumFormType;
+use PhotoalbumBundle\Form\PhotouploadFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -70,15 +72,15 @@ class PhotoController extends AbstractController
             $this->get('event_dispatcher')->dispatch(new PhotoalbumEditedEvent($photoalbum, $this->getUser()));
             return $this->redirectToRoute('photoalbum');
         }
-        return $this->render('closed_area/Photoalbum/form.html.twig', ['form' => $form->createView(), 'page_title' => 'Fotoalbum bearbeiten']);
+        return $this->render('closed_area/Photoalbum/form.html.twig', ['form' => $form->createView(), 'page_title' => 'Fotoalbum bearbeiten','album'=>$photoalbum]);
     }
 
     /**
-     * @Route("/photoalbum/delete/{photoalbum}/{confirm}", name="photoalbum_delete",defaults={"confirm"=false})
-     * @param Photoalbum $photoalbum
-     * @param bool $confirm
-     * @return Response
-     */
+ * @Route("/photoalbum/delete/{photoalbum}/{confirm}", name="photoalbum_delete",defaults={"confirm"=false})
+ * @param Photoalbum $photoalbum
+ * @param bool $confirm
+ * @return Response
+ */
     public function delete(Photoalbum $photoalbum, $confirm = false)
     {
         if ($confirm == false) {
@@ -90,6 +92,27 @@ class PhotoController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('photoalbum');
+
+    }
+
+    /**
+     * @Route("/photo/delete/{photo}/{confirm}", name="photo_delete",defaults={"confirm"=false})
+     * @param Photoalbum $photoalbum
+     * @param bool $confirm
+     * @return Response
+     */
+    public function deletePhoto(Photo $photo, $confirm = false)
+    {
+        if ($confirm == false) {
+            return $this->render('closed_area/confirm.html.twig', ['type' => 'Foto']);
+        }
+        $em = $this->getDoctrine()->getManager();
+        unlink($this->get('kernel')->getProjectDir().DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR.$photo->photo);
+        $albumId=$photo->album->id;
+        $em->remove($photo);
+        $em->flush();
+
+        return $this->redirectToRoute('photoalbum_view',['photoalbum'=>$albumId]);
 
     }
 
@@ -114,8 +137,7 @@ class PhotoController extends AbstractController
     public function display(Photo $photo, $thumb = false, Request $oRequest)
     {
         $oResponse = new Response();
-        $dir = dirname(__FILE__) . '/../../../var/photos/';
-        $dir .= $photo->album->id . '/';
+        $dir = $this->get('kernel')->getProjectDir().DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR;
         if ($thumb) {
             $file = $photo->thumbnail;
         } else {
@@ -238,5 +260,37 @@ class PhotoController extends AbstractController
 
         return $oStreamResponse->setContent($content);
     }
+
+
+    /**
+     * @Route("/photoalbum/upload/{photoalbum}", name="photoalbum_upload")
+     * @param Photoalbum $photoalbum
+     * @param Request $request
+     * @return Response
+     */
+    public function upload(Photoalbum $photoalbum, Request $request)
+    {
+        $photoupload = new Photoupload();
+        $form = $this->createForm(PhotouploadFormType::class, $photoupload);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            foreach ($photoupload->images as $photofile){
+                $newFilename = uniqid().'.'.$photofile->guessExtension();
+                $photofile->move(
+                    $this->get('kernel')->getProjectDir().DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR,
+                    $newFilename
+                );
+                $photo = new Photo();
+                $photo->album = $photoalbum;
+                $photo->photo = $newFilename;
+                $em->persist($photo);
+            }
+            $em->flush();
+            return $this->redirectToRoute('photoalbum_view',['photoalbum'=>$photoalbum->id]);
+        }
+        return $this->render('closed_area/Photoalbum/upload.html.twig', ['form' => $form->createView(), 'page_title' => 'Fotos hochladen','album'=>$photoalbum]);
+    }
+
 
 }

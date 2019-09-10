@@ -1,8 +1,6 @@
 <?php
 
-use EmailBundle\EmailBundle;
-
-$bundles = [
+return [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
@@ -19,41 +17,12 @@ $bundles = [
     Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
     Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class => ['all' => true],
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
+    PhotoalbumBundle\PhotoalbumBundle::class => ['all' => true],
+    EventBundle\EventBundle::class => ['all' => true],
+    InfoBundle\InfoBundle::class => ['all' => true],
+    NewsBundle\NewsBundle::class => ['all' => true],
+    PollBundle\PollBundle::class => ['all' => true],
+    CompanyBundle\CompanyBundle::class => ['all' => true],
+    EmailBundle\EmailBundle::class => ['all' => true],
+    Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
 ];
-
-//if((bool)getenv('DISABLE_BIRTHDAY_BUNDLE') === false) {
-//    $bundles[\BirthdayBundle\BirthdayBundle::class] = ['all' => true];
-//}
-
-if((bool)getenv('DISABLE_PHOTOALBUM_BUNDLE') === false) {
-    $bundles[\PhotoalbumBundle\PhotoalbumBundle::class] = ['all' => true];
-}
-
-if((bool)getenv('DISABLE_EVENT_BUNDLE') === false) {
-    $bundles[\EventBundle\EventBundle::class] = ['all' => true];
-}
-
-if((bool)getenv('DISABLE_INFO_BUNDLE') === false) {
-    $bundles[\InfoBundle\InfoBundle::class] = ['all' => true];
-}
-
-if((bool)getenv('DISABLE_NEWS_BUNDLE') === false) {
-    $bundles[\NewsBundle\NewsBundle::class] = ['all' => true];
-}
-
-if((bool)getenv('DISABLE_POLL_BUNDLE') === false) {
-    $bundles[\PollBundle\PollBundle::class] = ['all' => true];
-}
-
-if((bool)getenv('DISABLE_COMPANY_BUNDLE') === false) {
-    $bundles[\CompanyBundle\CompanyBundle::class] = ['all' => true];
-}
-//if((bool)getenv('DISABLE_TELEGRAM_BUNDLE') === false) {
-//    $bundles[\TelegramBundle\TelegramBundle::class] = ['all' => true];
-//}
-
-if((bool)getenv('DISABLE_EMAIL_BUNDLE') === false) {
-    $bundles[EmailBundle::class] = ['all' => true];
-}
-
-return $bundles;
