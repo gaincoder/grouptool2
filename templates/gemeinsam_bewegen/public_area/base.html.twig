@@ -25,6 +25,20 @@
     <main role="main" class="container">
         <div class="row">
             <div class="col-md-9">
+                {% block flashes %}
+
+                    {% for label, messages in app.flashes() %}
+                        {% for message in messages %}
+                            <div class="row">
+                                <div class="col-sm-12 voffset5">
+                                    <div class="alert alert-{{ label }}">
+                                        {{ message }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endblock flashes %}
                 {% block content %}{% endblock %}
             </div>
 

@@ -21,3 +21,9 @@ services:
     arguments: ['@router.default','@EmailBundle\Services\TwigMailer' ]
     tags:
       - { name: kernel.event_subscriber}
+
+
+  EmailBundle\Subscriber\ContactFormSubscriber:
+    arguments: ['@router.default','@EmailBundle\Services\TwigMailer' ]
+    tags:
+      - { name: kernel.event_subscriber}

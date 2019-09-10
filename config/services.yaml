@@ -116,3 +116,7 @@ services:
     App\Subscriber\RegistrationSubscriber:
         tags:
             - { name: kernel.event_subscriber}
+
+    App\Flash\Subscriber\ContactFormSubscriber:
+        tags:
+            - { name: kernel.event_subscriber}

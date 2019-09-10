@@ -1,0 +1,16 @@
+{% block subject %}Kontaktanfrage{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Hallo!
+
+jemand hat über gemeinsam-bewegen.de eine Kontaktanfrage gesendet:
+
+Firma: {{  data.company  }}
+Name: {{  data.name  }}
+E-Mail: {{  data.email  }}
+Nachricht:
+
+{{ data.message }}
+{% endautoescape %}
+{% endblock %}
