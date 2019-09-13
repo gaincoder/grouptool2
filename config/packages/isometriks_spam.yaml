@@ -1,0 +1,13 @@
+isometriks_spam:
+  timed:
+    min: 7
+    max: 3600
+    global: false
+    # message also takes translator strings.
+    message: "Spamschutz: Sie haben das Formular zu schnell abgesendet"
+  honeypot:
+    field: email_address
+    use_class: false
+    hide_class: hidden
+    global: false
+    message: "Spamschutz: Zu viele Felder ausgefüllt"

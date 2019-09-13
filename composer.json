@@ -21,6 +21,7 @@
         "friendsofsymfony/user-bundle": "2.1.*",
         "gedmo/doctrine-extensions": "2.4.*",
         "incenteev/composer-parameter-handler": "^2.0",
+        "isometriks/spam-bundle": "^1.0",
         "liip/imagine-bundle": "^2.1",
         "sensio/framework-extra-bundle": "^5.4",
         "simplethings/entity-audit-bundle": "^1.0",

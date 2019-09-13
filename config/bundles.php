@@ -25,4 +25,5 @@ return [
     CompanyBundle\CompanyBundle::class => ['all' => true],
     EmailBundle\EmailBundle::class => ['all' => true],
     Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
+    Isometriks\Bundle\SpamBundle\IsometriksSpamBundle::class => ['all' => true],
 ];

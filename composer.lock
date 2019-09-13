@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5fff7ea959e57be9e0d3e1d377863dd7",
+    "content-hash": "28132e1964788d78c39b4de8c788f46e",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -1628,6 +1628,49 @@
                 "parameters management"
             ],
             "time": "2018-02-13T18:05:56+00:00"
+        },
+        {
+            "name": "isometriks/spam-bundle",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/isometriks/IsometriksSpamBundle.git",
+                "reference": "c0fae403e3b0c097282018c932fedff6d0b94de7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/isometriks/IsometriksSpamBundle/zipball/c0fae403e3b0c097282018c932fedff6d0b94de7",
+                "reference": "c0fae403e3b0c097282018c932fedff6d0b94de7",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/form": "~3.0|~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Isometriks\\Bundle\\SpamBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Craig Blanchette",
+                    "email": "craig.blanchette@gmail.com",
+                    "homepage": "http://isometriks.com"
+                },
+                {
+                    "name": "Patrik Pacin",
+                    "email": "github@exploit.cz",
+                    "homepage": "https://exploit.cz"
+                }
+            ],
+            "description": "Provides spam protection for Symfony3 forms",
+            "keywords": [
+                "spam",
+                "symfony3"
+            ],
+            "time": "2019-04-12T15:42:37+00:00"
         },
         {
             "name": "jdorn/sql-formatter",

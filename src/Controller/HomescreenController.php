@@ -28,7 +28,7 @@ class HomescreenController extends Controller
     public function publicAreaAction(Request $request)
     {
         $data = new ContactForm();
-        $form = $this->createForm(ContactFormType::class,$data);
+        $form = $this->createForm(ContactFormType::class,$data,['timed_spam'=>true,'honeypot'=>true]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('event_dispatcher')->dispatch(new ContactFormSubmittedEvent($data));
