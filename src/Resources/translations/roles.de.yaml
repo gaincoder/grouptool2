@@ -1,0 +1,3 @@
+ROLE_MANAGE_COMPANIES      : 'Firmen verwalten'
+ROLE_MANAGE_USER           : 'Benutzer der eigenen Firma verwalten'
+ROLE_MANAGE_USER_ALL       : 'Alle Benutzer verwalten'

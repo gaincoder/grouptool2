@@ -13,6 +13,7 @@ use EventBundle\Event\EventAnsweredEvent;
 use EventBundle\Event\EventCommentedEvent;
 use EventBundle\Event\EventCreatedEvent;
 use EventBundle\Event\EventSharedEvent;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,6 +32,7 @@ class EventController extends AbstractController
 
     /**
      * @Route("/event/create", name="event_create")
+     * @IsGranted("ROLE_EVENT_CREATE")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -59,6 +61,7 @@ class EventController extends AbstractController
 
     /**
      * @Route("/event/edit/{event}", name="event_edit")
+     * @IsGranted("ROLE_EVENT_EDIT")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -80,6 +83,7 @@ class EventController extends AbstractController
 
     /**
      * @Route("/event/delete/{event}/{confirm}", name="event_delete",defaults={"confirm"=false})
+     * @IsGranted("ROLE_EVENT_DELETE")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */

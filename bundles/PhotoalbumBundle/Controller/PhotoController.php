@@ -11,6 +11,7 @@ use PhotoalbumBundle\Event\PhotoalbumDeletedEvent;
 use PhotoalbumBundle\Event\PhotoalbumEditedEvent;
 use PhotoalbumBundle\Form\PhotoalbumFormType;
 use PhotoalbumBundle\Form\PhotouploadFormType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,6 +33,7 @@ class PhotoController extends AbstractController
 
     /**
      * @Route("/photoalbum/create", name="photoalbum_create")
+     * @IsGranted("ROLE_PHOTOALBUM_CREATE")
      * @param Request $request
      * @return Response
      */
@@ -57,6 +59,7 @@ class PhotoController extends AbstractController
     /**
      * @Route("/photoalbum/edit/{photoalbum}", name="photoalbum_edit")
      * @param Photoalbum $photoalbum
+     * @IsGranted("ROLE_PHOTOALBUM_EDIT")
      * @param Request $request
      * @return Response
      */
@@ -76,11 +79,12 @@ class PhotoController extends AbstractController
     }
 
     /**
- * @Route("/photoalbum/delete/{photoalbum}/{confirm}", name="photoalbum_delete",defaults={"confirm"=false})
- * @param Photoalbum $photoalbum
- * @param bool $confirm
- * @return Response
- */
+     * @Route("/photoalbum/delete/{photoalbum}/{confirm}", name="photoalbum_delete",defaults={"confirm"=false})
+     * @IsGranted("ROLE_PHOTOALBUM_DELETE")
+     * @param Photoalbum $photoalbum
+     * @param bool $confirm
+     * @return Response
+     */
     public function delete(Photoalbum $photoalbum, $confirm = false)
     {
         if ($confirm == false) {
@@ -97,6 +101,7 @@ class PhotoController extends AbstractController
 
     /**
      * @Route("/photo/delete/{photo}/{confirm}", name="photo_delete",defaults={"confirm"=false})
+     * @IsGranted("ROLE_PHOTO_DELETE")
      * @param Photoalbum $photoalbum
      * @param bool $confirm
      * @return Response
@@ -264,6 +269,7 @@ class PhotoController extends AbstractController
 
     /**
      * @Route("/photoalbum/upload/{photoalbum}", name="photoalbum_upload")
+     * @IsGranted("ROLE_PHOTO_UPLOAD")
      * @param Photoalbum $photoalbum
      * @param Request $request
      * @return Response

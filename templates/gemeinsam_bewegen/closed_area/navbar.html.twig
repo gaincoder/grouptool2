@@ -44,7 +44,7 @@
                     <a class="nav-link dropdown-toggle" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Administration <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <a class="dropdown-item" href="{{ path('userlist') }}">Benutzer</a>
-                        <a class="dropdown-item" href="{{ path('company') }}">Firmen</a>
+                        {% if is_granted('ROLE_COMPANY_VIEWLIST') %}<a class="dropdown-item" href="{{ path('company') }}">Firmen</a>{% endif %}
                         <a class="dropdown-item" href="{{ path('group') }}">Gruppen</a>
                     </ul>
                 </li>

@@ -40,3 +40,6 @@ services:
     arguments: ['EventBundle/Resources/config/routing.yml']
     tags:
       - { name: 'app.addrouting' }
+
+  EventBundle\Enums\Roles:
+    tags: ['role_enum']

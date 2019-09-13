@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Group;
+use App\Enums\Roles;
 use App\Form\GroupFormType;
 use App\Manager\GroupManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -71,7 +72,7 @@ class GroupController
 
             return $this->redirectToRoute('group');
         }
-        return new Response($this->twig->render('closed_area/Group/form.html.twig', ['form' => $form->createView(), 'page_title' => 'Firma hinzufügen']));
+        return new Response($this->twig->render('closed_area/Group/form.html.twig', ['form' => $form->createView(), 'page_title' => 'Gruppe hinzufügen']));
     }
 
 
@@ -83,6 +84,7 @@ class GroupController
      */
     public function edit(Group $group, Request $request)
     {
+        $list = Roles::getList();
         $form = $this->formFactory->create(GroupFormType::class, $group);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -90,7 +92,7 @@ class GroupController
 
             return $this->redirectToRoute('group');
         }
-        return new Response($this->twig->render('closed_area/Group/form.html.twig', ['form' => $form->createView(), 'page_title' => 'Firma bearbeiten']));
+        return new Response($this->twig->render('closed_area/Group/form.html.twig', ['form' => $form->createView(), 'page_title' => 'Gruppe bearbeiten']));
     }
 
     /**

@@ -17,25 +17,40 @@
                     <div class="col-sm-12">
                         <h2 class="page-title" id="scroll_up"> {{ photoalbum.name }}</h2>
                         <a href="{{ path('photoalbum') }}" class="btn btn-sm btn-default" name="_submit"><span
-                                    class="glyphicon glyphicon-backward"></span> zurück</a> <a href="{{ path
+                                    class="glyphicon glyphicon-backward"></span> zurück</a>
+                        {% if is_granted('ROLE_PHOTOALBUM_EDIT') %}
+                        <a href="{{ path
                             ('photoalbum_edit',{photoalbum:photoalbum.id}) }}" class="btn btn-sm btn-warning"><span
                                     class="glyphicon glyphicon-pencil"></span> bearbeiten</a>
-                        <a href="{{ path('photoalbum_upload',{photoalbum:photoalbum.id}) }}" class="btn btn-sm btn-primary"><span
-                                class="glyphicon glyphicon-upload"></span> Fotos hochladen</a>
+                        {% endif %}
+                        {% if is_granted('ROLE_PHOTO_UPLOAD') %}
+                        <a href="{{ path('photoalbum_upload',{photoalbum:photoalbum.id}) }}"
+                           class="btn btn-sm btn-primary"><span
+                                    class="glyphicon glyphicon-upload"></span> Fotos hochladen</a>
+
+                        {% endif %}
+                        {% if is_granted('ROLE_PHOTOALBUM_DELETE') %}
                         <a href="{{ path
                             ('photoalbum_delete',{photoalbum:photoalbum.id}) }}" class="btn btn-sm btn-danger"><span
-                                    class="glyphicon glyphicon-trash"></span> löschen</a><br><br>
+                                    class="glyphicon glyphicon-trash"></span> löschen</a>
+                        {% endif %}
+
+                        <br><br>
+
                     </div>
                 </div>
                 <div class="row text-center text-lg-left">
                     {% for photo in photoalbum.photos %}
                         <div class="col-lg-3 col-md-4 col-xs-6 text-center">
                             <a href="{{ path('photo_display',{photo:photo.id}) }}" d-block mb-4 h-100">
-                                <img class="img-fluid img-thumbnail"
-                                     src="{{ photo.webpath|imagine_filter('square') }}" alt="">
+                            <img class="img-fluid img-thumbnail"
+                                 src="{{ photo.webpath|imagine_filter('square') }}" alt="">
                             </a>
-                            <a href="{{ path('photo_delete',{'photo':photo.id}) }}" class="btn btn-sm btn-danger m-1"><span
+                            {% if is_granted('ROLE_PHOTO_DELETE') %}
+                            <a href="{{ path('photo_delete',{'photo':photo.id}) }}"
+                               class="btn btn-sm btn-danger m-1"><span
                                         class="glyphicon glyphicon-trash"></span></a>
+                            {% endif %}
                             <br><br>
                         </div>
                     {% endfor %}

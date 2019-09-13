@@ -7,17 +7,27 @@
         <div class="row-fluid" id="about">
             <div class="span12">
                 <h2 class="page-title" id="scroll_up"> Firmen</h2>
+                {% if is_granted('ROLE_COMPANY_CREATE') %}
                 <a href="{{ path('company_create') }}" class="btn btn-sm btn-success"><span class="glyphicon
                 glyphicon-plus"></span> hinzufügen</a><br><br>
+                {% endif %}
                 <table class="table table-striped">
                     {% for company in companies %}
                         <tr>
                             <td>{{ company.name }}</td>
-                            <td><a href="{{ path('company_edit',{company:company.id}) }}" class="btn btn-sm btn-warning"><span
-                                            class="glyphicon glyphicon-pencil"></span></a> <a
+
+                            <td>
+                                {% if is_granted('ROLE_COMPANY_EDIT') %}
+                                <a href="{{ path('company_edit',{company:company.id}) }}" class="btn btn-sm btn-warning"><span
+                                            class="glyphicon glyphicon-pencil"></span></a>
+                                {% endif %}
+                                {% if is_granted('ROLE_COMPANY_DELETE') %}
+                                <a
                                         href="{{ path('company_delete',{company:company.id}) }}"
                                         class="btn btn-sm btn-danger"><span
-                                            class="glyphicon glyphicon-trash"></span></a></td>
+                                            class="glyphicon glyphicon-trash"></span></a>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                 </table>

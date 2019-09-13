@@ -22,7 +22,8 @@ services:
     public: true
     tags: ['controller.service_arguments']
 
-
+  CompanyBundle\Enums\Roles:
+    tags: ['role_enum']
 
   company_routes:
     class: App\Services\AddRouting

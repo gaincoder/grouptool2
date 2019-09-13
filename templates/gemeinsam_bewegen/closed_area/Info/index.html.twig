@@ -7,16 +7,24 @@
         <div class="row-fluid" id="about">
             <div class="span12">
                 <h2 class="page-title" id="scroll_up">Infos</h2>
+                {% if is_granted('ROLE_INFO_CREATE') %}
                 <a href="{{ path('info_create') }}" class="btn btn-sm btn-success"><span class="glyphicon
                 glyphicon-plus"></span> hinzufügen</a><br><br>
-
+                {% endif %}
                 {% for info in infos %}
                     <div class="bg-light m-3 p-3 rounded">
-                        <h3 id="{{ info.id }}">{{ info.headline }} <a href="{{ path('info_edit',{info:info.id}) }}"
+                        <h3 id="{{ info.id }}">{{ info.headline }}
+
+                            {% if is_granted('ROLE_INFO_EDIT') %}
+                            <a href="{{ path('info_edit',{info:info.id}) }}"
                                                                       class="btn btn-sm btn-warning"><span
-                                        class="glyphicon glyphicon-pencil"></span></a> <a
-                                    href="{{ path('info_delete',{info:info.id}) }}" class="btn btn-sm btn-danger"><span
-                                        class="glyphicon glyphicon-trash"></span></a></h3>
+                                        class="glyphicon glyphicon-pencil"></span></a>
+                            {% endif %}
+                            {% if is_granted('ROLE_INFO_DELETE') %}
+                            <a href="{{ path('info_delete',{info:info.id}) }}" class="btn btn-sm btn-danger"><span
+                                        class="glyphicon glyphicon-trash"></span></a>
+                            {% endif %}
+                        </h3>
                         {{ info.text|raw }}
                         {% if info.updated is defined and info.updated.timestamp > 100 %}
                             <br><br>

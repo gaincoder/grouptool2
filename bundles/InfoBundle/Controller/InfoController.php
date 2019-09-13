@@ -5,6 +5,7 @@ namespace InfoBundle\Controller;
 use InfoBundle\Entity\Info;
 use InfoBundle\Form\InfoFormType;
 use InfoBundle\Manager\InfoManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,6 +55,7 @@ class InfoController
 
     /**
      * @Route("/info/create", name="info_create")
+     * @IsGranted("ROLE_INFO_CREATE")
      * @param Request $request
      * @return Response
      */
@@ -74,6 +76,7 @@ class InfoController
 
     /**
      * @Route("/info/edit/{info}", name="info_edit")
+     * @IsGranted("ROLE_INFO_EDIT")
      * @param \InfoBundle\Entity\Info $info
      * @param Request $request
      * @return Response
@@ -92,6 +95,7 @@ class InfoController
 
     /**
      * @Route("/info/delete/{info}/{confirm}", name="info_delete",defaults={"confirm"=false})
+     * @IsGranted("ROLE_INFO_DELETE")
      * @param \InfoBundle\Entity\Info $info
      * @param bool $confirm
      * @return Response

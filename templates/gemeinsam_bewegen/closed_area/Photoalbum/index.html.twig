@@ -4,16 +4,24 @@
     <div class="col-sm-12">
 
     <h2 class="page-title" id="scroll_up"> Fotoalben</h2>
+        {% if is_granted('ROLE_PHOTOALBUM_CREATE') %}
     <a href="{{ path('photoalbum_create') }}" class="btn btn-sm btn-success"><span class="glyphicon
                 glyphicon-plus"></span> hinzufügen</a><br><br>
+        {% endif %}
     <table class="table table-striped">
         {% for photoalbum in photoalbums %}
             <tr>
                 <td><a href="{{ path('photoalbum_view',{photoalbum:photoalbum.id}) }}">{{ photoalbum.name }}</a></td>
-                <td><a href="{{ path('photoalbum_edit',{photoalbum:photoalbum.id}) }}"
-                       class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-pencil"></span></a> <a
-                            href="{{ path('photoalbum_delete',{photoalbum:photoalbum.id}) }}"
-                            class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></a></td>
+                <td>
+                    {% if is_granted('ROLE_PHOTOALBUM_EDIT') %}
+                    <a href="{{ path('photoalbum_edit',{photoalbum:photoalbum.id}) }}"
+                       class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-pencil"></span></a>
+                    {% endif %}
+                    {% if is_granted('ROLE_PHOTOALBUM_DELETE') %}
+                    <a href="{{ path('photoalbum_delete',{photoalbum:photoalbum.id}) }}"
+                            class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
     </table>

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use App\Enums\Roles;
+use App\Services\RoleCollector;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -18,10 +19,15 @@ class GroupFormType extends AbstractType
 {
 
     protected $checker;
+    /**
+     * @var RoleCollector
+     */
+    private $roleCollector;
 
-    public function __construct(Security $checker)
+    public function __construct(Security $checker, RoleCollector $roleCollector)
     {
         $this->checker = $checker;
+        $this->roleCollector = $roleCollector;
     }
 
 
@@ -31,7 +37,8 @@ class GroupFormType extends AbstractType
             ->add('name', null, array('label' => false, 'attr' => ['placeholder' => 'Name']))
             ->add('roles', ChoiceType::class, array(
                 'multiple' => true,
-                'choices' => array_flip(Roles::getList()),
+                'choices' => $this->roleCollector->getList(),
+                'translation_domain' => 'roles',
                 'attr' => ['data-select' => 'true']
             ));
 

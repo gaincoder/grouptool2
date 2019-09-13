@@ -41,3 +41,6 @@ services:
     arguments: ['PhotoalbumBundle/Resources/config/routing.yml']
     tags:
       - { name: 'app.addrouting' }
+
+  PhotoalbumBundle\Enums\Roles:
+    tags: ['role_enum']

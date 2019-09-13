@@ -32,3 +32,6 @@ services:
     arguments: ['InfoBundle/Resources/config/routing.yml']
     tags:
       - { name: 'app.addrouting' }
+
+  InfoBundle\Enums\Roles:
+    tags: ['role_enum']

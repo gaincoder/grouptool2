@@ -7,6 +7,7 @@ use CompanyBundle\Entity\Company;
 use CompanyBundle\Form\CompanyFormType;
 use CompanyBundle\Manager\CompanyManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,6 +53,7 @@ class CompanyController
 
     /**
      * @Route("/company", name="company")
+     * @IsGranted("ROLE_COMPANY_VIEWLIST")
      */
     public function indexAction()
     {
@@ -61,6 +63,7 @@ class CompanyController
 
     /**
      * @Route("/company/create", name="company_create")
+     * @IsGranted("ROLE_COMPANY_CREATE")
      * @param Request $request
      * @return Response
      */
@@ -81,6 +84,7 @@ class CompanyController
 
     /**
      * @Route("/company/edit/{company}", name="company_edit")
+     * @IsGranted("ROLE_COMPANY_EDIT")
      * @param \CompanyBundle\Entity\Company $company
      * @param Request $request
      * @return Response
@@ -99,6 +103,7 @@ class CompanyController
 
     /**
      * @Route("/company/delete/{company}/{confirm}", name="company_delete",defaults={"confirm"=false})
+     * @IsGranted("ROLE_COMPANY_DELETE")
      * @param \CompanyBundle\Entity\Company $company
      * @param bool $confirm
      * @return Response
