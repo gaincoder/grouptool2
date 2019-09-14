@@ -181,6 +181,9 @@
     "simplethings/entity-audit-bundle": {
         "version": "v1.0.9"
     },
+    "soundasleep/html2text": {
+        "version": "1.1.0"
+    },
     "stof/doctrine-extensions-bundle": {
         "version": "1.2",
         "recipe": {

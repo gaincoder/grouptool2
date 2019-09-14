@@ -32,6 +32,12 @@ class Group extends BaseGroup
      */
     public $selectable=false;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User",mappedBy="groups")
+     * )
+     */
+    public $users;
+
     public function __toString()
     {
         return $this->name;

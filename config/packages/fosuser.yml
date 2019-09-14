@@ -3,7 +3,7 @@ fos_user:
   firewall_name: main
   user_class: App\Entity\User
   service:
-    mailer: fos_user.mailer.twig_swift
+    mailer: EmailBundle\Services\FosUserMailer
   from_email:
     address: "%mailer_user%"
     sender_name: "%mailer_user%"

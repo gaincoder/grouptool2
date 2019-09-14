@@ -16,11 +16,6 @@ class TwigMailer implements TwigMailerInterface
     protected $mailer;
 
     /**
-     * @var UrlGeneratorInterface
-     */
-    protected $router;
-
-    /**
      * @var EngineInterface
      */
     protected $twig;
@@ -33,15 +28,14 @@ class TwigMailer implements TwigMailerInterface
     /**
      * TwigSwiftMailer constructor.
      *
-     * @param \Swift_Mailer         $mailer
+     * @param \Swift_Mailer $mailer
      * @param UrlGeneratorInterface $router
-     * @param \Twig_Environment     $twig
-     * @param array                 $parameters
+     * @param \Twig_Environment $twig
+     * @param string $fromEmail
      */
-    public function __construct(\Swift_Mailer $mailer, UrlGeneratorInterface $router,  \Twig_Environment $twig, string $fromEmail)
+    public function __construct(\Swift_Mailer $mailer,  \Twig\Environment $twig, string $fromEmail)
     {
         $this->mailer = $mailer;
-        $this->router = $router;
         $this->twig = $twig;
 
         $this->fromEmail = $fromEmail;
@@ -56,8 +50,9 @@ class TwigMailer implements TwigMailerInterface
     {
         $template = $this->twig->load($templateName);
         $subject = $template->renderBlock('subject', $parameters);
-        $textBody = $template->renderBlock('body_text', $parameters);
-
+        if ($template->hasBlock('body_text', $parameters)) {
+            $textBody = $template->renderBlock('body_text', $parameters);
+        }
         $htmlBody = '';
 
         if ($template->hasBlock('body_html', $parameters)) {
@@ -70,6 +65,7 @@ class TwigMailer implements TwigMailerInterface
             ->setTo($toEmail);
 
         if (!empty($htmlBody)) {
+            $textBody = \Soundasleep\Html2Text::convert($htmlBody,['ignore_errors'=>true,'drop_links'=>true]);
             $message->setBody($htmlBody, 'text/html')
                 ->addPart($textBody, 'text/plain');
         } else {

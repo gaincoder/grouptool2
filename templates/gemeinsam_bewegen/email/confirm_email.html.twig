@@ -1,17 +1,20 @@
-{% block subject %}Willkommen {{  user.username  }}{% endblock %}
+{% extends 'email/base.html.twig' %}
+{% block subject %}Willkommen {{ user.username }}{% endblock %}
 
-{% block body_text %}
-{% autoescape false %}
-Hallo {{ user.username }}!
+{% block body %}
+    Hallo {{ user.username }}!<br><br>
 
-vielen Dank für deine Registrierung.
 
-Bitte bestätige deine E-Mail-Adresse hier:
+    vielen Dank für deine Registrierung.<br><br>
 
-{{ confirmationUrl }}
 
-Nach der Bestätigung wird ein Administrator deine Angaben überprüfen.
+    Bitte bestätige deine E-Mail-Adresse hier:<br><br>
 
-Wir sehen uns bald!
-{% endautoescape %}
+
+    {{ confirmationUrl }}<br><br>
+
+
+    Nach der Bestätigung wird ein Administrator deine Angaben überprüfen.<br><br>
+
+    Wir sehen uns bald!
 {% endblock %}

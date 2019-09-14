@@ -8,7 +8,9 @@
 
 namespace PollBundle\Entity;
 
+use App\Entity\Group;
 use App\Entity\User;
+use App\Interfaces\GroupVisbilityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -20,7 +22,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  * @ORM\HasLifecycleCallbacks()
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
-class Poll
+class Poll implements GroupVisbilityInterface
 {
     const TYPE_ONEANSWER = 1;
     const TYPE_MULTIANSWER = 2;
@@ -182,4 +184,12 @@ class Poll
         return false;
     }
 
+
+    /**
+     * @return Group
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
 }

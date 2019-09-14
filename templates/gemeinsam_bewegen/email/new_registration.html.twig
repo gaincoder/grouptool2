@@ -1,19 +1,18 @@
+{% extends 'email/base.html.twig' %}
 {% block subject %}Neue Registrierung: {{  newUser.username  }}{% endblock %}
 
-{% block body_text %}
-{% autoescape false %}
-Hallo {{ receiver.username }}!
+{% block body %}
+Hallo {{ receiver.username }}!<br><br>
 
-ein Neuer Benutzer hat sich für die Firma {{ newUser.company.name }} registriert.
+ein Neuer Benutzer hat sich für die Firma {{ newUser.company.name }} registriert.<br><br>
 
-Username: {{  newUser.username  }}
-Vorname: {{  newUser.firstname  }}
-Nachname: {{  newUser.lastname  }}
-E-Mail: {{  newUser.email  }}
+Username: {{  newUser.username  }}<br>
+Vorname: {{  newUser.firstname  }}<br>
+Nachname: {{  newUser.lastname  }}<br>
+E-Mail: {{  newUser.email  }}<br><br>
 
-Bitte überprüfen Sie die Angaben und schalten Sie den Benutzer ggf. frei:
-{{ approveLink  }}
+Bitte überprüfen Sie die Angaben und schalten Sie den Benutzer ggf. frei:<br><br>
+{{ approveLink  }}<br><br>
 
 Vielen Dank!
-{% endautoescape %}
 {% endblock %}

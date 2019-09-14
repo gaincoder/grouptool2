@@ -9,7 +9,9 @@
 namespace EventBundle\Entity;
 
 use App\Entity\Comment;
+use App\Entity\Group;
 use App\Entity\User;
+use App\Interfaces\GroupVisbilityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -20,7 +22,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  * @ORM\HasLifecycleCallbacks()
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
-class Event
+class Event implements GroupVisbilityInterface
 {
     use SoftDeleteableEntity;
 
@@ -131,5 +133,13 @@ class Event
     public function onUpdate()
     {
         $this->updated = new \DateTime();
+    }
+
+    /**
+     * @return Group
+     */
+    public function getGroup()
+    {
+        return $this->group;
     }
 }

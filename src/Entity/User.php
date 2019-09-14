@@ -55,7 +55,7 @@ class User extends BaseUser
     public $lastname;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Group")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Group",inversedBy="users")
      * @ORM\JoinTable(name="fos_user_user_group",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
@@ -67,6 +67,12 @@ class User extends BaseUser
      * @ORM\Column(type="smallint",nullable=true)
      */
     public $approval;
+
+    /**
+     * @var array
+     * @ORM\Column(type="simple_array")
+     */
+    public $mails;
 
 
     public function __construct()

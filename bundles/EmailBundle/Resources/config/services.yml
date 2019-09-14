@@ -10,7 +10,10 @@ services:
     public: false
 
   EmailBundle\Services\TwigMailer:
-    arguments: ['@mailer', '@router.default', '@twig', '%mailer_from%']
+    arguments: ['@mailer',  '@twig', '%mailer_from%']
+
+  EmailBundle\Services\FosUserMailer:
+    arguments: ['@EmailBundle\Services\TwigMailer',  '@router' ]
 
   EmailBundle\Subscriber\RegistrationSubscriber:
     arguments: ['@router.default','@EmailBundle\Services\TwigMailer' ]
@@ -25,5 +28,17 @@ services:
 
   EmailBundle\Subscriber\ContactFormSubscriber:
     arguments: ['@router.default','@EmailBundle\Services\TwigMailer' ]
+    tags:
+      - { name: kernel.event_subscriber}
+
+  EmailBundle\Services\ReceiverCollector: ~
+
+  EmailBundle\Subscriber\PollSubscriber:
+    arguments: ['@router.default','@EmailBundle\Services\TwigMailer','@EmailBundle\Services\ReceiverCollector' ]
+    tags:
+      - { name: kernel.event_subscriber}
+
+  EmailBundle\Subscriber\EventSubscriber:
+    arguments: ['@router.default','@EmailBundle\Services\TwigMailer','@EmailBundle\Services\ReceiverCollector' ]
     tags:
       - { name: kernel.event_subscriber}

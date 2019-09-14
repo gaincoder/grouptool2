@@ -1,0 +1,9 @@
+{% block subject %}{% endblock %}
+
+{% block body_html %}
+    <img class="masthead-brand" src="{{ absolute_url(asset('build/images/gemeinsambewegen.png')) }}" />
+    <h1>{{ block('subject') }}</h1>
+    {% block body %}{% endblock %}
+    <br><br><br><br>
+    <small>PS: Dies ist eine automatische E-Mail-Benachrichtigung. Bitte antworten Sie nicht auf diese E-Mail.</small>
+{% endblock %}

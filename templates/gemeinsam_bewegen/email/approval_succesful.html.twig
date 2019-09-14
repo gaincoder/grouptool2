@@ -1,16 +1,15 @@
-{% block subject %}Freischaltung erfolgreich!{% endblock %}
+{% extends 'email/base.html.twig' %}
+{% block subject %}Freischaltung erfolgreich{% endblock %}
 
-{% block body_text %}
-{% autoescape false %}
-Hallo {{ user.username }}!
+{% block body %}
+Hallo {{ user.username }}!<br><br>
 
-gute Neuigkeiten: ein Administrator hat deine Angaben überprüft und dich freigeschaltet.
+    <b>gute Neuigkeiten:</b> ein Administrator hat deine Angaben überprüft und dich freigeschaltet.<br><br>
 
-Du kannst dich nun in den Mitgliederbereich einloggen:
+Du kannst dich nun in den Mitgliederbereich einloggen:<br><br>
 
-{{ link }}
+<a href="{{ link }}">{{ link }}</a><br><br>
 
-Viel Spaß beim störbern und ausprobieren.
+Viel Spaß beim störbern und ausprobieren.<br><br>
 
-{% endautoescape %}
 {% endblock %}

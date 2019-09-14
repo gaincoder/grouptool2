@@ -12,6 +12,7 @@ namespace App\Repository;
 use CompanyBundle\Entity\Company;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User as Entity;
+use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\Security\Core\Security;
 
 class User implements UserRepositoryInterface
@@ -77,4 +78,17 @@ class User implements UserRepositoryInterface
     }
 
 
+    /**
+     * @param $companyId
+     * @param bool $all
+     * @return UserInterface[]
+     */
+    public function findAllActive()
+    {
+        $dql = 'SELECT i FROM ' . Entity::class . ' i ';
+        $dql .= 'WHERE i.enabled = 1';
+        $query = $this->entityManager->createQuery($dql);
+        return $query->execute();
+
+    }
 }
