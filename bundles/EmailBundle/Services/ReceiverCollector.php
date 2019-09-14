@@ -31,7 +31,7 @@ class ReceiverCollector
             $users = $this->userRepository->findAllActive();
         }
         $receivers = array_filter($users,function (User $user) use ($email){
-            return in_array($email,$user->mails);
+            return in_array($email,$user->mails) && $user->isEnabled();
         });
         return $receivers;
     }

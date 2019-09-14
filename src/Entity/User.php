@@ -70,7 +70,7 @@ class User extends BaseUser
 
     /**
      * @var array
-     * @ORM\Column(type="simple_array")
+     * @ORM\Column(type="simple_array",nullable=true)
      */
     public $mails;
 

@@ -14,6 +14,7 @@ use App\Event\UserRefusedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
+use EmailBundle\Enums\Mails;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -88,6 +89,7 @@ class UserManager implements UserManagerInterface
     {
         $user->approval = 1;
         $user->setEnabled(true);
+        $user->mails = Mails::getList();
         $this->entityManager->persist($user);
         $this->entityManager->flush();
         $this->eventDispatcher->dispatch(new UserApprovedEvent($user));
