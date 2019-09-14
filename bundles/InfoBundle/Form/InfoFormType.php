@@ -2,6 +2,8 @@
 
 namespace InfoBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -27,13 +29,19 @@ class InfoFormType extends AbstractType
 
         if ($this->checker->isGranted('ROLE_STAMMI')) {
             $builder
-                ->add('permission', ChoiceType::class, [
-                    'label' => 'Sichtbar für',
-                    'choices' => [
-                        'Alle' => 0,
-                        'Stamm-Mitglieder' => 1
-                    ]
+                ->add('group', EntityType::class, [
+                    'class'=>'App\Entity\Group',
+                    'label' => 'Sichtbarkeit einschränken',
+                    'required' => false,
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('g')
+                            ->where('g.selectable = 1')
+                            ->andWhere('g.id IN(:groups)')
+                            ->setParameter('groups',$this->checker->getUser()->getGroups())
+                            ->orderBy('g.name', 'ASC');
+                    },
                 ]);
+
             $builder
                 ->add('important', CheckboxType::class, array('label' => 'anpinnen', 'required' => false));
         }

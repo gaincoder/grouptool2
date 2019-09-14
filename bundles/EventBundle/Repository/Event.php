@@ -15,14 +15,16 @@ class Event extends EntityRepository
 {
 
 
-    public function findFuture($permission = 0)
+    public function findFuture($groups)
     {
+        $limitDate = new \DateTime('today - 2 days');
         $query = $this->createQueryBuilder('e')
-            ->where('e.date >= NOW()');
-        if ($permission < 1) {
+            ->where('e.date >= :limit')
+            ->setParameter('limit',$limitDate);
             $query
-                ->andWhere('e.permission = 0');
-        }
+                ->andWhere('e.group IN(:groups) OR e.group IS NULL')
+                ->setParameter('groups',$groups);
+
         $query
             ->orderBy('e.date');
         return $query->getQuery()->execute();
@@ -32,14 +34,13 @@ class Event extends EntityRepository
     /**
      * @return \EventBundle\Entity\Event[]
      */
-    public function findNextFive($permission = 0)
+    public function findNextFive($groups)
     {
         $query = $this->createQueryBuilder('e')
             ->where('e.date >= NOW()');
-        if ($permission < 1) {
-            $query
-                ->andWhere('e.permission = 0');
-        }
+        $query
+            ->andWhere('e.group IN(:groups) OR e.group IS NULL')
+            ->setParameter('groups',$groups);
         $query
             ->orderBy('e.date')
             ->setMaxResults(5);

@@ -38,7 +38,7 @@ class Widget implements WidgetInterface
         $params = array();
 
         $eventRepo = $this->em->getRepository(Event::class);
-        $params['events'] = $eventRepo->findNextFive($this->security->isGranted('ROLE_STAMMI'));
+        $params['events'] = $eventRepo->findNextFive($this->security->getUser()->getGroups());
 
 
         return $this->twig->render('closed_area/Event/widget.html.twig', $params);

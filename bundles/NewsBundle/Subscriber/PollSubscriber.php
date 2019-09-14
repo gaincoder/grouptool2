@@ -67,7 +67,7 @@ class PollSubscriber implements EventSubscriberInterface
         $news->text = sprintf(self::$text,  $url, $poll->name, ucfirst($user->getUsername()));
         $news->referenceType = get_class($poll);
         $news->referenceId = $poll->id;
-
+        $news->group = $poll->group;
         $this->em->persist($news);
         $this->em->flush();
 
@@ -85,6 +85,7 @@ class PollSubscriber implements EventSubscriberInterface
         if($news instanceof News)
         {
             $news->text = sprintf(self::$text,  $url, $poll->name, ucfirst($user->getUsername()));
+            $news->group = $poll->group;
             $this->em->persist($news);
             $this->em->flush();
         }

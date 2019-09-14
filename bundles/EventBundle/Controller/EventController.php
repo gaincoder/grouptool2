@@ -26,7 +26,7 @@ class EventController extends AbstractController
     public function indexAction(Request $request)
     {
 
-        $events = $this->getDoctrine()->getRepository(Event::class)->findFuture($this->isGranted('ROLE_STAMMI'));
+        $events = $this->getDoctrine()->getRepository(Event::class)->findFuture($this->getUser()->getGroups());
         return $this->render('closed_area/Event/index.html.twig', ['events' => $events]);
     }
 

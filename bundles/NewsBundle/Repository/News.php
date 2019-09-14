@@ -18,15 +18,14 @@ class News extends EntityRepository
     /**
      * @return \NewsBundle\Entity\News[]
      */
-    public function findTopFive($permission = 0)
+    public function findTopFive($groups)
     {
 
         $query = $this->createQueryBuilder('n')
             ->orderBy('n.date', 'DESC');
-        if ($permission < 1) {
-            $query
-                ->andWhere('n.permission = 0');
-        }
+        $query
+            ->andWhere('n.group IN(:groups) OR n.group IS NULL')
+            ->setParameter('groups',$groups);
         $query
             ->setMaxResults(5);
         return $query->getQuery()->execute();

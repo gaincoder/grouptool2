@@ -65,6 +65,7 @@ class PhotoalbumSubscriber implements EventSubscriberInterface
         $news->text = sprintf(self::$text, ucfirst($user->getUsername()), $url, $photoalbum->name);
         $news->referenceType = get_class($photoalbum);
         $news->referenceId = $photoalbum->id;
+        $news->group = $photoalbum->group;
         $this->em->persist($news);
         $this->em->flush();
 
@@ -81,6 +82,7 @@ class PhotoalbumSubscriber implements EventSubscriberInterface
         if($news instanceof News)
         {
             $news->text = sprintf(self::$text, ucfirst($user->getUsername()), $url, $photoalbum->name);
+            $news->group = $photoalbum->group;
             $this->em->persist($news);
             $this->em->flush();
         }

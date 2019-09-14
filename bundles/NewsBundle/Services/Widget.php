@@ -37,7 +37,7 @@ class Widget implements WidgetInterface
     {
         $params = array();
         $newsRepo = $this->em->getRepository(News::class);
-        $params['newslist'] = $newsRepo->findTopFive($this->security->isGranted('ROLE_STAMMI'));
+        $params['newslist'] = $newsRepo->findTopFive($this->security->getUser()->getGroups());
 
         return $this->twig->render('closed_area/News/widget.html.twig', $params);
     }

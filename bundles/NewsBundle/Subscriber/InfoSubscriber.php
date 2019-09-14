@@ -67,6 +67,7 @@ class InfoSubscriber implements EventSubscriberInterface
         $news->text = sprintf(self::$text, ucfirst($user->getUsername()), $url, $info->headline);
         $news->referenceType = get_class($info);
         $news->referenceId = $info->id;
+        $news->group = $info->group;
 
         $this->em->persist($news);
         $this->em->flush();
@@ -83,6 +84,7 @@ class InfoSubscriber implements EventSubscriberInterface
         if($news instanceof News)
         {
             $news->text = sprintf(self::$text, ucfirst($user->getUsername()), $url, $info->headline);
+            $news->group = $info->group;
             $this->em->persist($news);
             $this->em->flush();
         }

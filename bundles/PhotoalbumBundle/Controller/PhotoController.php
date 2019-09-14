@@ -27,7 +27,7 @@ class PhotoController extends AbstractController
     public function indexAction()
     {
 
-        $albums = $this->getDoctrine()->getRepository(Photoalbum::class)->findAllOrdered($this->isGranted('ROLE_STAMMI'));
+        $albums = $this->getDoctrine()->getRepository(Photoalbum::class)->findAllOrdered($this->getUser()->getGroups());
         return $this->render('closed_area/Photoalbum/index.html.twig', ['photoalbums' => $albums]);
     }
 

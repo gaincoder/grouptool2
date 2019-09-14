@@ -27,11 +27,9 @@ class PollController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        if ($this->isGranted('ROLE_STAMMI')) {
-            $polls = $this->getDoctrine()->getRepository(Poll::class)->findAllOrdered(1);
-        } else {
-            $polls = $this->getDoctrine()->getRepository(Poll::class)->findAllOrdered(0);
-        }
+
+        $polls = $this->getDoctrine()->getRepository(Poll::class)->findAllOrdered($this->getUser()->getGroups());
+
         return $this->render('closed_area/Poll/index.html.twig', ['polls' => $polls]);
     }
 

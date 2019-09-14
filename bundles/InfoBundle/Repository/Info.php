@@ -39,12 +39,12 @@ class Info implements InfoRepositoryInterface
     {
 
         $dql = 'SELECT i FROM ' . Entity::class . ' i ';
-        if (!$this->security->isGranted('ROLE_STAMMI')) {
-            $dql .= 'WHERE i.permission = 0';
-        };
+
+        $dql .= 'WHERE i.group IN (:groups) OR i.group IS NULL ';
 
         $dql .= 'ORDER BY i.important DESC';
         $query = $this->entityManager->createQuery($dql);
+        $query->setParameter('groups',$this->security->getUser()->getGroups());
         return $query->execute();
 
     }

@@ -24,7 +24,13 @@ class Group extends BaseGroup
      * @var bool
      * @ORM\Column(type="boolean")
      */
-    public $hidden=false;
+    public $public=false;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    public $selectable=false;
 
     public function __toString()
     {

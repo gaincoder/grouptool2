@@ -39,7 +39,7 @@ class Widget implements WidgetInterface
 
 
         $pollRepo = $this->em->getRepository(Poll::class);
-        $params['polls'] = $pollRepo->findTopFive($this->security->isGranted('ROLE_STAMMI'));
+        $params['polls'] = $pollRepo->findTopFive($this->security->getUser()->getGroups());
 
         return $this->twig->render('closed_area/Poll/widget.html.twig', $params);
     }

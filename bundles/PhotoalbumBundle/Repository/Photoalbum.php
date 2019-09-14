@@ -15,13 +15,12 @@ class Photoalbum extends EntityRepository
 {
 
 
-    public function findAllOrdered($permission = 0)
+    public function findAllOrdered($groups)
     {
         $query = $this->createQueryBuilder('e');
-        if ($permission < 1) {
-            $query
-                ->andWhere('e.permission = 0');
-        }
+        $query
+            ->andWhere('e.group IN(:groups) OR e.group IS NULL')
+            ->setParameter('groups',$groups);
         $query->orderBy('e.id', 'DESC');
         return $query->getQuery()->execute();
 

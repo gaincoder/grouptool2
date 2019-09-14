@@ -69,9 +69,9 @@ class Poll
     public $allowAdd;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Group")
      */
-    public $permission = 0;
+    public $group;
 
     /**
      * @var PollAnswer[]

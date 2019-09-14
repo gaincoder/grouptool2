@@ -17,14 +17,13 @@ class Poll extends EntityRepository
     /**
      * @return \PollBundle\Entity\Poll[]
      */
-    public function findAllOrdered($permission = 0)
+    public function findAllOrdered($groups)
     {
         $query = $this->createQueryBuilder('p')
             ->addSelect('CASE WHEN p.endDate <= NOW() THEN 1 ELSE 0 END as HIDDEN overdue');
-        if ($permission < 1) {
-            $query
-                ->andWhere('p.permission = 0');
-        };
+        $query
+            ->andWhere('p.group IN(:groups) OR p.group IS NULL')
+            ->setParameter('groups',$groups);
         $query
             ->addOrderBy('p.closed')
             ->addOrderBy('overdue')
@@ -33,32 +32,18 @@ class Poll extends EntityRepository
 
     }
 
-    /**
-     * @return \PollBundle\Entity\Poll[]
-     */
-    public function findOpen()
-    {
-        $query = $this->createQueryBuilder('p')
-            ->where('p.closed = :closed')
-            ->andWhere('p.endDate > NOW()')
-            ->setParameter('closed', false)
-            ->orderBy('p.created');
-        return $query->getQuery()->execute();
-
-    }
 
     /**
      * @return \PollBundle\Entity\Poll[]
      */
-    public function findTopFive($permission = 0)
+    public function findTopFive($groups)
     {
         $query = $this->createQueryBuilder('p')
             ->where('p.closed = :closed')
             ->andWhere('p.endDate > NOW()');
-        if ($permission < 1) {
-            $query
-                ->andWhere('p.permission = 0');
-        }
+        $query
+            ->andWhere('p.group IN(:groups) OR p.group IS NULL')
+            ->setParameter('groups',$groups);
         $query
             ->setParameter('closed', false)
             ->orderBy('p.created', 'DESC')

@@ -35,10 +35,13 @@ class GroupFormType extends AbstractType
     {
         $builder
             ->add('name', null, array('label' => false, 'attr' => ['placeholder' => 'Name']))
+            ->add('selectable', null, array('label' => 'Wählbar für Sichtbarkeit'))
+            ->add('public', null, array('label' => 'Mitglieder dürfen beitreten'))
             ->add('roles', ChoiceType::class, array(
                 'multiple' => true,
                 'choices' => $this->roleCollector->getList(),
                 'translation_domain' => 'roles',
+                'required' => false,
                 'attr' => ['data-select' => 'true']
             ));
 

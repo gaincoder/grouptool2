@@ -53,11 +53,6 @@ class Event
     public $info;
 
     /**
-     * @ORM\Column(type="smallint")
-     */
-    public $permission = 0;
-
-    /**
      * @var Comment[]
      * @ORM\ManyToMany(targetEntity="App\Entity\Comment")
      * @ORM\OrderBy({"created" = "ASC"})
@@ -116,6 +111,12 @@ class Event
      * @ORM\Column(type="boolean",nullable=true)
      */
     public $public;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Group")
+     */
+    public $group;
+
 
     public function __construct()
     {

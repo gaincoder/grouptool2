@@ -40,10 +40,9 @@ class Info
     public $text;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Group")
      */
-    public $permission = 0;
-
+    public $group;
 
     /**
      * @ORM\Column(type="boolean")

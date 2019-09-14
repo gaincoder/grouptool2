@@ -2,7 +2,9 @@
 
 namespace EventBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use FOS\UserBundle\Util\LegacyFormHelper;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -30,16 +32,20 @@ class EventFormType extends AbstractType
             ->add('disableImpulse', CheckboxType::class, array('label' => 'Spontan abschalten', 'required' => false))
             ->add('public', CheckboxType::class, array('label' => 'Öffentlich', 'required' => false));
 
-        if ($this->checker->isGranted('ROLE_STAMMI')) {
             $builder
-                ->add('permission', ChoiceType::class, [
-                    'label' => 'Sichtbar für',
-                    'choices' => [
-                        'Alle' => 0,
-                        'Stamm-Mitglieder' => 1
-                    ]
+                ->add('group', EntityType::class, [
+                    'class'=>'App\Entity\Group',
+                    'label' => 'Sichtbarkeit einschränken',
+                    'required' => false,
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('g')
+                            ->where('g.selectable = 1')
+                            ->andWhere('g.id IN(:groups)')
+                            ->setParameter('groups',$this->checker->getUser()->getGroups())
+                            ->orderBy('g.name', 'ASC');
+                    },
                 ]);
-        }
+
         $builder
             ->add('info', TextareaType::class, array('label' => false, 'required' => false, 'attr' => ['class' => 'summernote', 'placeholder' => 'Info', 'rows' => 15]));
     }
