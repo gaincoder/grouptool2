@@ -2,18 +2,6 @@
     "beberlei/doctrineextensions": {
         "version": "dev-master"
     },
-    "beelab/recaptcha2-bundle": {
-        "version": "2.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "2.0",
-            "ref": "246da6d0e345e9ab6773dd2f46c8a138e2527ef6"
-        },
-        "files": [
-            "./config/packages/beelab_recaptcha2.yaml"
-        ]
-    },
     "behat/transliterator": {
         "version": "v1.2.0"
     },
@@ -126,18 +114,6 @@
     "gedmo/doctrine-extensions": {
         "version": "v2.4.37"
     },
-    "google/recaptcha": {
-        "version": "1.1",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "1.1",
-            "ref": "d087df3e087f50da3955f2def05079380da5894b"
-        },
-        "files": [
-            "./config/packages/google_recaptcha.yaml"
-        ]
-    },
     "imagine/imagine": {
         "version": "v0.7.1"
     },
@@ -226,6 +202,9 @@
     "symfony/cache": {
         "version": "v4.3.3"
     },
+    "symfony/cache-contracts": {
+        "version": "v1.1.5"
+    },
     "symfony/config": {
         "version": "v4.3.3"
     },
@@ -242,9 +221,6 @@
             "./config/bootstrap.php"
         ]
     },
-    "symfony/contracts": {
-        "version": "v1.1.5"
-    },
     "symfony/debug": {
         "version": "v4.3.3"
     },
@@ -259,6 +235,9 @@
     },
     "symfony/event-dispatcher": {
         "version": "v4.3.3"
+    },
+    "symfony/event-dispatcher-contracts": {
+        "version": "v1.1.5"
     },
     "symfony/filesystem": {
         "version": "v4.3.3"
@@ -433,6 +412,9 @@
     "symfony/security-http": {
         "version": "v4.3.3"
     },
+    "symfony/service-contracts": {
+        "version": "v1.1.6"
+    },
     "symfony/stopwatch": {
         "version": "v4.3.3"
     },
@@ -465,6 +447,9 @@
             "./config/packages/translation.yaml",
             "./translations/.gitignore"
         ]
+    },
+    "symfony/translation-contracts": {
+        "version": "v1.1.6"
     },
     "symfony/twig-bridge": {
         "version": "v4.3.3"

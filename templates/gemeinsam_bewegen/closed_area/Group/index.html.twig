@@ -7,17 +7,25 @@
         <div class="row-fluid" id="about">
             <div class="span12">
                 <h2 class="page-title" id="scroll_up"> Gruppen</h2>
+                {% if is_granted('ROLE_GROUP_CREATE') %}
                 <a href="{{ path('group_create') }}" class="btn btn-sm btn-success"><span class="glyphicon
                 glyphicon-plus"></span> hinzufügen</a><br><br>
+                {% endif %}
                 <table class="table table-striped">
                     {% for group in groups %}
                         <tr>
                             <td>{{ group.name }}</td>
-                            <td><a href="{{ path('group_edit',{group:group.id}) }}" class="btn btn-sm btn-warning"><span
-                                            class="glyphicon glyphicon-pencil"></span></a> <a
-                                        href="{{ path('group_delete',{group:group.id}) }}"
+                            <td>
+                                {% if is_granted('ROLE_GROUP_EDIT') %}
+                                <a href="{{ path('group_edit',{group:group.id}) }}" class="btn btn-sm btn-warning"><span
+                                            class="glyphicon glyphicon-pencil"></span></a>
+                                {% endif %}
+                                {% if is_granted('ROLE_GROUP_DELETE') %}
+                                <a href="{{ path('group_delete',{group:group.id}) }}"
                                         class="btn btn-sm btn-danger"><span
-                                            class="glyphicon glyphicon-trash"></span></a></td>
+                                            class="glyphicon glyphicon-trash"></span></a>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                 </table>

@@ -7,9 +7,10 @@
         <div class="row-fluid" id="about">
             <div class="span12">
                 <h2 class="page-title" id="scroll_up">Umfragen</h2>
+                {% if is_granted('ROLE_POLL_CREATE') %}
                 <a href="{{ path('poll_create') }}" class="btn btn-sm btn-success"><span class="glyphicon
                 glyphicon-plus"></span> hinzufügen</a><br><br>
-
+                {% endif %}
                 <table class="table table-striped">
                     {% for poll in polls %}
                         <tr>
@@ -18,12 +19,12 @@
                                         href="{{ path('poll_view',{poll:poll.id}) }}">{{ poll.name }}</a></td>
                             <td>{{ poll.isOpen ? 'offen' : 'geschlossen' }}</td>
                             <td>
-                                {% if poll.open and (poll.allowAdd or (app.user == poll.owner or is_granted('ROLE_ADMIN'))) %}
+                                {% if is_granted('ROLE_POLL_EDIT') %}
                                     <a href="{{ path('poll_edit',{poll:poll.id}) }}"
                                        class="btn btn-sm btn-warning"><span
                                                 class="glyphicon glyphicon-pencil"></span></a>
                                 {% endif %}
-                                {% if app.user == poll.owner or is_granted('ROLE_ADMIN') %}
+                                {% if is_granted('ROLE_POLL_DELETE') %}
                                     <a href="{{ path('poll_delete',{poll:poll.id}) }}"
                                        class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
                                 {% endif %}

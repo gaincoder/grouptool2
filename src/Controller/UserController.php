@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\UserEditFormType;
 use App\Manager\UserManagerInterface;
 use App\Repository\UserRepositoryInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -63,12 +63,10 @@ class UserController
 
     /**
      * @Route("/userlist", name="userlist")
+     * @IsGranted("ROLE_USER_VIEWLIST")
      */
     public function indexAction()
     {
-        if (!($this->security->isGranted('ROLE_MANAGE_USER') || !$this->security->isGranted('ROLE_MANAGE_ALL_USER'))) {
-            throw new AccessDeniedException();
-        }
         $users = $this->userRepository->findAllOrdered($this->security->getUser()->company->id,$this->security->isGranted('ROLE_MANAGE_ALL_USER'));
         $notApprovedUsers = $this->userRepository->findNotApproved($this->security->getUser()->company->id,$this->security->isGranted('ROLE_MANAGE_ALL_USER'));
         return new Response($this->twig->render('closed_area/user/list.html.twig', ['users' => $users,'notApprovedUsers'=>$notApprovedUsers]));
@@ -77,6 +75,7 @@ class UserController
 
     /**
      * @Route("/user/edit/{user}", name="user_edit")
+     * @IsGranted("ROLE_USER_EDIT")
      * @param User
      * @param Request $request
      * @return Response
@@ -130,6 +129,7 @@ class UserController
 
     /**
      * @Route("/user/approve/{user}", name="user_approved")
+     * @IsGranted("ROLE_USER_APPROVE")
      * @param User
      * @param Request $request
      * @return Response
@@ -142,6 +142,7 @@ class UserController
 
     /**
      * @Route("/user/refuse/{user}", name="user_refused")
+     * @IsGranted("ROLE_USER_APPROVE")
      * @param User
      * @param Request $request
      * @return Response

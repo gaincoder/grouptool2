@@ -15,6 +15,7 @@ use PollBundle\Event\PollAnsweredEvent;
 use PollBundle\Event\PollCommentedEvent;
 use PollBundle\Event\PollCreatedEvent;
 use PollBundle\Event\PollSharedEvent;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,6 +37,7 @@ class PollController extends AbstractController
 
     /**
      * @Route("/Poll/create", name="poll_create")
+     * @IsGranted("ROLE_POLL_CREATE")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -64,18 +66,14 @@ class PollController extends AbstractController
 
     /**
      * @Route("/Poll/edit/{poll}", name="poll_edit")
+     * @IsGranted("ROLE_POLL_EDIT")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function edit(Poll $poll, Request $request)
     {
-        if ($poll->owner == $this->getUser() || $this->isGranted('ROLE_ADMIN')) {
-            $form = $this->createForm(PollFormType::class, $poll);
-            $tpl = 'closed_area/Poll/form.html.twig';
-        } else {
-            $form = $this->createForm(PollSimpleFormType::class, $poll);
-            $tpl = 'closed_area/Poll/form_simple.html.twig';
-        }
+        $form = $this->createForm(PollFormType::class, $poll);
+        $tpl = 'closed_area/Poll/form.html.twig';
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $poll->updatedBy = $this->getUser()->getUsername();
@@ -90,7 +88,33 @@ class PollController extends AbstractController
     }
 
     /**
+     * @Route("/Poll/editAnswers/{poll}", name="poll_edit_answers")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function editAnswers(Poll $poll, Request $request)
+    {
+
+        $form = $this->createForm(PollSimpleFormType::class, $poll);
+        $tpl = 'closed_area/Poll/form_simple.html.twig';
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $poll->updatedBy = $this->getUser()->getUsername();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($poll);
+            $em->flush();
+            $this->addFlash('success', 'Umfrage wurde gespeichert!');
+            $this->get('event_dispatcher')->dispatch(new PollEditedEvent($poll, $this->getUser()));
+            return $this->redirectToRoute('poll_view', ['poll' => $poll->id]);
+        }
+        return $this->render($tpl, ['form' => $form->createView(), 'page_title' => 'Umfrage bearbeiten', 'poll' => $poll]);
+    }
+
+
+
+    /**
      * @Route("/Poll/delete/{poll}/{confirm}", name="poll_delete",defaults={"confirm"=false})
+     * @IsGranted("ROLE_POLL_DELETE")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */

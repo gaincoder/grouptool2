@@ -27,3 +27,6 @@ services:
     arguments: ['PollBundle/Resources/config/routing.yml']
     tags:
       - { name: 'app.addrouting' }
+
+  PollBundle\Enums\Roles:
+    tags: ['role_enum']

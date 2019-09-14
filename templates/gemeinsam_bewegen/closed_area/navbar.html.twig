@@ -39,13 +39,13 @@
             </li>
 
             {{ menuservice.renderedMenu|raw }}
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_USER_VIEWLIST') or is_granted('ROLE_COMPANY_VIEWLIST') or is_granted('ROLE_GROUP_VIEWLIST')  %}
                 <li class="nav-item dropdown" data-dropdown="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Administration <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <a class="dropdown-item" href="{{ path('userlist') }}">Benutzer</a>
+                        {% if is_granted('ROLE_USER_VIEWLIST') %}<a class="dropdown-item" href="{{ path('userlist') }}">Benutzer</a>{% endif %}
                         {% if is_granted('ROLE_COMPANY_VIEWLIST') %}<a class="dropdown-item" href="{{ path('company') }}">Firmen</a>{% endif %}
-                        <a class="dropdown-item" href="{{ path('group') }}">Gruppen</a>
+                        {% if is_granted('ROLE_GROUP_VIEWLIST') %}<a class="dropdown-item" href="{{ path('group') }}">Gruppen</a>{% endif %}
                     </ul>
                 </li>
             {% endif %}

@@ -23,7 +23,6 @@ parameters:
     router.request_context.scheme: https
 
 
-    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
 
 services:
     # default configuration for services in *this* file
@@ -121,6 +120,10 @@ services:
         tags:
             - { name: kernel.event_subscriber}
 
+    App\Enums\Roles:
+        tags: ['role_enum']
+
     App\Services\RoleCollector:
         public: true
         arguments: [!tagged role_enum]
+

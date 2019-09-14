@@ -7,6 +7,7 @@ use App\Enums\Roles;
 use App\Form\GroupFormType;
 use App\Manager\GroupManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,6 +50,7 @@ class GroupController
 
     /**
      * @Route("/group", name="group")
+     * @IsGranted("ROLE_GROUP_VIEWLIST")
      */
     public function indexAction()
     {
@@ -58,6 +60,7 @@ class GroupController
 
     /**
      * @Route("/group/create", name="group_create")
+     * @IsGranted("ROLE_GROUP_CREATE")
      * @param Request $request
      * @return Response
      */
@@ -67,7 +70,6 @@ class GroupController
         $form = $this->formFactory->create(GroupFormType::class, $group);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $group->group = $this->createGroupForGroup($group);
             $this->groupManager->handleCreate($group);
 
             return $this->redirectToRoute('group');
@@ -78,6 +80,7 @@ class GroupController
 
     /**
      * @Route("/group/edit/{group}", name="group_edit")
+     * @IsGranted("ROLE_GROUP_EDIT")
      * @param \GroupBundle\Entity\Group $group
      * @param Request $request
      * @return Response
@@ -97,6 +100,7 @@ class GroupController
 
     /**
      * @Route("/group/delete/{group}/{confirm}", name="group_delete",defaults={"confirm"=false})
+     * @IsGranted("ROLE_GROUP_DELETE")
      * @param \GroupBundle\Entity\Group $group
      * @param bool $confirm
      * @return Response

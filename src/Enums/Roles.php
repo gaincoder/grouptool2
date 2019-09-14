@@ -7,10 +7,14 @@ namespace App\Enums;
 class Roles
 {
 
-    const ROLE_MANAGE_COMPANIES         = 'ROLE_MANAGE_COMPANIES';
-    const ROLE_MANAGE_USER              = 'ROLE_MANAGE_USER';
-    const ROLE_MANAGE_USER_ALL          = 'ROLE_MANAGE_USER_ALL';
+    const ROLE_GROUP_CREATE         = 'ROLE_GROUP_CREATE';
+    const ROLE_GROUP_EDIT           = 'ROLE_GROUP_EDIT';
+    const ROLE_GROUP_DELETE         = 'ROLE_GROUP_DELETE';
+    const ROLE_GROUP_VIEWLIST       = 'ROLE_GROUP_VIEWLIST';
 
+    const ROLE_USER_EDIT           = 'ROLE_USER_EDIT';
+    const ROLE_USER_VIEWLIST       = 'ROLE_USER_VIEWLIST';
+    const ROLE_USER_APPROVE        = 'ROLE_USER_APPROVE';
 
 
 
