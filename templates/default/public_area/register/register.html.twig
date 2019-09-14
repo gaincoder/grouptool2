@@ -2,7 +2,9 @@
 {% trans_default_domain 'FOSUserBundle' %}
 {% block content %}
         <h3>Registrieren</h3>
-
+    {% if form.vars.errors is not empty %}
+        {{ form_errors(form) }}
+    {% endif %}
 
     {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
 

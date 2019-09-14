@@ -40,6 +40,9 @@ class RegistrationType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'App\Entity\User',
+            'timed_spam' => true,
+            'honeypot' => true,
+
         ));
     }
 }
