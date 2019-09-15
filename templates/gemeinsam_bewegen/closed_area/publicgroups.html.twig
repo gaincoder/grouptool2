@@ -1,0 +1,87 @@
+{% extends 'closed_area/base.html.twig' %}
+
+{% form_theme form _self %}
+
+{% block checkbox_widget -%}
+    {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+    {%- if 'checkbox-custom' in parent_label_class -%}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' custom-control-input')|trim}) -%}
+        <div class="custom-control custom-checkbox{{ 'checkbox-inline' in parent_label_class ? ' custom-control-inline' }}">
+            {{ block('checkbox_widget_base') }}
+        </div>
+    {%- else -%}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-check-input')|trim}) -%}
+        {{ block('checkbox_widget_base') }}
+    {%- endif -%}
+{%- endblock checkbox_widget %}
+
+{%- block checkbox_widget_base -%}
+    <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+{%- endblock checkbox_widget_base -%}
+
+{% block checkbox_label %}
+    {# {% block _user_registration_form_termsAccepted_label %} - use this if you need it for just a single field, amend accordingly to your form type/field #}
+    {#- pulled from bootstrap_4_layout.html.twig and appended |raw to the end of label line -#}
+    {% set is_parent_custom = parent_label_class is defined and ('checkbox-custom' in parent_label_class or 'radio-custom' in parent_label_class) %}
+    {% set is_custom = label_attr.class is defined and ('checkbox-custom' in label_attr.class or 'radio-custom' in label_attr.class) %}
+    {%- if is_parent_custom or is_custom -%}
+        {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' custom-control-label')|trim}) -%}
+    {%- else %}
+        {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' form-check-label')|trim}) -%}
+    {%- endif %}
+    {%- if not compound -%}
+        {% set label_attr = label_attr|merge({'for': id}) %}
+    {%- endif -%}
+    {%- if required -%}
+        {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) -%}
+    {%- endif -%}
+    {%- if parent_label_class is defined -%}
+        {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ parent_label_class)|replace({'checkbox-inline': '', 'radio-inline': '', 'checkbox-custom': '', 'radio-custom': ''})|trim}) -%}
+    {%- endif -%}
+    {%- if label is not same as(false) and label is empty -%}
+        {%- if label_format is not empty -%}
+            {%- set label = label_format|replace({
+                '%name%': name,
+                '%id%': id,
+            }) -%}
+        {%- else -%}
+            {%- set label = name|humanize -%}
+        {%- endif -%}
+    {%- endif -%}
+    <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+    {{- label is not same as(false) ? (translation_domain is same as(false) ? label : label|trans({}, translation_domain)) -}}
+    {{- form_errors(form) -}}
+    </label>
+{% endblock %}
+
+{% block content_row %}
+    <div class="container container-fluid" id="home">
+        <!-- HOME -->
+
+        <!-- ABOUT & UPDATES -->
+        <div class="row-fluid" id="about">
+            {{ form_start(form) }}
+            <div class="span12">
+                <h2 class="page-title" id="scroll_up">Meine Gruppen</h2>
+
+
+                    <div class="funkyradio">
+                        {% for child in form.publicGroups %}
+                            <div class="funkyradio-success">
+                                {{ form_widget(child) }}
+                                {{ form_label(child) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+            </div>
+            <br><br>
+                <button type="submit" class="btn btn-success" name="_submit">speichern</button>
+                {{ form_end(form) }}
+               
+
+
+        </div>
+
+
+    </div>
+{% endblock %}

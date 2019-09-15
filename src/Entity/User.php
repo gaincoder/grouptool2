@@ -98,4 +98,23 @@ class User extends BaseUser
         }
     }
 
+    public function getPublicGroups()
+    {
+        return array_filter($this->groups->toArray(),function($group){
+            return $group->public;
+        });
+    }
+
+    private function getNotPublicGroups()
+    {
+        return array_filter($this->groups->toArray(),function($group){
+            return $group->public !== true;
+        });
+    }
+
+    public function setPublicGroups($groups)
+    {
+        $this->groups = array_merge($groups,$this->getNotPublicGroups());
+    }
+
 }

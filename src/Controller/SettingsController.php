@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\PublicGroupFormType;
 use App\Form\SettingsFormType;
 use App\Manager\GroupManagerInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
@@ -68,6 +69,21 @@ class SettingsController
             $this->flashBag->add('success', 'Einstellungen wurden gespeichert!');
         }
         return new Response($this->twig->render('closed_area/settings.html.twig', ['form' => $form->createView()]));
+    }
+
+    /**
+     * @Route("/publicGroups", name="public_groups")
+     */
+    public function publicGroupsAction(Request $request)
+    {
+        $user = $this->security->getUser();
+        $form = $this->formFactory->create(PublicGroupFormType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->manager->updateUser($user);
+            $this->flashBag->add('success', 'Einstellungen wurden gespeichert!');
+        }
+        return new Response($this->twig->render('closed_area/publicgroups.html.twig', ['form' => $form->createView()]));
     }
 
 
