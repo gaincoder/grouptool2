@@ -15,6 +15,7 @@ class Roles
     const ROLE_USER_EDIT           = 'ROLE_USER_EDIT';
     const ROLE_USER_VIEWLIST       = 'ROLE_USER_VIEWLIST';
     const ROLE_USER_APPROVE        = 'ROLE_USER_APPROVE';
+    const ROLE_MANAGE_ALL_USER        = 'ROLE_MANAGE_ALL_USER';
 
 
 
