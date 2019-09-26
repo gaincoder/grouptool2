@@ -2,7 +2,13 @@
 
 use Symfony\Component\HttpFoundation\Request;
 
-require __DIR__.'/../vendor/autoload.php';
+
+$vendorDir =  __DIR__.'/../vendor';
+if(getenv('COMPOSER_VENDOR_DIR') != false){
+    $vendorDir = getenv('COMPOSER_VENDOR_DIR');
+}
+
+require $vendorDir.'/autoload.php';
 
 
 $kernel = new AppKernel('prod', true);

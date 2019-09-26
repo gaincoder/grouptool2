@@ -52,10 +52,10 @@ class EventController extends AbstractController
             $em->flush();
 
             $this->get('event_dispatcher')->dispatch(new EventCreatedEvent($event, $this->getUser()));
-            $this->addFlash('success', 'Veranstaltung wurde gespeichert!');
+            $this->addFlash('success', 'Aktivität wurde gespeichert!');
             return $this->redirectToRoute('event');
         }
-        return $this->render('closed_area/Event/form.html.twig', ['form' => $form->createView(), 'page_title' => 'Veranstaltung hinzufügen']);
+        return $this->render('closed_area/Event/form.html.twig', ['form' => $form->createView(), 'page_title' => 'Aktivität hinzufügen']);
     }
 
 
@@ -74,11 +74,11 @@ class EventController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
             $em->flush();
-            $this->addFlash('success', 'Veranstaltung wurde gespeichert!');
+            $this->addFlash('success', 'Aktivität wurde gespeichert!');
             $this->get('event_dispatcher')->dispatch(new EventEditedEvent($event, $this->getUser()));
             return $this->redirectToRoute('event');
         }
-        return $this->render('closed_area/Event/form.html.twig', ['form' => $form->createView(), 'page_title' => 'Veranstaltung bearbeiten']);
+        return $this->render('closed_area/Event/form.html.twig', ['form' => $form->createView(), 'page_title' => 'Aktivität bearbeiten']);
     }
 
     /**
@@ -90,12 +90,12 @@ class EventController extends AbstractController
     public function delete(Event $event, $confirm = false, Request $request)
     {
         if ($confirm == false) {
-            return $this->render('closed_area/confirm.html.twig', ['type' => 'Veranstaltung']);
+            return $this->render('closed_area/confirm.html.twig', ['type' => 'Aktivität']);
         }
         $em = $this->getDoctrine()->getManager();
         $em->remove($event);
         $em->flush();
-        $this->addFlash('success', 'Veranstaltung wurde gelöscht!');
+        $this->addFlash('success', 'Aktivität wurde gelöscht!');
         $this->get('event_dispatcher')->dispatch(new EventDeletedEvent($event, $this->getUser()));
         return $this->redirectToRoute('event');
 
@@ -144,7 +144,7 @@ class EventController extends AbstractController
     {
         if ($event->permission == 0) {
             $this->get('event_dispatcher')->dispatch(new EventSharedEvent($event, $this->getUser()));
-            $this->addFlash('success', 'Veranstaltung wurde geteilt!');
+            $this->addFlash('success', 'Aktivität wurde geteilt!');
         } else {
             $this->addFlash('danger', 'Teilen nicht möglich! Sichtbarkeit ist eingeschränkt!');
         }

@@ -1,10 +1,10 @@
 {% extends 'email/base.html.twig' %}
-{% block subject %}Neue Veranstaltung{% endblock %}
+{% block subject %}Neue Aktivität{% endblock %}
 
 {% block body %}
 Hallo {{ receiver.username }}!<br><br>
 
-{{ event.createdBy }} hat eine neue Veranstaltung "<b>{{ event.name }}</b>" erstellt.<br><br>
+{{ event.createdBy }} hat eine neue Aktivität "<b>{{ event.name }}</b>" erstellt.<br><br>
 
 <b>Wann?</b> {{ event.date|date('d.m.Y') }} um {{ event.date|date('H:i') }} Uhr<br>
 <b>Wo?</b> {{ event.location }}<br><br><br>

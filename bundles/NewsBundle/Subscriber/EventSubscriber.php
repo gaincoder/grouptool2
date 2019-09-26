@@ -32,7 +32,7 @@ class EventSubscriber implements EventSubscriberInterface
      * @var RouterInterface
      */
     private $router;
-    private static $headline = 'Neue Veranstaltung erstellt';
+    private static $headline = 'Neue Aktivität erstellt';
     private static $text = '%s hat <a href="%s">%s</a> am %s erstellt';
 
     public function __construct(EntityManagerInterface $em, RouterInterface $router)

@@ -53,7 +53,7 @@ class AnswerEvent implements BotControllerInterface
         if ($event->owner instanceof UserInterface && $event->owner->telegramSupported()) {
             $telegramBot = $this->answerBot;
             $url = $this->router->generate('event_view', ['event' => $event->id], Router::ABSOLUTE_URL);
-            $message = $this->user->getUsername() . " hat bei deiner Veranstaltung ";
+            $message = $this->user->getUsername() . " hat bei deiner Aktivität ";
             $message .= '<a href=\'' . $url . '\'>' . $event->name . '</a>';
             $message .= ' seine/ihre Teilnahmeinformationen auf "' . $answerText . '" geändert.';
             $oldChatId = $telegramBot->chatId;

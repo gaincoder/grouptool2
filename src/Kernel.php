@@ -50,4 +50,16 @@ class Kernel extends BaseKernel
         $routes->import($confDir.'/{routes}/*'.self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir.'/{routes}'.self::CONFIG_EXTS, '/', 'glob');
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCacheDir()
+    {
+        if(getenv('SYMFONY_CACHE') !== false){
+            return getenv('SYMFONY_CACHE').'/'.$this->environment;
+        }
+        return parent::getCacheDir();
+    }
+
 }

@@ -1,7 +1,7 @@
     <div class="widget col-md-6 ">
-        <h2 class="page-title" id="scroll_up"><span class="glyphicon glyphicon-calendar"></span></small> Veranstaltungen
+        <h2 class="page-title" id="scroll_up"><span class="glyphicon glyphicon-calendar"></span></small> Aktivitäten
         </h2>
-        <p>Die nächsten 5 Veranstaltungen <a href="{{ path('event') }}" class="btn btn-sm btn-default">alle ansehen</a>
+        <p>Die nächsten 5 Aktivitäten <a href="{{ path('event') }}" class="btn btn-sm btn-default">alle ansehen</a>
         </p>
         {% for event in events %}
             <p>{{ event.date|date('D.,d.m.y') }} <a

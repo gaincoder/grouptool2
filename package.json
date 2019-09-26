@@ -14,6 +14,7 @@
     "datatable": "^2.0.2",
     "datatables.net-bs4": "^1.10.19",
     "datatables.net-dt": "^1.10.19",
+    "encore": "^0.0.30-beta",
     "select2": "^4.0.10",
     "summernote-webpack-fix": "^0.8.2"
   }

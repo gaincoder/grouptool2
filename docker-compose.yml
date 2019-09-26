@@ -1,0 +1,79 @@
+version: '3.2'
+
+services:
+  php-fpm:
+    build:
+      context: ./docker/php-fpm
+    links:
+      - mysql:db
+    volumes:
+    - ./:/var/www:cached
+    - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini
+    - ~/.ssh:/tmp/.ssh:ro
+    - app-vendor:/app-vendor
+    environment:
+      - CONFIG_NAME
+      - XDEBUG_REMOTE_HOST=${COMPUTERNAME}.cds-service.com
+      - XDEBUG_REMOTE_PORT
+      - SYMFONY__DATABASE__NAME=${MYSQL_DATABASE}
+      - SYMFONY__DATABASE__USER=${MYSQL_USER}
+      - SYMFONY__DATABASE__PASSWORD=${MYSQL_PASSWORD}
+      - BASE_URL_HOST
+      - SYMFONY_ENV=${CONFIG_NAME}
+      - SYMFONY_CACHE=/app-cache
+      - USE_UMASK=1
+      - COMPOSER_PROCESS_TIMEOUT=900
+      - COMPOSER_VENDOR_DIR=/app-vendor
+
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 80
+    volumes:
+      - ./:/var/www:ro
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/sites/:/etc/nginx/sites-available
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d
+    depends_on:
+    - php-fpm
+    - phpmyadmin
+    environment:
+    - SERVICE_NAME
+    - SERVICE_80_CHECK_HTTP=/health.php
+
+
+  mysql:
+    image: mysql:5.6
+    volumes:
+    - mysql-data/:/var/lib/mysql
+    environment:
+    - MYSQL_ROOT_PASSWORD=symf0ny
+
+  phpmyadmin:
+     image: phpmyadmin/phpmyadmin
+     links:
+       - mysql:db
+     environment:
+       - MYSQL_ROOT_PASSWORD=symf0ny
+       - PMA_ABSOLUTE_URI=http://${BASE_URL_HOST}/pma/
+       - PMA_USER=root
+       - PMA_PASSWORD=symf0ny
+
+
+
+  rsync:
+    restart: 'no'
+    build:
+      context: ./docker/rsync
+    volumes:
+    - ./:/var/www
+    - app-vendor:/app-vendor
+    depends_on:
+    - php-fpm
+
+
+
+volumes:
+  mysql-data:
+  app-vendor:

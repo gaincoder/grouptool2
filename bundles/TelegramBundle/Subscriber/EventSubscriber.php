@@ -61,7 +61,7 @@ class EventSubscriber implements EventSubscriberInterface
 
         if ($event->permission == 0) {
             $url = $this->createUrl($event);
-            $message = sprintf(":info: <b>Neue Veranstaltung von %s hinzugefügt:</b> \n\n", $user->getUsername());
+            $message = sprintf(":info: <b>Neue Aktivität von %s hinzugefügt:</b> \n\n", $user->getUsername());
             $message .= sprintf("<a href=\"%s\">%s</a> am %s \n", $url, $event->name, $event->date->format('d.m.y'));
             $this->telegramBot->sendMessage($message, null, $this->getKeyboard($event));
         }
@@ -79,7 +79,7 @@ class EventSubscriber implements EventSubscriberInterface
         if ($event->owner instanceof UserInterface && $event->owner->telegramSupported()) {
 
             $url = $this->createUrl($event);
-            $message = $commenter->getUsername() . " hat einen Kommmentar zu deiner Veranstaltung  ";
+            $message = $commenter->getUsername() . " hat einen Kommmentar zu deiner Aktivität  ";
             $message .= '<a href=\'' . $url . '\'>' . $event->name . '</a>';
             $message .= ' dagelassen.';
             $this->telegramBot->chatId = $event->owner->telegramChatId;
@@ -93,7 +93,7 @@ class EventSubscriber implements EventSubscriberInterface
         $event = $event->getEvent();
 
         $url = $this->createUrl($event);
-        $message = ":info: <b>" . $user->getUsername() . " möchte auf folgende Veranstaltung hinweisen:</b> \n\n";
+        $message = ":info: <b>" . $user->getUsername() . " möchte auf folgende Aktivität hinweisen:</b> \n\n";
         $message .= '<a href=\'' . $url . '\'>' . $event->name . '</a>';
         $this->telegramBot->sendMessage($message, null, $this->getKeyboard($event));
 
@@ -107,7 +107,7 @@ class EventSubscriber implements EventSubscriberInterface
         if ($event->owner instanceof UserInterface && $event->owner->telegramSupported()) {
 
             $url = $this->createUrl($event);
-            $message = $answer->user->getUsername() . " hat bei deiner Veranstaltung ";
+            $message = $answer->user->getUsername() . " hat bei deiner Aktivität ";
             $message .= '<a href=\'' . $url . '\'>' . $event->name . '</a>';
             $message .= ' seine/ihre Teilnahmeinformationen auf "' . $answer->voteToText() . '" geändert.';
             $this->telegramBot->chatId = $event->owner->telegramChatId;
@@ -118,7 +118,7 @@ class EventSubscriber implements EventSubscriberInterface
     public function onEventRemindered(EventReminderEvent $reminderEvent)
     {
         $events = $reminderEvent->getEvents();
-        $message = ":info::calendar: <b>Kommende Veranstaltungen:</b>\n\n";
+        $message = ":info::calendar: <b>Kommende Aktivitäten:</b>\n\n";
 
         foreach ($events as $event) {
             $url = $this->createUrl($event);
