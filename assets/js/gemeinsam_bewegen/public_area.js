@@ -4,6 +4,7 @@ const $ = require('jquery');
 require('bootstrap');
 
 require('../cookie.js');
+require('../network.js');
 
 require('select2');
 

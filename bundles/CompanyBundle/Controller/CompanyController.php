@@ -6,6 +6,7 @@ use App\Entity\Group;
 use CompanyBundle\Entity\Company;
 use CompanyBundle\Form\CompanyFormType;
 use CompanyBundle\Manager\CompanyManagerInterface;
+use CompanyBundle\Repository\CompanyRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -40,8 +41,13 @@ class CompanyController
      * @var EntityManagerInterface
      */
     private $entityManager;
+    /**
+     * @var CompanyBundle\Repository\CompanyRepositoryInterface
+     */
+    private $repository;
+    private $projectDir;
 
-    public function __construct(EngineInterface $twig, FormFactoryInterface $formFactory, RouterInterface $router, CompanyManagerInterface $companyManager, EntityManagerInterface $entityManager )
+    public function __construct(EngineInterface $twig, FormFactoryInterface $formFactory, RouterInterface $router, CompanyManagerInterface $companyManager, EntityManagerInterface $entityManager, CompanyRepositoryInterface $repository, $projectDir)
     {
 
         $this->twig = $twig;
@@ -49,6 +55,8 @@ class CompanyController
         $this->router = $router;
         $this->companyManager = $companyManager;
         $this->entityManager = $entityManager;
+        $this->repository = $repository;
+        $this->projectDir = $projectDir;
     }
 
     /**
@@ -74,8 +82,17 @@ class CompanyController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $company->group = $this->createGroupForCompany($company);
-            $this->companyManager->handleCreate($company);
 
+            $logoFile = $form['logo']->getData();
+            if ($logoFile) {
+                $newFilename = uniqid().'.'.$logoFile->guessExtension();
+                $logoFile->move(
+                   $this->projectDir.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR,
+                    $newFilename
+                );
+                $company->logoPath = $newFilename;
+            }
+            $this->companyManager->handleCreate($company);
             return $this->redirectToRoute('company');
         }
         return new Response($this->twig->render('closed_area/Company/form.html.twig', ['form' => $form->createView(), 'page_title' => 'Firma hinzufügen']));
@@ -94,6 +111,15 @@ class CompanyController
         $form = $this->formFactory->create(CompanyFormType::class, $company);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $logoFile = $form['logo']->getData();
+            if ($logoFile) {
+                $newFilename = uniqid().'.'.$logoFile->guessExtension();
+                $logoFile->move(
+                    $this->projectDir.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'upload'.DIRECTORY_SEPARATOR,
+                    $newFilename
+                );
+                $company->logoPath = $newFilename;
+            }
             $this->companyManager->handleEdit($company);
 
             return $this->redirectToRoute('company');
@@ -118,6 +144,14 @@ class CompanyController
         return $this->redirectToRoute('company');
 
     }
+    /**
+     * @Route("/company/random", name="company_random")
+     */
+    public function showRandom()
+    {
+        $company = $this->repository->findOneRandom();
+        return new Response($this->twig->render('public_area/company.html.twig', ['company' => $company[0]]));
+    }
 
     protected function redirectToRoute(string $route, array $parameters = [], int $status = 302): RedirectResponse
     {
@@ -140,6 +174,8 @@ class CompanyController
         $this->entityManager->persist($group);
         return $group;
     }
+
+
 
 
 }

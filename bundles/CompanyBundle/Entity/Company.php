@@ -48,6 +48,22 @@ class Company
      */
     public $registrationsTo;
 
+    /**
+     * @ORM\Column(type="string",length=255)
+     */
+    public $shortText;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    public $longText;
+
+    /**
+     * @ORM\Column(type="string",length=255)
+     */
+    public $logoPath;
+
+
 
     public function __toString()
     {

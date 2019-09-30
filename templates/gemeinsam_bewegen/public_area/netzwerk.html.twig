@@ -1,4 +1,8 @@
-<h4 class="font-italic">Netzwerk</h4>
-<img src="{{ asset('build/images/columna.webp') }}" class="w-100 p-4"/>
-<img src="{{ asset('build/images/cds.png') }}" class="w-100 p-4"/>
-<img src="{{ asset('build/images/remko.gif') }}" class="w-100 p-4"/>
+<h4 class="font-italic">Wir sind dabei</h4>
+<div id="networkcontent">
+    {{ render(controller(
+        'CompanyBundle\\Controller\\CompanyController::showRandom')) }}
+</div>
+<div class="col-sm-12 text-center">
+<a href="#">alle Anzeigen</a>
+</div>

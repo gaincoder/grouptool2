@@ -52,5 +52,17 @@ class Company implements CompanyRepositoryInterface
         return $this->entityManager;
     }
 
+    /**
+     * @return Company
+     */
+    public function findOneRandom()
+    {
+        $dql = 'SELECT i FROM ' . Entity::class . ' i ORDER BY RAND()';
+        $query = $this->entityManager->createQuery($dql);
+        $query->setMaxResults(1);
+        return $query->execute();
+
+    }
+
 
 }

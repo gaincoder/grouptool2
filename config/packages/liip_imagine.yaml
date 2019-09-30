@@ -26,3 +26,10 @@ liip_imagine:
                     # Will allow smaller images to take 800px of height,
                     # width will change accordingly since aspect ration is still valid.
                     allow_upscale: true
+
+
+        logo:
+            quality: 80
+            filters:
+                relative_resize:
+                    widen: 180

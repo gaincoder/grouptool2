@@ -1,0 +1,10 @@
+    {{ company.name }}
+    {% if company.logoPath %}
+    <img class="w-100 p-4
+         src="{{ ('upload/' ~ photo.webpath)|imagine_filter('logo') }}" alt="">
+    {% endif %}
+    <small>{{ company.shortText }}</small>
+    <br><br>
+    <div class="progress">
+        <div id="networkprogress" class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>

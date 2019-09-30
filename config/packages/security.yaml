@@ -37,4 +37,5 @@ security:
         - { path: ^/datenschutz, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/cronjob, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/company/random, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(.+), roles: IS_AUTHENTICATED_FULLY }
