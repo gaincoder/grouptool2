@@ -70,4 +70,9 @@ class Company
         return $this->name;
     }
 
+    public function getLogoWebPath()
+    {
+        return 'upload/'.$this->logoPath;
+    }
+
 }
