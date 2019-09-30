@@ -1,7 +1,7 @@
     {{ company.name }}
     {% if company.logoPath %}
     <img class="w-100 p-4
-         src="{{  company.logoWebPath|imagine_filter('logo') }}" alt="">
+         src="{{  company.logoWebPath|imagine_filter('logo')|raw }}" alt="">
     {% endif %}
     <small>{{ company.shortText }}</small>
     <br><br>
