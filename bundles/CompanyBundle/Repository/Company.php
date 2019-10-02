@@ -38,7 +38,7 @@ class Company implements CompanyRepositoryInterface
     public function findAllOrdered()
     {
 
-        $dql = 'SELECT i FROM ' . Entity::class . ' i ';
+        $dql = 'SELECT i FROM ' . Entity::class . ' i ORDER BY i.name';
         $query = $this->entityManager->createQuery($dql);
         return $query->execute();
 

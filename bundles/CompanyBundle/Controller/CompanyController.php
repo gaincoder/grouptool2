@@ -153,6 +153,15 @@ class CompanyController
         return new Response($this->twig->render('public_area/company.html.twig', ['company' => $company[0]]));
     }
 
+    /**
+     * @Route("/companies", name="companies")
+     */
+    public function showAll()
+    {
+        $companies = $this->repository->findAllOrdered();
+        return new Response($this->twig->render('public_area/companies.html.twig', ['companies' => $companies]));
+    }
+
     protected function redirectToRoute(string $route, array $parameters = [], int $status = 302): RedirectResponse
     {
         return $this->redirect($this->generateUrl($route, $parameters), $status);

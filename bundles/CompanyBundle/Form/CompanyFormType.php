@@ -8,8 +8,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
@@ -36,7 +38,11 @@ class CompanyFormType extends AbstractType
                 'attr' => ['data-select' => 'true']
             ))
             ->add('shortText',null,['required'=>false])
+
             ->add('longText',TextareaType::class,['required'=>false])
+            ->add('contactData',null,['label'=>'Kontakt','required'=>false])
+            ->add('contactEmail',EmailType::class,['label'=>'E-Mail','required'=>false])
+            ->add('website',UrlType::class,['required'=>false])
             ->add('logo',FileType::class,['required'=>false,'mapped'=>false])
         ;
 

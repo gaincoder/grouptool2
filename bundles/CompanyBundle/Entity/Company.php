@@ -63,6 +63,21 @@ class Company
      */
     public $logoPath;
 
+    /**
+     * @ORM\Column(type="string",length=255,nullable=true)
+     */
+    public $contactData;
+
+    /**
+     * @ORM\Column(type="string",length=255,nullable=true)
+     */
+    public $contactEmail;
+
+
+    /**
+     * @ORM\Column(type="string",length=255,nullable=true)
+     */
+    public $website;
 
 
     public function __toString()
