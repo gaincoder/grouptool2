@@ -5,13 +5,13 @@
 
     <div class="row p-4 mb-3 bg-light rounded">
         {% if loop.index is odd %}
-            <div class="col-md-2">
+            <div class="col-md-3">
                     {% if company.logoPath %}
                         <img class="w-100"
                              src="{{ company.logoWebPath }}" alt="">
                     {% endif %}
             </div>
-            <div class="col-md-10">
+            <div class="col-md-9">
                 <h4>{{ company.name }}</h4>
                 <small>{{ company.longText }}</small>
                 {% if company.contactData|length > 0 %}
@@ -26,7 +26,7 @@
             </div>
         {% else %}
 
-            <div class="col-md-10 text-right">
+            <div class="col-md-9 text-right">
                 <h4>{{ company.name }}</h4>
                 <small>{{ company.longText }}</small><br>
                 {% if company.contactData|length > 0 %}
@@ -39,7 +39,7 @@
                     <strong>Website: </strong><a href="{{ company.website }}">{{ company.website }}</a><br>
                 {% endif %}
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 {% if company.logoPath %}
                     <img class="w-100"
                          src="{{ company.logoWebPath }}" alt="">
