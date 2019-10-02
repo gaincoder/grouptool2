@@ -36,10 +36,6 @@
                     <div class="col-sm-10">{{ (event.info ~ " ")|raw }}</div>
                 </div>
                 <div class="row voffset3">
-                    <div class="col-sm-2 font-weight-bold">Spontan abschalten:</div>
-                    <div class="col-sm-10">{{ event.disableImpulse ? 'Ja' : 'Nein' }}</div>
-                </div>
-                <div class="row voffset3">
                     <div class="col-sm-2 font-weight-bold">Öffentlich:</div>
                     <div class="col-sm-10">{{ event.public ? 'Ja' : 'Nein' }}</div>
                 </div>
@@ -49,6 +45,7 @@
                     um {{ event.updated|date('H:i') }}</small>
                 {% endif %}<br><br>
             </div>
+            {% if event.disableAnswer != true %}
             <h3 class="page-title"> Teilnahme</h3>
 
                     <form method="post" action="{{ path('event_save',{event:event.id}) }}">
@@ -87,7 +84,7 @@
                         <input type="submit" value="speichern" class="btn btn-primary">
                     </form>
                     <br><br>
-
+            {% endif %}
 
             {% set obj = event %}
             {% include 'closed_area/comment/view.html.twig' %}

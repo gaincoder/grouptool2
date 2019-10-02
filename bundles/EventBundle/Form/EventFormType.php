@@ -29,10 +29,9 @@ class EventFormType extends AbstractType
                 'attr' => ['placeholder' => 'Datum'], 'choice_translation_domain' => true))
             ->add('name', null, array('label' => false, 'required' => true, 'attr' => ['placeholder' => 'Name']))
             ->add('location', null, array('label' => false, 'required' => false, 'attr' => ['placeholder' => 'Ort']))
+            ->add('disableAnswer', CheckboxType::class, array('label' => 'Antworten abschalten', 'required' => false))
             ->add('disableImpulse', CheckboxType::class, array('label' => 'Spontan abschalten', 'required' => false))
-            ->add('public', CheckboxType::class, array('label' => 'Öffentlich', 'required' => false));
-
-            $builder
+            ->add('public', CheckboxType::class, array('label' => 'Öffentlich', 'required' => false))
                 ->add('group', EntityType::class, [
                     'class'=>'App\Entity\Group',
                     'label' => 'Sichtbarkeit einschränken',
@@ -44,9 +43,7 @@ class EventFormType extends AbstractType
                             ->setParameter('groups',$this->checker->getUser()->getGroups())
                             ->orderBy('g.name', 'ASC');
                     },
-                ]);
-
-        $builder
+                ])
             ->add('info', TextareaType::class, array('label' => false, 'required' => false, 'attr' => ['class' => 'summernote', 'placeholder' => 'Info', 'rows' => 15]));
     }
 

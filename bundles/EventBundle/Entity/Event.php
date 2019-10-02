@@ -39,7 +39,7 @@ class Event implements GroupVisbilityInterface
     public $name;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime",nullable=true)
      * @var \DateTime
      */
     public $date;
@@ -99,9 +99,9 @@ class Event implements GroupVisbilityInterface
     public $owner;
 
     /**
-     * @ORM\Column(type="boolean",nullable=true)
+     * @ORM\Column(type="boolean")
      */
-    public $disableImpulse;
+    public $disableImpulse=false;
 
     /**
      * @ORM\Column(type="integer",nullable=true)
@@ -119,6 +119,15 @@ class Event implements GroupVisbilityInterface
      */
     public $group;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public $disableAnswer=false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public $planning=false;
 
     public function __construct()
     {
