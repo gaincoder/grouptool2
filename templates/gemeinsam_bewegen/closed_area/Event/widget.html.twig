@@ -4,7 +4,7 @@
         <p>Die nächsten 5 Aktivitäten <a href="{{ path('event') }}" class="btn btn-sm btn-default">alle ansehen</a>
         </p>
         {% for event in events %}
-            <p>{{ event.date|date('D.,d.m.y') }} <a
+            <p>{{ event.getFormattedDate('%a., %d.%m.%y') }} <a
                         href="{{ path('event_view',{event:event.id}) }}">{{ event.name }}</a>
                 <small>@ {{ event.location }}</small>
             </p>

@@ -61,18 +61,18 @@ class EventSubscriber implements EventSubscriberInterface
     public function onEventCreated(EventCreatedEvent $event)
     {
 
-        $event = $event->getEvent();
-        $recievers = $this->receiverCollector->getReceivers($event,Mails::MAIL_EVENT_NEW);
-        $parameters = [
-            'event' => $event,
-            'link' => $this->router->generate('event_view',['event'=>$event->id],Router::ABSOLUTE_URL)
-        ];
-
-        foreach ($recievers as $reciever) {
-            $mail = $reciever->getEmail();
-            $parameters['receiver'] = $reciever;
-            $this->mailer->sendMessage('email/new_event.html.twig',$parameters,$mail);
-        }
+//        $event = $event->getEvent();
+//        $recievers = $this->receiverCollector->getReceivers($event,Mails::MAIL_EVENT_NEW);
+//        $parameters = [
+//            'event' => $event,
+//            'link' => $this->router->generate('event_view',['event'=>$event->id],Router::ABSOLUTE_URL)
+//        ];
+//
+//        foreach ($recievers as $reciever) {
+//            $mail = $reciever->getEmail();
+//            $parameters['receiver'] = $reciever;
+//            $this->mailer->sendMessage('email/new_event.html.twig',$parameters,$mail);
+//        }
     }
 
 }

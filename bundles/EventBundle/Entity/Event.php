@@ -125,9 +125,11 @@ class Event implements GroupVisbilityInterface
     public $disableAnswer=false;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @var ReapeatingEvent $repeatingEvent
+     * @ORM\ManyToOne(targetEntity="EventBundle\Entity\ReapeatingEvent",inversedBy="events")
+     * @ORM\JoinColumn(name="repeating_event_id", referencedColumnName="id",nullable=true,columnDefinition="char(36) COLLATE utf8mb4_unicode_ci")
      */
-    public $planning=false;
+    public $repeatingEvent;
 
     public function __construct()
     {
@@ -150,5 +152,14 @@ class Event implements GroupVisbilityInterface
     public function getGroup()
     {
         return $this->group;
+    }
+
+    public function getFormattedDate($format){
+        if(!$this->date instanceof \DateTime){
+            return 'In Planung';
+        }else{
+            setlocale(LC_ALL,'de_DE');
+            return strftime($format,$this->date->getTimestamp());
+        }
     }
 }

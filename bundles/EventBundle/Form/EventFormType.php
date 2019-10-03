@@ -25,7 +25,7 @@ class EventFormType extends AbstractType
     public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date', DateTimeType::class, array('label' => false, 'required' => true, 'date_widget' => 'single_text',
+            ->add('date', DateTimeType::class, array('label' => false, 'required' => false, 'date_widget' => 'single_text',
                 'attr' => ['placeholder' => 'Datum'], 'choice_translation_domain' => true))
             ->add('name', null, array('label' => false, 'required' => true, 'attr' => ['placeholder' => 'Name']))
             ->add('location', null, array('label' => false, 'required' => false, 'attr' => ['placeholder' => 'Ort']))

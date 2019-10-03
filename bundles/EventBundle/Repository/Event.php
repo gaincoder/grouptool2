@@ -19,7 +19,7 @@ class Event extends EntityRepository
     {
         $limitDate = new \DateTime('today - 2 days');
         $query = $this->createQueryBuilder('e')
-            ->where('e.date >= :limit')
+            ->where('e.date >= :limit OR e.date IS NULL')
             ->setParameter('limit',$limitDate);
             $query
                 ->andWhere('e.group IN(:groups) OR e.group IS NULL')
