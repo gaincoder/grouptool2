@@ -10,6 +10,7 @@ services:
     public: false
 
   EventBundle\Form\EventFormType: ~
+  EventBundle\Form\RepeatingEventFormType: ~
 
   EventBundle\Services\Menu:
     tags:

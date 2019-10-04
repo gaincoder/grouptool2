@@ -1,79 +1,81 @@
 version: '3.2'
 
 services:
-  php-fpm:
+  php:
     build:
       context: ./docker/php-fpm
-    links:
-      - mysql:db
     volumes:
+    - app-vendor:/var/www/vendor
+    - app-cache:/var/www/var/cache
+    - node-modules:/var/www/node-modules
     - ./:/var/www:cached
     - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini
     - ~/.ssh:/tmp/.ssh:ro
-    - app-vendor:/app-vendor
+
     environment:
       - CONFIG_NAME
       - XDEBUG_REMOTE_HOST=${COMPUTERNAME}.cds-service.com
       - XDEBUG_REMOTE_PORT
-      - SYMFONY__DATABASE__NAME=${MYSQL_DATABASE}
-      - SYMFONY__DATABASE__USER=${MYSQL_USER}
-      - SYMFONY__DATABASE__PASSWORD=${MYSQL_PASSWORD}
       - BASE_URL_HOST
-      - SYMFONY_ENV=${CONFIG_NAME}
-      - SYMFONY_CACHE=/app-cache
       - USE_UMASK=1
       - COMPOSER_PROCESS_TIMEOUT=900
-      - COMPOSER_VENDOR_DIR=/app-vendor
+    networks:
+      - internal
 
-
-  nginx:
+  web:
     image: nginx:alpine
-    ports:
-      - 80
     volumes:
       - ./:/var/www:ro
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./docker/nginx/sites/:/etc/nginx/sites-available
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d
     depends_on:
-    - php-fpm
-    - phpmyadmin
-    environment:
-    - SERVICE_NAME
-    - SERVICE_80_CHECK_HTTP=/health.php
+    - php
+    - pma
+    networks:
+      - proxy
+      - internal
 
 
-  mysql:
+  db:
     image: mysql:5.6
     volumes:
     - mysql-data/:/var/lib/mysql
     environment:
     - MYSQL_ROOT_PASSWORD=symf0ny
+    networks:
+      - internal
 
-  phpmyadmin:
-     image: phpmyadmin/phpmyadmin
-     links:
-       - mysql:db
+
+
+  pma:
+     image: nazarpc/phpmyadmin
      environment:
-       - MYSQL_ROOT_PASSWORD=symf0ny
-       - PMA_ABSOLUTE_URI=http://${BASE_URL_HOST}/pma/
-       - PMA_USER=root
-       - PMA_PASSWORD=symf0ny
+       - MYSQL_HOST=db;root;symf0ny
+     networks:
+       - internal
 
 
-
+  # rsync is needed for IDE autocompletion for the vendor directory
   rsync:
     restart: 'no'
-    build:
-      context: ./docker/rsync
+    image: project42/rsync
+    command: "-a -u --stats -h /app-vendor/ /var/www/vendor"
     volumes:
     - ./:/var/www
     - app-vendor:/app-vendor
     depends_on:
-    - php-fpm
+    - php
 
 
 
 volumes:
   mysql-data:
   app-vendor:
+  app-cache:
+  node-modules:
+
+networks:
+  internal:
+  proxy:
+    external: true

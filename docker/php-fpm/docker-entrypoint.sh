@@ -6,6 +6,9 @@ chmod 700 /root/.ssh
 chmod 644 /root/.ssh/id_rsa.pub
 chmod 600 /root/.ssh/id_rsa
 
+chmod 777 /var/www/var/cache
+chown www-data:www-data /var/www/var/cache
+
 EXPECTED_SIGNATURE="$(curl -s https://composer.github.io/installer.sig)"
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 ACTUAL_SIGNATURE="$(php -r "echo hash_file('SHA384', 'composer-setup.php');")"
@@ -24,7 +27,8 @@ rm composer-setup.php
 
 cd /var/www
 composer install --no-scripts
-yarn add encore
+
+yarn
 yarn encore dev
 
 exec "$@"

@@ -10,12 +10,6 @@ RUN docker-php-ext-install pdo_mysql intl
 
 RUN pecl install xdebug-2.7.2 && docker-php-ext-enable xdebug
 
-#RUN usermod -u 1000 www-data
-RUN mkdir /app-cache
-RUN chmod 777 /app-cache
-RUN chown www-data:www-data /app-cache
-
-
 COPY docker-entrypoint.sh /bin/docker-entrypoint.sh
 RUN chmod +x /bin/docker-entrypoint.sh
 RUN dos2unix /bin/docker-entrypoint.sh

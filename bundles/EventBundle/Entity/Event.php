@@ -45,6 +45,12 @@ class Event implements GroupVisbilityInterface
     public $date;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    public $manualChanged=false;
+
+
+    /**
      * @ORM\Column(type="string",length=255,nullable=true)
      */
     public $location;
@@ -125,8 +131,8 @@ class Event implements GroupVisbilityInterface
     public $disableAnswer=false;
 
     /**
-     * @var ReapeatingEvent $repeatingEvent
-     * @ORM\ManyToOne(targetEntity="EventBundle\Entity\ReapeatingEvent",inversedBy="events")
+     * @var RepeatingEvent $repeatingEvent
+     * @ORM\ManyToOne(targetEntity="RepeatingEvent",inversedBy="events")
      * @ORM\JoinColumn(name="repeating_event_id", referencedColumnName="id",nullable=true,columnDefinition="char(36) COLLATE utf8mb4_unicode_ci")
      */
     public $repeatingEvent;

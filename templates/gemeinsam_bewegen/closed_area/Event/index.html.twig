@@ -31,6 +31,34 @@
                         </tr>
                     {% endfor %}
                 </table>
+                {% if is_granted('ROLE_REPEATINGEVENT_VIEW') %}
+                    <h2 class="page-title" id="scroll_up"> Serientermine</h2>
+                    {% if is_granted('ROLE_REPEATINGEVENT_CREATE') %}
+                        <a href="{{ path('repeatingEvent_create') }}" class="btn btn-sm btn-success"><span class="glyphicon
+                glyphicon-plus"></span> hinzufügen</a><br><br>
+                    {% endif %}
+                    <table class="table table-striped">
+                        {% for event in repeatingEvents %}
+                            <tr>
+                                <td>Ab {{ event.getFormattedDate('%a., %d.%m.%Y') }}</td>
+                                <td>{{ event.typeAsText|trans([],'event') }}</td>
+                                <td><a href="{{ path('repeatingEvent_view',{repeatingEvent:event.id}) }}">{{ event.name }}</a></td>
+                                <td>{{ event.location }}</td>
+                                <td>
+                                    {% if is_granted('ROLE_REPEATINGEVENT_EDIT') %}
+                                        <a href="{{ path('repeatingEvent_edit',{repeatingEvent:event.id}) }}" class="btn btn-sm btn-warning"><span
+                                                    class="glyphicon glyphicon-pencil"></span></a>
+                                    {% endif %}
+                                    {% if is_granted('ROLE_REPEATINGEVENT_DELETE') %}
+                                        <a href="{{ path('repeatingEvent_delete',{repeatingEvent:event.id}) }}"
+                                           class="btn btn-sm btn-danger"><span
+                                                    class="glyphicon glyphicon-trash"></span></a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
             </div>
 
         </div>

@@ -42,3 +42,7 @@ yarn-error.log
 ###< liip/imagine-bundle ###
 
 /public/upload/*
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

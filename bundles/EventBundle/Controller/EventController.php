@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use EventBundle\Entity\Event;
 use EventBundle\Entity\EventVote;
 use App\Form\CommentFormType;
+use EventBundle\Entity\RepeatingEvent;
 use EventBundle\Event\EventDeletedEvent;
 use EventBundle\Event\EventEditedEvent;
 use EventBundle\Form\EventFormType;
@@ -27,7 +28,8 @@ class EventController extends AbstractController
     {
 
         $events = $this->getDoctrine()->getRepository(Event::class)->findFuture($this->getUser()->getGroups());
-        return $this->render('closed_area/Event/index.html.twig', ['events' => $events]);
+        $repeatingEvents = $this->getDoctrine()->getRepository(RepeatingEvent::class)->findForGroups($this->getUser()->getGroups());
+        return $this->render('closed_area/Event/index.html.twig', ['events' => $events,'repeatingEvents'=>$repeatingEvents]);
     }
 
     /**
