@@ -24,7 +24,8 @@ class Event extends EntityRepository
             $query
                 ->andWhere('e.group IN(:groups) OR e.group IS NULL')
                 ->setParameter('groups',$groups);
-
+        $query
+            ->andWhere('e.archived = 0');
         $query
             ->orderBy('e.date');
         return $query->getQuery()->execute();
@@ -41,6 +42,8 @@ class Event extends EntityRepository
         $query
             ->andWhere('e.group IN(:groups) OR e.group IS NULL')
             ->setParameter('groups',$groups);
+        $query
+            ->andWhere('e.archived = 0');
         $query
             ->orderBy('e.date')
             ->setMaxResults(5);
@@ -59,6 +62,8 @@ class Event extends EntityRepository
             ->andWhere('e.permission = 0')
             ->orderBy('e.date')
             ->setMaxResults(3);
+        $query
+            ->andWhere('e.archived = 0');
         return $query->getQuery()->execute();
 
     }
@@ -76,6 +81,8 @@ class Event extends EntityRepository
             $query
                 ->andWhere('e.permission = 0');
         }
+        $query
+            ->andWhere('e.archived = 0');
         $query
             ->orderBy('e.date')
             ->setMaxResults(5);

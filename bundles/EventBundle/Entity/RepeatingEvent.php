@@ -118,6 +118,7 @@ class RepeatingEvent
     {
         $this->created = new \DateTime();
         $this->updated = new \DateTime();
+        $this->events = array();
     }
 
     /**
@@ -147,8 +148,23 @@ class RepeatingEvent
     {
         if($this->type == RepeatingType::WEEKLY){
             return new \DateInterval("P7D");
-        }else{
+        }elseif($this->type == RepeatingType::SECONDWEEKLY){
+            return new \DateInterval("P14D");
+        }elseif($this->type == RepeatingType::THIRDWEEKLY){
+            return new \DateInterval("P21D");
+        }elseif($this->type == RepeatingType::FOURWEEKLY){
+            return new \DateInterval("P28D");
+        }elseif($this->type == RepeatingType::MONTHLY){
             return new \DateInterval("P1M");
         }
+    }
+
+    public function getFutureEvents(\DateTime $start, $hideArchived = false){
+        return array_filter($this->events->toArray(),function($event) use($start,$hideArchived){
+            if($hideArchived && $event->archived){
+                return false;
+            }
+            return $event->date > $start;
+        });
     }
 }

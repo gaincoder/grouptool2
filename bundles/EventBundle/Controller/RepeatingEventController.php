@@ -13,6 +13,7 @@ use EventBundle\RepeatingEvent\RepeatingEventAnsweredRepeatingEvent;
 use EventBundle\RepeatingEvent\RepeatingEventCommentedRepeatingEvent;
 use EventBundle\RepeatingEvent\RepeatingEventCreatedRepeatingEvent;
 use EventBundle\RepeatingEvent\RepeatingEventSharedRepeatingEvent;
+use EventBundle\Services\RepeatingEvents;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -42,6 +43,9 @@ class RepeatingEventController extends AbstractController
             $em->persist($repeatingEvent);
             $em->flush();
 
+            $service = new RepeatingEvents($this->getDoctrine()->getManager());
+            $service->updateEvents($repeatingEvent);
+
             $this->addFlash('success', 'Serientermin wurde gespeichert!');
             return $this->redirectToRoute('event');
         }
@@ -64,6 +68,10 @@ class RepeatingEventController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($repeatingEvent);
             $em->flush();
+
+
+            $service = new RepeatingEvents($this->getDoctrine()->getManager());
+            $service->updateEvents($repeatingEvent);
             $this->addFlash('success', 'Serientermin wurde gespeichert!');
             return $this->redirectToRoute('event');
         }
@@ -97,31 +105,10 @@ class RepeatingEventController extends AbstractController
      */
     public function view(RepeatingEvent $repeatingEvent, Request $request)
     {
-        $comment = new Comment();
-        $commentform = $this->createForm(CommentFormType::class, $comment);
-        $commentform->handleRequest($request);
-        $em = $this->getDoctrine()->getManager();
-        if ($commentform->isSubmitted() && $commentform->isValid()) {
 
-            $comment->user = $this->getUser();
-            $em->persist($comment);
-            $repeatingEvent->comments[] = $comment;
-            $em->persist($repeatingEvent);
-            $em->flush();
+        $futureEvents = $repeatingEvent->getFutureEvents(new \DateTime());
 
-
-            $this->get('repeatingEvent_dispatcher')->dispatch(new RepeatingEventCommentedRepeatingEvent($repeatingEvent, $this->getUser()));
-
-
-            return $this->redirectToRoute('repeatingEvent_view', ['repeatingEvent' => $repeatingEvent->id]);
-        }
-        $voteRepo = $em->getRepository(RepeatingEventVote::class);
-        if (!($answer = $voteRepo->getForRepeatingEventAndUser($repeatingEvent, $this->getUser()))) {
-            $current = 0;
-        } else {
-            $current = $answer->vote;
-        }
-        return $this->render('closed_area/RepeatingEvent/view.html.twig', ['repeatingEvent' => $repeatingEvent, 'current' => $current, 'commentform' => $commentform->createView(), 'voteRepo' => $voteRepo]);
+        return $this->render('closed_area/RepeatingEvent/view.html.twig', ['event' => $repeatingEvent,'events'=>$futureEvents]);
     }
 
     /**
@@ -141,31 +128,6 @@ class RepeatingEventController extends AbstractController
     }
 
 
-    /**
-     * @Route("/repeatingEvent/save/{repeatingEvent}", name="repeatingEvent_save")
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function save(RepeatingEvent $repeatingEvent, Request $request)
-    {
-        if ($request->isMethod('POST') && isset($_POST['answer'])) {
-            $em = $this->getDoctrine()->getManager();
-            $voteRepo = $em->getRepository(RepeatingEventVote::class);
-            if (!($answer = $voteRepo->getForRepeatingEventAndUser($repeatingEvent, $this->getUser()))) {
-                $answer = new RepeatingEventVote();
-                $answer->user = $this->getUser();
-                $answer->repeatingEvent = $repeatingEvent;
-            }
-            $answer->vote = $_POST['answer'];
-            $em->persist($answer);
-            $em->flush();
-            $this->addFlash('success', 'Antwort wurde gespeichert!');
-
-            $this->get('repeatingEvent_dispatcher')->dispatch(new RepeatingEventAnsweredRepeatingEvent($repeatingEvent, $answer));
-
-        }
-        return $this->redirectToRoute('repeatingEvent_view', ['repeatingEvent' => $repeatingEvent->id]);
-    }
 
 
 }

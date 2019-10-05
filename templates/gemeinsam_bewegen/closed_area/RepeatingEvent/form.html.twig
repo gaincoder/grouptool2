@@ -10,6 +10,7 @@
                 <h2 class="page-title" id="scroll_up"> {{ page_title }}</h2>
                 {{ form_widget(form) }}
             </div>
+            <div class="alert-warning"><strong>Hinweis:</strong> Alle Änderungen werden in Termine übernommen, bei denen Zeit oder Ort nicht manuell geändert wurden.</div><br>
             <button type="submit" class="btn btn-success" name="_submit">speichern</button>
             <a href="{{ path('event') }}" class="btn btn-default" name="_submit">zurück</a>
             {{ form_end(form) }}

@@ -40,10 +40,11 @@ class EventDateHelper{
      * @return \DateTime[]
      */
     public function getNextDates(\DateTime $startDate,\DateInterval $interval){
+        $workdate = clone $startDate;
         $endDate = $this->today->add(new \DateInterval("P2M"));
-        $result = [clone $startDate];
-        while($startDate->add($interval) < $endDate){
-            $result[] = clone $startDate;
+        $result = [clone $workdate];
+        while($workdate->add($interval) < $endDate){
+            $result[] = clone $workdate;
         }
         return $result;
     }

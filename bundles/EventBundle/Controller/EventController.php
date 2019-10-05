@@ -14,6 +14,8 @@ use EventBundle\Event\EventAnsweredEvent;
 use EventBundle\Event\EventCommentedEvent;
 use EventBundle\Event\EventCreatedEvent;
 use EventBundle\Event\EventSharedEvent;
+use EventBundle\Form\SimpleEventFormType;
+use EventBundle\Services\RepeatingEvents;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -69,10 +71,18 @@ class EventController extends AbstractController
      */
     public function edit(Event $event, Request $request)
     {
-        $form = $this->createForm(EventFormType::class, $event);
+        $oldEvent = clone $event;
+        if($event->repeatingEvent instanceof RepeatingEvent){
+            $form = $this->createForm(SimpleEventFormType::class, $event);
+        }else{
+            $form = $this->createForm(EventFormType::class, $event);
+        }
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $event->updatedBy = $this->getUser()->getUsername();
+            if($oldEvent->date != $event->date || $oldEvent->location != $event->location){
+                $event->manualChanged = true;
+            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
             $em->flush();
@@ -95,7 +105,12 @@ class EventController extends AbstractController
             return $this->render('closed_area/confirm.html.twig', ['type' => 'Aktivität']);
         }
         $em = $this->getDoctrine()->getManager();
-        $em->remove($event);
+        if($event->repeatingEvent instanceof RepeatingEvent){
+            $event->archived = true;
+            $em->persist($event);
+        }else{
+            $em->remove($event);
+        }
         $em->flush();
         $this->addFlash('success', 'Aktivität wurde gelöscht!');
         $this->get('event_dispatcher')->dispatch(new EventDeletedEvent($event, $this->getUser()));
@@ -180,5 +195,27 @@ class EventController extends AbstractController
         return $this->redirectToRoute('event_view', ['event' => $event->id]);
     }
 
+    /**
+     * @Route("/event/reset/{event}", name="event_reset")
+     * @IsGranted("ROLE_REPEATINGEVENT_EDIT")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function reset(Event $event, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if($event->repeatingEvent instanceof RepeatingEvent) {
+            $event->archived = false;
+            $event->manualChanged = false;
+            $em->persist($event);
+            $em->flush();
+
+            $service = new RepeatingEvents($this->getDoctrine()->getManager());
+            $service->updateEvents($event->repeatingEvent);
+            $this->addFlash('success', 'Aktivität wurde zurückgesetzt!');
+        }
+        return $this->redirectToRoute('event');
+
+    }
 
 }

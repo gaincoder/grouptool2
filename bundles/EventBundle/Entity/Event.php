@@ -131,6 +131,11 @@ class Event implements GroupVisbilityInterface
     public $disableAnswer=false;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    public $archived=false;
+
+    /**
      * @var RepeatingEvent $repeatingEvent
      * @ORM\ManyToOne(targetEntity="RepeatingEvent",inversedBy="events")
      * @ORM\JoinColumn(name="repeating_event_id", referencedColumnName="id",nullable=true,columnDefinition="char(36) COLLATE utf8mb4_unicode_ci")

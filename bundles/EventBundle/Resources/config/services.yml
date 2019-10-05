@@ -25,6 +25,11 @@ services:
     tags:
       - { name: 'console.command' }
 
+  EventBundle\Command\RefreshRepeatingEventsCommand:
+    tags:
+      - { name: 'console.command' }
+
+
   EventBundle\BotCommands\Veranstaltungen:
     arguments: ['@app.telegram.bot']
     tags:

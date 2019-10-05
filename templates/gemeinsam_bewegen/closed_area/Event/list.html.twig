@@ -1,0 +1,20 @@
+<table class="table table-striped">
+    {% for event in events %}
+        <tr>
+            <td>{{ event.getFormattedDate('%a., %d.%m.%Y') }}{% if event.repeatingEvent is not null %} ({{ event.repeatingEvent.typeAsText|trans([],'event') }}) {% if event.manualChanged and is_granted('ROLE_REPEATINGEVENT_VIEW') %}<span class="text-danger glyphicon glyphicon-repeat"></span>{% endif %}{% if event.archived and is_granted('ROLE_REPEATINGEVENT_VIEW') %}<span class="text-danger glyphicon glyphicon-remove-sign"></span>{% endif %}{% endif %}</td>
+            <td><a href="{{ path('event_view',{event:event.id}) }}">{{ event.name }}</a></td>
+            <td>{{ event.location }}</td>
+            <td>
+                {% if is_granted('ROLE_EVENT_EDIT') %}
+                    <a href="{{ path('event_edit',{event:event.id}) }}" class="btn btn-sm btn-warning"><span
+                                class="glyphicon glyphicon-pencil"></span></a>
+                {% endif %}
+                {% if is_granted('ROLE_EVENT_DELETE') %}
+                    <a href="{{ path('event_delete',{event:event.id}) }}"
+                       class="btn btn-sm btn-danger"><span
+                                class="glyphicon glyphicon-trash"></span></a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
