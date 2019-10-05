@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use EventBundle\Enums\RepeatingType;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="EventBundle\Repository\RepeatingEvent")
@@ -114,6 +115,16 @@ class RepeatingEvent
      */
     public $disableAnswer=false;
 
+    /**
+     * @var User[]
+     * @ORM\ManyToMany(targetEntity="App\Entity\User")
+     *  @ORM\JoinTable(name="repeatevent_notifications",
+     *      joinColumns={@ORM\JoinColumn(name="repeat_event_id", referencedColumnName="id",columnDefinition="char(36) COLLATE utf8mb4_unicode_ci")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id",columnDefinition="int(11)")}
+     *      )
+     */
+    public $notifications;
+
     public function __construct()
     {
         $this->created = new \DateTime();
@@ -166,5 +177,9 @@ class RepeatingEvent
             }
             return $event->date > $start;
         });
+    }
+
+    public function userBecomesNotification(UserInterface $user){
+        return array_search($user,$this->notifications->toArray());
     }
 }

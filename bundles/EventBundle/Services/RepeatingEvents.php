@@ -81,6 +81,7 @@ class RepeatingEvents
         $event->disableImpulse = $repeatingEvent->disableImpulse;
         $event->group = $repeatingEvent->group;
         $event->createdBy = $repeatingEvent->createdBy;
+        $event->notifications = $repeatingEvent->notifications;
         if(!$this->isCronjon){
             $event->updatedBy = $repeatingEvent->updatedBy;
         }

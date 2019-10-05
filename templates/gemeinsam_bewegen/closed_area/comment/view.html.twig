@@ -1,4 +1,10 @@
 <h3>Kommentare</h3>
+{% if event is defined %}
+    {% set type = 'event' %}
+{% elseif poll is defined %}
+    {% set type = 'poll' %}
+{% endif %}
+
 {% if obj.comments|length == 0 %}
     <i>-- keine Kommentare vorhanden --</i>
 {% else %}
@@ -9,5 +15,8 @@
 <h4>Kommentar hinzufügen</h4>
 {{ form_start(commentform) }}
 {{ form_widget(commentform) }}
+            {% if type is defined and type == "event" and is_granted('ROLE_SEND_NOTIFICATIONS') %}
+                <div class="checkbox"><label for="comment_form_sendnotifiction"><input type="checkbox" id="comment_form_sendnotifiction" name="comment_form[sendnotifiction]" value="1"> Benachrichtigung senden</label></div>
+            {% endif %}
         <button type="submit" class="btn btn-success" name="_submit">speichern</button>
 {{ form_end(commentform) }}

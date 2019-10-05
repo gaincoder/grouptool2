@@ -13,7 +13,8 @@ class CommentFormType extends AbstractType
     {
         $builder
             ->add('text', null, array('label' => false, 'attr' => ['placeholder' => 'Geben Sie ihren Kommentar ein
-            ...']));
+            ...']))
+            ;
 
     }
 

@@ -51,6 +51,8 @@ class EventController extends AbstractController
             $event->createdBy = $this->getUser()->getUsername();
             $event->updatedBy = $this->getUser()->getUsername();
             $event->owner = $this->getUser();
+            $event->notifications[] = $this->getUser();
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
             $em->flush();
@@ -82,6 +84,9 @@ class EventController extends AbstractController
             $event->updatedBy = $this->getUser()->getUsername();
             if($oldEvent->date != $event->date || $oldEvent->location != $event->location){
                 $event->manualChanged = true;
+            }
+            if($event->userBecomesNotification($this->getUser()) === false){
+                $event->notifications[] = $this->getUser();
             }
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
@@ -126,7 +131,7 @@ class EventController extends AbstractController
     public function view(Event $event, Request $request)
     {
         $comment = new Comment();
-        $commentform = $this->createForm(CommentFormType::class, $comment);
+        $commentform = $this->createForm(CommentFormType::class, $comment,array('allow_extra_fields' =>true));
         $commentform->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
         if ($commentform->isSubmitted() && $commentform->isValid()) {
@@ -136,7 +141,10 @@ class EventController extends AbstractController
             $event->comments[] = $comment;
             $em->persist($event);
             $em->flush();
+            $extraData = $commentform->getExtraData();
+            if(isset($extraData['sendnotifiction']) && $extraData['sendnotifiction'] == 1){
 
+            }
 
             $this->get('event_dispatcher')->dispatch(new EventCommentedEvent($event, $this->getUser()));
 
@@ -185,6 +193,12 @@ class EventController extends AbstractController
                 $answer->event = $event;
             }
             $answer->vote = $_POST['answer'];
+            if($answer->vote == 1 or $answer->vote == 3){
+                if($event->userBecomesNotification($this->getUser()) === false){
+                    $event->notifications[] = $this->getUser();
+                    $em->persist($event);
+                }
+            }
             $em->persist($answer);
             $em->flush();
             $this->addFlash('success', 'Antwort wurde gespeichert!');
@@ -215,6 +229,36 @@ class EventController extends AbstractController
             $this->addFlash('success', 'Aktivität wurde zurückgesetzt!');
         }
         return $this->redirectToRoute('event');
+
+    }
+
+    /**
+     * @Route("/event/toggleNotification/{event}", name="event_toggle_notification")
+     * @IsGranted("ROLE_USER")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function toggleNotification(Event $event, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $origEvent = $event;
+        $repating = false;
+        if($event->repeatingEvent instanceof RepeatingEvent) {
+            $event = $event->repeatingEvent;
+            $repating = true;
+        }
+        if(($key = $event->userBecomesNotification($this->getUser())) !== false){
+            unset($event->notifications[$key]);
+        }else{
+            $event->notifications[] = $this->getUser();
+        }
+        $em->persist($event);
+        $em->flush();
+        if($repating) {
+            $service = new RepeatingEvents($this->getDoctrine()->getManager());
+            $service->updateEvents($event);
+        }
+        return $this->redirectToRoute('event_view',['event'=>$origEvent->id]);
 
     }
 

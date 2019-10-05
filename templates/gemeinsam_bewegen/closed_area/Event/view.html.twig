@@ -2,9 +2,9 @@
 {% block content_row %}
     <div class="row-fluid">
         <div class="col-sm-12">
+            <h2 class="page-title" id="scroll_up"> Aktivität {{ event.name }}</h2>
             <div class="row">
-                <div class="col-sm-12">
-                    <h2 class="page-title" id="scroll_up"> Aktivität {{ event.name }}</h2>
+                <div class="col-sm-10">
                     <a href="{{ path('event') }}" class="btn btn-sm btn-default" name="_submit"><span
                                 class="glyphicon glyphicon-backward"></span> zurück</a>
                     {% if is_granted('ROLE_EVENT_EDIT') %}
@@ -15,6 +15,11 @@
                     <a href="{{ path('event_delete',{event:event.id}) }}" class="btn btn-sm btn-danger"><span
                                 class="glyphicon glyphicon-trash"></span> löschen</a>
                     {% endif %}
+                    <br><br>
+                </div>
+                <div class="col-sm-2">
+                    <a href="{{ path('event_toggle_notification',{event:event.id}) }}" class="btn btn-sm btn-{% if event.userBecomesNotification(app.user) is same as(false) %}primary{% else %}warning{% endif %}">
+                        <span class="glyphicon glyphicon-info-sign"></span> Benachrichtigungen {% if event.userBecomesNotification(app.user) is same as(false) %}einschalten{% else %}deaktivieren{% endif %}</a>
                     <br><br>
                 </div>
             </div>

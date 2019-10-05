@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="EventBundle\Repository\Event")
@@ -142,6 +143,16 @@ class Event implements GroupVisbilityInterface
      */
     public $repeatingEvent;
 
+    /**
+     * @var User[]
+     * @ORM\ManyToMany(targetEntity="App\Entity\User")
+     *  @ORM\JoinTable(name="event_notifications",
+     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id",columnDefinition="char(36) COLLATE utf8_unicode_ci")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id",columnDefinition="int(11)")}
+     *      )
+     */
+    public $notifications;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -172,5 +183,8 @@ class Event implements GroupVisbilityInterface
             setlocale(LC_ALL,'de_DE');
             return strftime($format,$this->date->getTimestamp());
         }
+    }
+    public function userBecomesNotification(UserInterface $user){
+        return array_search($user,$this->notifications->toArray());
     }
 }
