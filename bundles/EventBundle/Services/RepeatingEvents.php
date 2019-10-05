@@ -56,7 +56,7 @@ class RepeatingEvents
     {
 
         if(isset($futureEvents[$index]) && $futureEvents[$index] instanceof Event){
-            if(!$futureEvents[$index]->manualChanged && !$futureEvents[$index]->archived){
+            if(!$futureEvents[$index]->archived){
                 $this->setEventData($futureEvents[$index],$repeatingEvent,$date);
             }
         }else{
@@ -68,14 +68,18 @@ class RepeatingEvents
 
     private function setEventData(Event $event, RepeatingEvent $repeatingEvent, \DateTime $date)
     {
-        $event->date = $date;
+        if(!$event->manualChanged){
+            $event->date = $date;
+            $event->location = $repeatingEvent->location;
+        }
+
         $event->public = $repeatingEvent->public;
         $event->name = $repeatingEvent->name;
         $event->info = $repeatingEvent->info;
         $event->maxPersons = $repeatingEvent->maxPersons;
         $event->disableAnswer = $repeatingEvent->disableAnswer;
         $event->disableImpulse = $repeatingEvent->disableImpulse;
-        $event->location = $repeatingEvent->location;
+        $event->group = $repeatingEvent->group;
         $event->createdBy = $repeatingEvent->createdBy;
         if(!$this->isCronjon){
             $event->updatedBy = $repeatingEvent->updatedBy;
