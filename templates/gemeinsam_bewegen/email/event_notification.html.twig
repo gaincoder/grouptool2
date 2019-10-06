@@ -1,0 +1,14 @@
+{% extends 'email/base.html.twig' %}
+{% block subject %}Benachrichtigung{% endblock %}
+
+{% block body %}
+    Hallo {{ receiver.username }}!<br><br>
+
+    es gibt neue Informationen zu "<b>{{ event.name }}</b>".<br><br>
+
+    <b>Wann?</b> {{ event.formattedDate('%a., %d.%m.%Y um %H:%M Uhr')  }} <br>
+    <b>Wo?</b> {{ event.location }}<br><br><br>
+
+    <h4>Neue Info</h4>
+    {{ event.getLastComment()|nl2br }}<br><br>
+{% endblock %}

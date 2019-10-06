@@ -13,6 +13,7 @@ use EmailBundle\Enums\Mails;
 use EmailBundle\Services\ReceiverCollector;
 use EmailBundle\Services\TwigMailerInterface;
 use EventBundle\Event\EventCreatedEvent;
+use EventBundle\Event\EventNotificationEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Mailer\TwigSwiftMailer;
@@ -54,25 +55,43 @@ class EventSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            EventCreatedEvent::class => 'onEventCreated'
+            EventCreatedEvent::class => 'onEventCreated',
+            EventNotificationEvent::class => 'onEventNotification',
         ];
     }
 
     public function onEventCreated(EventCreatedEvent $event)
     {
 
-//        $event = $event->getEvent();
-//        $recievers = $this->receiverCollector->getReceivers($event,Mails::MAIL_EVENT_NEW);
-//        $parameters = [
-//            'event' => $event,
-//            'link' => $this->router->generate('event_view',['event'=>$event->id],Router::ABSOLUTE_URL)
-//        ];
-//
-//        foreach ($recievers as $reciever) {
-//            $mail = $reciever->getEmail();
-//            $parameters['receiver'] = $reciever;
-//            $this->mailer->sendMessage('email/new_event.html.twig',$parameters,$mail);
-//        }
+        $event = $event->getEvent();
+        $recievers = $this->receiverCollector->getReceivers($event,Mails::MAIL_EVENT_NEW);
+        $parameters = [
+            'event' => $event,
+            'link' => $this->router->generate('event_view',['event'=>$event->id],Router::ABSOLUTE_URL)
+        ];
+
+        foreach ($recievers as $reciever) {
+            $mail = $reciever->getEmail();
+            $parameters['receiver'] = $reciever;
+            $this->mailer->sendMessage('email/new_event.html.twig',$parameters,$mail);
+        }
     }
 
+
+    public function onEventNotification(EventNotificationEvent $event)
+    {
+
+        $event = $event->getEvent();
+        $recievers = $event->notifications;
+        $parameters = [
+            'event' => $event,
+            'link' => $this->router->generate('event_view',['event'=>$event->id],Router::ABSOLUTE_URL)
+        ];
+
+        foreach ($recievers as $reciever) {
+            $mail = $reciever->getEmail();
+            $parameters['receiver'] = $reciever;
+            $this->mailer->sendMessage('email/event_notification.html.twig',$parameters,$mail);
+        }
+    }
 }

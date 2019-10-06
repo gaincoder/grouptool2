@@ -9,6 +9,7 @@ use App\Form\CommentFormType;
 use EventBundle\Entity\RepeatingEvent;
 use EventBundle\Event\EventDeletedEvent;
 use EventBundle\Event\EventEditedEvent;
+use EventBundle\Event\EventNotificationEvent;
 use EventBundle\Form\EventFormType;
 use EventBundle\Event\EventAnsweredEvent;
 use EventBundle\Event\EventCommentedEvent;
@@ -143,7 +144,7 @@ class EventController extends AbstractController
             $em->flush();
             $extraData = $commentform->getExtraData();
             if(isset($extraData['sendnotifiction']) && $extraData['sendnotifiction'] == 1){
-
+                $this->get('event_dispatcher')->dispatch(new EventNotificationEvent($event, $this->getUser()));
             }
 
             $this->get('event_dispatcher')->dispatch(new EventCommentedEvent($event, $this->getUser()));

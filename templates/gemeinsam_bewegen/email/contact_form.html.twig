@@ -2,14 +2,16 @@
 {% block subject %}Kontaktanfrage{% endblock %}
 
 {% block body %}
-Hallo!<br><br>
+    Hallo!<br><br>
 
-jemand hat über gemeinsam-bewegen.de eine Kontaktanfrage gesendet:<br><br>
+    jemand hat über gemeinsam-bewegen.de eine Kontaktanfrage gesendet:<br><br>
 
-Firma: {{  data.company  }}<br>
-Name: {{  data.name  }}<br>
-E-Mail: {{  data.email  }}<br>
-Nachricht:<br><br>
-
-{{ data.message|nl2br }}
+    <h4>Firma</h4>
+    {{ data.company }}
+    <h4>Name</h4>
+    {{ data.name }}
+    <h4>E-Mail</h4>
+    E-Mail: {{ data.email }}
+    <h4>Nachricht</h4>
+    {{ data.message|nl2br }}<br><br>
 {% endblock %}

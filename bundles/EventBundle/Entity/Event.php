@@ -187,4 +187,11 @@ class Event implements GroupVisbilityInterface
     public function userBecomesNotification(UserInterface $user){
         return array_search($user,$this->notifications->toArray());
     }
+
+    public function getLastComment(){
+        /** @var Comment $comment */
+        $array = $this->comments->toArray();
+        $comment = end($array);
+        return $comment->text;
+    }
 }

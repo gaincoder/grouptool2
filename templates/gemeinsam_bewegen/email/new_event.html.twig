@@ -6,10 +6,14 @@ Hallo {{ receiver.username }}!<br><br>
 
 {{ event.createdBy }} hat eine neue Aktivität "<b>{{ event.name }}</b>" erstellt.<br><br>
 
-<b>Wann?</b> {{ event.date|date('d.m.Y') }} um {{ event.date|date('H:i') }} Uhr<br>
+<b>Wann?</b> {{ event.formattedDate('%a., %d.%m.%Y um %H:%M Uhr')  }}<br>
 <b>Wo?</b> {{ event.location }}<br><br><br>
 
-Bist du dabei? Gib {{ event.createdBy }} hier Bescheid:<br><br>
+    {% if event.disableAnswer %}
+        Mehr Informationen gibt es hier:<br><br>
+    {% else %}
+        Bist du dabei? Gib {{ event.createdBy }} hier Bescheid:<br><br>
+    {% endif %}
 {{ link }}<br><br>
 
     Wenn du diese E-Mail-Benachrichtigung nicht mehr bekommen möchtest, kannst du diese jederzeit in deinen Einstellungen auf <a href="https://www.gemeinsam-bewegen.de">gemeinsam-bewegen.de</a> abschalten.

@@ -62,7 +62,7 @@ class EventSubscriber implements EventSubscriberInterface
 
             $news = new News();
             $news->headline = self::$headline;
-            $news->text = sprintf(self::$text, ucfirst($user->getUsername()), $url, $event->name, $event->getFormattedDate('d.m.y'));
+            $news->text = sprintf(self::$text, ucfirst($user->getUsername()), $url, $event->name, $event->getFormattedDate('%d.%m.%y'));
             $news->referenceType = get_class($event);
             $news->referenceId = $event->id;
             $news->group = $event->group;
@@ -84,13 +84,13 @@ class EventSubscriber implements EventSubscriberInterface
         if(!($news instanceof News) && $event->date instanceof \DateTime){
             $news = new News();
             $news->headline = self::$headline;
-            $news->text = sprintf(self::$text, ucfirst($user->getUsername()), $url, $event->name, $event->getFormattedDate('d.m.y'));
+            $news->text = sprintf(self::$text, ucfirst($user->getUsername()), $url, $event->name, $event->getFormattedDate('%d.%m.%y'));
             $news->referenceType = get_class($event);
             $news->referenceId = $event->id;
         }
         if($news instanceof News && $event->date instanceof \DateTime)
         {
-            $news->text = sprintf(self::$text, ucfirst($user->getUsername()), $url, $event->name, $event->getFormattedDate('d.m.y'));
+            $news->text = sprintf(self::$text, ucfirst($user->getUsername()), $url, $event->name, $event->getFormattedDate('%d.%m.%y'));
             $news->group = $event->group;
             $this->em->persist($news);
             $this->em->flush();
