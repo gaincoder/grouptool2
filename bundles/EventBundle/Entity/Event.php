@@ -29,7 +29,7 @@ class Event implements GroupVisbilityInterface
 
     /**
      * @ORM\Id
-     * @ORM\Column(name="id", type="guid")
+     * @ORM\Column(name="id", type="guid",options={"collation":"utf8_unicode_ci"})
      * @ORM\GeneratedValue(strategy="UUID")
      */
     public $id;
@@ -139,7 +139,7 @@ class Event implements GroupVisbilityInterface
     /**
      * @var RepeatingEvent $repeatingEvent
      * @ORM\ManyToOne(targetEntity="RepeatingEvent",inversedBy="events")
-     * @ORM\JoinColumn(name="repeating_event_id", referencedColumnName="id",nullable=true,columnDefinition="char(36) COLLATE utf8mb4_unicode_ci")
+     * @ORM\JoinColumn(name="repeating_event_id", referencedColumnName="id",nullable=true,columnDefinition="char(36) COLLATE utf8_unicode_ci")
      */
     public $repeatingEvent;
 
@@ -148,7 +148,7 @@ class Event implements GroupVisbilityInterface
      * @ORM\ManyToMany(targetEntity="App\Entity\User")
      *  @ORM\JoinTable(name="event_notifications",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id",columnDefinition="char(36) COLLATE utf8_unicode_ci")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id",columnDefinition="int(11)")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      *      )
      */
     public $notifications;

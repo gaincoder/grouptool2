@@ -22,7 +22,7 @@ class RepeatingEvent
 
     /**
      * @ORM\Id
-     * @ORM\Column(name="id", type="guid")
+     * @ORM\Column(name="id", type="guid",options={"collation":"utf8_unicode_ci"})
      * @ORM\GeneratedValue(strategy="UUID")
      */
     public $id;
@@ -119,8 +119,8 @@ class RepeatingEvent
      * @var User[]
      * @ORM\ManyToMany(targetEntity="App\Entity\User")
      *  @ORM\JoinTable(name="repeatevent_notifications",
-     *      joinColumns={@ORM\JoinColumn(name="repeat_event_id", referencedColumnName="id",columnDefinition="char(36) COLLATE utf8mb4_unicode_ci")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id",columnDefinition="int(11)")}
+     *      joinColumns={@ORM\JoinColumn(name="repeat_event_id", referencedColumnName="id",columnDefinition="char(36) COLLATE utf8_unicode_ci")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      *      )
      */
     public $notifications;
