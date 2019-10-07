@@ -13,6 +13,7 @@ class Roles implements RoleEnumInterface
     const ROLE_POLL_DELETE         = 'ROLE_POLL_DELETE';
     const ROLE_POLL_CLOSE          = 'ROLE_POLL_CLOSE';
     const ROLE_POLL_OPEN           = 'ROLE_POLL_OPEN';
+    const ROLE_POLL_VIEW_VISIBILITY         = 'ROLE_POLL_VIEW_VISIBILITY';
 
 
 
