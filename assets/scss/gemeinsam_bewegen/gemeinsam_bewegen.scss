@@ -26,22 +26,58 @@ body {
  */
 .masthead {
   margin-bottom: 2rem;
-  background-color: #11834c;
+  background-color: #3B943B;
 }
 //
 .headright{
   float: right;
-  height: 143px;
-  width: 345px;
+  height: 150px;
+  width: 196px;
 
 
   background-image:
-          linear-gradient(to right, #11834c 1%, rgba(117, 19, 93, 0) 30%),
           url('../../images/headright.png');
 }
 
+.headrightB{
+  float: right;
+  height: 150px;
+  width: 195px;
 
 
+  background-image:
+          url('../../images/headrightB.png');
+}
+
+.headrightC{
+  float: right;
+  height: 150px;
+  width: 197px;
+
+
+  background-image:
+          url('../../images/headrightC.png');
+}
+
+.headleft{
+  float: left;
+  height: 150px;
+  width: 153px;
+
+
+  background-image:
+          url('../../images/headleft.png');
+}
+
+.headleftB{
+  float: left;
+  height: 150px;
+  width: 149px;
+
+
+  background-image:
+          url('../../images/headleftB.png');
+}
 
 @media (min-width: 48em) {
   .masthead-brand {
