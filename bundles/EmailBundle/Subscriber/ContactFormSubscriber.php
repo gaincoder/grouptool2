@@ -54,7 +54,7 @@ class ContactFormSubscriber implements EventSubscriberInterface
     public function onContactFormSubmitted(ContactFormSubmittedEvent $event)
     {
         $parameters = ['data'=>$event->getData()];
-        $this->mailer->sendMessage('email/contact_form.html.twig',$parameters,'gemeinsam-bewegen@grouptool.de');
+        $this->mailer->sendMessage('email/contact_form.html.twig',$parameters,'andrea.grote@addways.com');
 
     }
 
