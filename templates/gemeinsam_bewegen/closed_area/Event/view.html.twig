@@ -23,11 +23,13 @@
                     <br><br>
                 </div>
             </div>
-            {% if event.manualChanged and is_granted('ROLE_REPEATINGEVENT_VIEW') %}
-                <div class="alert alert-warning">Diese Aktivität wurde manuell geändert und wird dadurch nicht mehr durch den Serientermin aktualisiert! {% if is_granted('ROLE_REPEATINGEVENT_EDIT') %}<a href="{{ path('event_reset',{event:event.id}) }}" class="btn btn-primary">zurücksetzen</a>{% endif %}</div>
-            {% endif %}
-            {% if event.archived and is_granted('ROLE_REPEATINGEVENT_VIEW') %}
-                <div class="alert alert-danger">Diese Aktivität wurde abgesagt und wird dadurch nicht mehr durch den Serientermin aktualisiert! {% if is_granted('ROLE_REPEATINGEVENT_EDIT') %}<a href="{{ path('event_reset',{event:event.id}) }}" class="btn btn-primary">zurücksetzen</a>{% endif %}</div>
+            {% if event.repeatingEvent is not null %}
+                {% if event.manualChanged and is_granted('ROLE_REPEATINGEVENT_VIEW') %}
+                    <div class="alert alert-warning">Diese Aktivität wurde manuell geändert und wird dadurch nicht mehr durch den Serientermin aktualisiert! {% if is_granted('ROLE_REPEATINGEVENT_EDIT') %}<a href="{{ path('event_reset',{event:event.id}) }}" class="btn btn-primary">zurücksetzen</a>{% endif %}</div>
+                {% endif %}
+                {% if event.archived and is_granted('ROLE_REPEATINGEVENT_VIEW') %}
+                    <div class="alert alert-danger">Diese Aktivität wurde abgesagt und wird dadurch nicht mehr durch den Serientermin aktualisiert! {% if is_granted('ROLE_REPEATINGEVENT_EDIT') %}<a href="{{ path('event_reset',{event:event.id}) }}" class="btn btn-primary">zurücksetzen</a>{% endif %}</div>
+                {% endif %}
             {% endif %}
             <div class="bg-light rounded m-3 p-3">
                 <div class="row voffset5">
