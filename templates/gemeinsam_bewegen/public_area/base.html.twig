@@ -10,10 +10,11 @@
     {% block head_style %}
         {{ encore_entry_link_tags('gemeinsam_bewegen/public_area') }}
     {% endblock head_style %}
-
+    <link rel="stylesheet" href="cookie/cookiealert.css">
 </head>
 
 <body>
+
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header class="masthead">
         <div class="inner">
@@ -62,8 +63,20 @@
     </footer>
 
 </div>
+<div class="alert alert-dismissible text-center cookiealert" role="alert">
+    <div class="cookiealert-container">
+        Diese Website verwendet Cookies – nähere Informationen dazu und zu Ihren Rechten als Benutzer finden Sie in unserer <a href="{{ path('datenschutz') }}" target="_blank">Datenschutzerklärung</a>
+
+        <button type="button" class="btn btn-primary btn-sm acceptcookies" aria-label="Close">
+            akzeptieren
+        </button>
+    </div>
+</div>
+
 {{ encore_entry_script_tags('gemeinsam_bewegen/public_area') }}
 {% block endscripts %}
 {% endblock %}
+<script src="cookie/cookiealert.js"></script>
 </body>
 </html>
+
