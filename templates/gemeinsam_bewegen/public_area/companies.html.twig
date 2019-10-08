@@ -15,13 +15,13 @@
                 <h4>{{ company.name }}</h4>
                 <small>{{ company.longText }}</small>
                 {% if company.contactData|length > 0 %}
-                    <strong>Kontakt: </strong>{{ company.contactData }}
+                    <strong>Kontakt: </strong>{{ company.contactData }}<br>
                 {% endif %}
                 {% if company.contactEmail |length > 0 %}
-                    <strong>Kontakt: </strong><a href="mailto:{{ company.contactEmail }}">{{ company.contactEmail }}</a>
+                    <strong>E-Mail: </strong><a href="mailto:{{ company.contactEmail }}">{{ company.contactEmail }}</a><br>
                 {% endif %}
                 {% if company.website|length > 0 %}
-                    <strong>Kontakt: </strong><a href="{{ company.website }}">{{ company.website }}</a>
+                    <strong>Website: </strong><a href="{{ company.website }}">{{ company.website }}</a><br>
                 {% endif %}
             </div>
         {% else %}
