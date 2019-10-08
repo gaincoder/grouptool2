@@ -57,7 +57,6 @@ class EventSubscriber implements EventSubscriberInterface
     {
         $user = $event->getUser();
         $event = $event->getEvent();
-        if($event->date instanceof \DateTime){
             $url = $this->router->generate('event_view', ['event' => $event->id], Router::ABSOLUTE_URL);
 
             $news = new News();
@@ -69,7 +68,7 @@ class EventSubscriber implements EventSubscriberInterface
 
             $this->em->persist($news);
             $this->em->flush();
-        }
+
     }
 
     public function onEventEdited(AbstractEventEvent $event)
@@ -81,16 +80,17 @@ class EventSubscriber implements EventSubscriberInterface
 
 
         $news = $this->em->getRepository(News::class)->findOneBy(['referenceType'=>get_class($event),'referenceId'=>$event->id]);
-        if(!($news instanceof News) && $event->date instanceof \DateTime){
+        if(!($news instanceof News)) {
             $news = new News();
-            $news->headline = self::$headline;
-            $news->text = sprintf(self::$text, ucfirst($user->getUsername()), $url, $event->name, $event->getFormattedDate('am %d.%m.%y'));
-            $news->referenceType = get_class($event);
-            $news->referenceId = $event->id;
         }
+
+        $news->headline = self::$headline;
+        $news->text = sprintf(self::$text, ucfirst($user->getUsername()), $url, $event->name, $event->getFormattedDate('am %d.%m.%y'));
+        $news->referenceType = get_class($event);
+        $news->referenceId = $event->id;
         $news->group = $event->group;
-            $this->em->persist($news);
-            $this->em->flush();
+        $this->em->persist($news);
+        $this->em->flush();
 
 
     }
