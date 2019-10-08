@@ -31,38 +31,38 @@ body {
 //
 .headright{
   float: right;
-  height: 150px;
-  width: 196px;
+  height: 140px;
+  width: 183px;
 
 
   background-image:
           url('../../images/headright.png');
 }
 
-.headrightB{
+.headrightMid{
   float: right;
-  height: 150px;
-  width: 195px;
+  height: 140px;
+  width: 182px;
 
 
   background-image:
-          url('../../images/headrightB.png');
+          url('../../images/headrightMid.png');
 }
 
-.headrightC{
+.headrightLeft{
   float: right;
-  height: 150px;
-  width: 197px;
+  height: 140px;
+  width: 182px;
 
 
   background-image:
-          url('../../images/headrightC.png');
+          url('../../images/headrightLeft.png');
 }
 
 .headleft{
   float: left;
-  height: 150px;
-  width: 153px;
+  height: 140px;
+  width: 159px;
 
 
   background-image:
@@ -71,8 +71,8 @@ body {
 
 .headleftB{
   float: left;
-  height: 150px;
-  width: 149px;
+  height: 140px;
+  width: 151px;
 
 
   background-image:
@@ -83,11 +83,78 @@ body {
   .masthead-brand {
     float: left;
   }
+
 }
 
 @media (max-width: 48em) {
   .headright{
     display:none;
   }
+  .headrightMid{
+    display:none;
+  }
+  .headrightLeft{
+    display:none;
+  }
+  .headleft{
+    float: none;
+    display: inline-block;
+  }
+  .headleftB{
+    display:none;
+  }
+  .masthead{
+    text-align: center;
+  }
+  .masthead-brand {
+    vertical-align: inherit;
+  }
+  .masthead .navbar{
+    display: block;
+  }
 }
 
+@media (max-width: 460px) {
+  .headleft{
+    display: none;
+  }
+}
+
+@media (max-width: 1150px) {
+  .headleftB{
+    display: none;
+  }
+  .masthead .navbar .nav-item{
+    margin-left: 1.5em;
+    margin-right: 1.5em;
+  }
+}
+
+@media (max-width: 1000px) {
+  .headrightLeft{
+    display: none;
+  }
+
+  .masthead .navbar .nav-item{
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+}
+
+@media (max-width: 900px) {
+
+  .masthead .navbar .nav-item{
+    margin-left: 0.8em;
+    margin-right: 0.8em;
+  }
+}
+
+@media (max-width: 900px) {
+  .headrightMid{
+    display: none;
+  }
+  .masthead .navbar .nav-item{
+    margin-left: 0.3em;
+    margin-right: 0.3em;
+  }
+}
