@@ -31,9 +31,8 @@ class RepeatingEventFormType extends AbstractType
             ->add('type',ChoiceType::class,['label'=>false,'choices'=>RepeatingType::getList(),'translation_domain' => 'event'])
             ->add('name', null, array('label' => false, 'required' => true, 'attr' => ['placeholder' => 'Name']))
             ->add('location', null, array('label' => false, 'required' => false, 'attr' => ['placeholder' => 'Ort']))
-            ->add('disableAnswer', CheckboxType::class, array('label' => 'Antworten abschalten', 'required' => false))
-            ->add('disableImpulse', CheckboxType::class, array('label' => 'Spontan abschalten', 'required' => false))
-            ->add('public', CheckboxType::class, array('label' => 'Öffentlich', 'required' => false))
+            ->add('disableAnswer', CheckboxType::class, array('label' => 'Teilnahme abschalten', 'required' => false,'help'=>'Benutzer können nicht mehr angeben ob sie teilnemen oder nicht.'))
+            ->add('disableImpulse', CheckboxType::class, array('label' => 'Spontan abschalten', 'required' => false,'help' => 'Benutzer können nur noch "dabei" und "nein" wählen'))
                 ->add('group', EntityType::class, [
                     'class'=>'App\Entity\Group',
                     'label' => 'Sichtbarkeit einschränken',
