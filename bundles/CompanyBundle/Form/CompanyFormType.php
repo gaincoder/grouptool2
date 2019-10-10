@@ -38,7 +38,7 @@ class CompanyFormType extends AbstractType
                 'attr' => ['data-select' => 'true']
             ))
             ->add('shortText',null,['required'=>false])
-
+            ->add('cooperation',CheckboxType::class,['label'=>'Kooperationspartner','required'=>false])
             ->add('longText',TextareaType::class,['required'=>false])
             ->add('contactData',null,['label'=>'Kontakt','required'=>false])
             ->add('contactEmail',EmailType::class,['label'=>'E-Mail','required'=>false])

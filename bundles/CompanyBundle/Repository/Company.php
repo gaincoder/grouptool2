@@ -35,10 +35,14 @@ class Company implements CompanyRepositoryInterface
     /**
      * @return Entity[]
      */
-    public function findAllOrdered()
+    public function findAllOrdered($inclusiveCooperation = false)
     {
 
-        $dql = 'SELECT i FROM ' . Entity::class . ' i ORDER BY i.name';
+        $dql = 'SELECT i FROM ' . Entity::class . ' i ';
+        if(!$inclusiveCooperation) {
+            $dql .= 'WHERE i.cooperation = 0 ';
+        }
+        $dql .= 'ORDER BY i.name';
         $query = $this->entityManager->createQuery($dql);
         return $query->execute();
 
@@ -57,7 +61,7 @@ class Company implements CompanyRepositoryInterface
      */
     public function findOneRandom()
     {
-        $dql = 'SELECT i FROM ' . Entity::class . ' i ORDER BY RAND()';
+        $dql = 'SELECT i FROM ' . Entity::class . ' i WHERE i.cooperation = 0 ORDER BY RAND()';
         $query = $this->entityManager->createQuery($dql);
         $query->setMaxResults(1);
         return $query->execute();

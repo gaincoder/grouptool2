@@ -79,6 +79,10 @@ class Company
      */
     public $website;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    public $cooperation = false;
 
     public function __toString()
     {

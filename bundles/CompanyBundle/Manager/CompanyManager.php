@@ -52,7 +52,7 @@ class CompanyManager implements CompanyManagerInterface
 
     public function list()
     {
-        return $this->repository->findAllOrdered();
+        return $this->repository->findAllOrdered(true);
     }
 
     public function createObject()
