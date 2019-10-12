@@ -56,6 +56,12 @@
 {#                            <td>{% if user.enabled %}<span class="alert-success">aktiviert{% else %}<span class="alert-danger">deaktiviert{% endif %}</span> <a href="{{ path('administration_toggle_user',{user:user.id}) }}" class="btn btn-sm btn-primany">ändern</a></td>#}
                             <td>
                                 {% if is_granted('ROLE_USER_EDIT') %}<a href="{{ path('user_edit',{ user:user.id }) }}" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-pencil"></span></a>{% endif %}
+                                {% if is_granted('ROLE_USER_DELETE') %}
+                                    <a
+                                            href="{{ path('user_delete',{user:user.id}) }}"
+                                            class="btn btn-sm btn-danger"><span
+                                                class="glyphicon glyphicon-trash"></span></a>
+                                {% endif %}
                             </td>
                         </tr>
                         {% endfor %}

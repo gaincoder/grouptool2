@@ -33,7 +33,7 @@ class Group extends BaseGroup
     public $selectable=false;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User",mappedBy="groups")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User",mappedBy="groups",cascade={"remove"})
      * )
      */
     public $users;

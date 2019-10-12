@@ -153,4 +153,20 @@ class UserController
         return $this->redirectToRoute('userlist');
     }
 
+    /**
+     * @Route("/user/delete/{user}/{confirm}", name="user_delete",defaults={"confirm"=false})
+     * @IsGranted("ROLE_USER_DELETE")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function delete(User $user, $confirm = false, Request $request)
+    {
+        if ($confirm == false) {
+            return new Response($this->twig->render('closed_area/confirm.html.twig', ['type' => 'Benutzer']));
+        }
+        $this->userManager->handleDelete($user);
+        return $this->redirectToRoute('userlist');
+
+    }
+
 }

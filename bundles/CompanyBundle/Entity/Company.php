@@ -44,7 +44,7 @@ class Company
 
     /**
      * @var User[]
-     * @ORM\ManyToMany(targetEntity="App\Entity\User")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User",cascade={"remove"})
      */
     public $registrationsTo;
 

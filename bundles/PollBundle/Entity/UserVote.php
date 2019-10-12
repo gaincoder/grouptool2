@@ -35,7 +35,8 @@ class UserVote
 
     /**
      * @var Poll
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User",cascade={"remove"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     public $user;
 }

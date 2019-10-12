@@ -53,7 +53,8 @@ class Poll implements GroupVisbilityInterface
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User",cascade={"remove"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      * @var User
      */
     public $owner;
