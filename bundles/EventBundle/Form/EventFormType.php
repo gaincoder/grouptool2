@@ -29,8 +29,8 @@ class EventFormType extends AbstractType
                 'attr' => ['placeholder' => 'Datum'], 'choice_translation_domain' => true))
             ->add('name', null, array('label' => false, 'required' => true, 'attr' => ['placeholder' => 'Name']))
             ->add('location', null, array('label' => false, 'required' => false, 'attr' => ['placeholder' => 'Ort']))
-            ->add('disableAnswer', CheckboxType::class, array('label' => 'Teilnahme abschalten', 'required' => false,'help'=>'Benutzer können nicht mehr angeben ob sie teilnemen oder nicht.'))
-            ->add('disableImpulse', CheckboxType::class, array('label' => 'Spontan abschalten', 'required' => false,'help' => 'Benutzer können nur noch "dabei" und "nein" wählen'))
+            ->add('disableAnswer', CheckboxType::class, array('label' => 'Teilnahme abschalten', 'required' => false,'attr'=>['data-help'=>'Benutzer können nicht mehr angeben ob sie teilnemen oder nicht.']))
+            ->add('disableImpulse', CheckboxType::class, array('label' => 'Spontan abschalten', 'required' => false,'attr'=>['data-help'=>"Benutzer können nur noch 'dabei' und 'nein' wählen"]))
                 ->add('group', EntityType::class, [
                     'class'=>'App\Entity\Group',
                     'label' => 'Sichtbarkeit einschränken',

@@ -16,4 +16,7 @@ $(document).ready(function() {
     $('.summernote').summernote();
     $('select[data-select="true"]').select2();
     $('.datatable').dataTable();
+    $("[data-help]").each(function(key,el){
+        $(el).parent().append('<br><small class="ml-5 helptext">'+$(el).attr("data-help")+'</small>');
+    });
 });
