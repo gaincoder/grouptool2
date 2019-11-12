@@ -148,7 +148,7 @@ class Event implements GroupVisbilityInterface
      * @var User[]
      * @ORM\ManyToMany(targetEntity="App\Entity\User")
      *  @ORM\JoinTable(name="event_notifications",
-     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id",columnDefinition="char(36) COLLATE utf8_unicode_ci")},
+     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id",onDelete="CASCADE",columnDefinition="char(36) COLLATE utf8_unicode_ci")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id",onDelete="CASCADE")}
      *      )
      */
