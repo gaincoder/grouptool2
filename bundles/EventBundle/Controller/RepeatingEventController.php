@@ -93,7 +93,6 @@ class RepeatingEventController extends AbstractController
         $em->remove($repeatingEvent);
         $em->flush();
         $this->addFlash('success', 'Serientermin wurde gelöscht!');
-        $this->get('repeatingEvent_dispatcher')->dispatch(new RepeatingEventDeletedRepeatingEvent($repeatingEvent, $this->getUser()));
         return $this->redirectToRoute('repeatingEvent');
 
     }
