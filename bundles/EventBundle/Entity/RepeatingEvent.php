@@ -120,7 +120,7 @@ class RepeatingEvent
      * @ORM\ManyToMany(targetEntity="App\Entity\User",cascade={"remove"})
      *  @ORM\JoinTable(name="repeatevent_notifications",
      *      joinColumns={@ORM\JoinColumn(name="repeat_event_id", referencedColumnName="id",columnDefinition="char(36) COLLATE utf8_unicode_ci")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", onDelete="CASCADE",referencedColumnName="id")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id",referencedColumnName="id")}
      *      )
      */
     public $notifications;
