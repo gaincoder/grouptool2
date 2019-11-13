@@ -100,7 +100,7 @@ class Event implements GroupVisbilityInterface
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User",cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(onDelete="CASCADE")
      * @var User
      */

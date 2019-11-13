@@ -84,7 +84,7 @@ class RepeatingEvent
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User",cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @var User
      */
     public $owner;
