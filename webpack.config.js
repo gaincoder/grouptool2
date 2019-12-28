@@ -36,7 +36,15 @@ Encore
 //.enableTypeScriptLoader()
 
 // uncomment if you use Sass/SCSS files
-    .enableSassLoader()
+
+    .enableSassLoader((options) => {
+        options.sourceMap = true;
+        options.sassOptions = {
+            includePaths: [
+                'node_modules', 'assets'
+            ]
+        }})
+
 
 // uncomment if you're having problems with a jQuery plugin
 .autoProvidejQuery()
