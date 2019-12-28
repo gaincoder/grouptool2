@@ -8,19 +8,18 @@ services:
     - app-vendor:/var/www/vendor
     - app-cache:/var/www/var/cache
     - node-modules:/var/www/node-modules
-    - ./:/var/www:cached
+    - ./:/var/www
     - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini
     - ~/.ssh:/tmp/.ssh:ro
 
     environment:
       - CONFIG_NAME
-      - XDEBUG_REMOTE_HOST=${COMPUTERNAME}.cds-service.com
-      - XDEBUG_REMOTE_PORT
+      - XDEBUG_REMOTE_HOST=host.docker.internal
+      - XDEBUG_REMOTE_PORT=9002
       - BASE_URL_HOST
       - USE_UMASK=1
       - COMPOSER_PROCESS_TIMEOUT=900
-    networks:
-      - internal
+
 
   web:
     image: nginx:alpine
@@ -32,9 +31,8 @@ services:
     depends_on:
     - php
     - pma
-    networks:
-      - proxy
-      - internal
+    labels:
+      - "traefik.http.routers.web.rule=Host(`grouptool.localhost`)"      
 
 
   db:
@@ -43,8 +41,6 @@ services:
     - mysql-data/:/var/lib/mysql
     environment:
     - MYSQL_ROOT_PASSWORD=symf0ny
-    networks:
-      - internal
 
 
 
@@ -52,9 +48,6 @@ services:
      image: nazarpc/phpmyadmin
      environment:
        - MYSQL_HOST=db;root;symf0ny
-     networks:
-       - internal
-
 
   # rsync is needed for IDE autocompletion for the vendor directory
   rsync:
@@ -76,6 +69,6 @@ volumes:
   node-modules:
 
 networks:
-  internal:
-  proxy:
-    external: true
+  default:
+    external: 
+      name: proxy
