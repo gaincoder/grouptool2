@@ -3,20 +3,18 @@ version: '3.2'
 services:
   php:
     build:
-      context: ./docker/php-fpm
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
     volumes:
     - app-vendor:/var/www/vendor
     - app-cache:/var/www/var/cache
-    - node-modules:/var/www/node-modules
     - ./:/var/www
     - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini
-    - ~/.ssh:/tmp/.ssh:ro
-
+    links:
+      - db:db
     environment:
-      - CONFIG_NAME
       - XDEBUG_REMOTE_HOST=host.docker.internal
       - XDEBUG_REMOTE_PORT=9002
-      - BASE_URL_HOST
       - USE_UMASK=1
       - COMPOSER_PROCESS_TIMEOUT=900
 
@@ -28,9 +26,8 @@ services:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./docker/nginx/sites/:/etc/nginx/sites-available
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d
-    depends_on:
-    - php
-    - pma
+    links:
+      - php:php
     labels:
       - "traefik.http.routers.web.rule=Host(`grouptool.localhost`)"      
 
@@ -45,9 +42,16 @@ services:
 
 
   pma:
-     image: nazarpc/phpmyadmin
+     image: phpmyadmin/phpmyadmin
      environment:
-       - MYSQL_HOST=db;root;symf0ny
+       - MYSQL_ROOT_PASSWORD:symf0ny
+       - PMA_USER=root
+       - PMA_PASSWORD=symf0ny
+       - UPLOAD_LIMIT=1000M
+     links:
+       - db:db
+     labels:
+       - "traefik.http.routers.pma.rule=Host(`pma-grouptool.localhost`)"
 
   # rsync is needed for IDE autocompletion for the vendor directory
   rsync:
@@ -57,9 +61,12 @@ services:
     volumes:
     - ./:/var/www
     - app-vendor:/app-vendor
-    depends_on:
-    - php
 
+  node:
+    build: docker/node
+    volumes:
+      - .:/var/www
+    command: bash -c "yarn && yarn encore dev --watch --watch-poll"
 
 
 volumes:
@@ -70,5 +77,5 @@ volumes:
 
 networks:
   default:
-    external: 
+    external:
       name: proxy
