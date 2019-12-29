@@ -1,5 +1,7 @@
 FROM php:7.3-fpm-alpine
 WORKDIR /var/www
+RUN apk update
+RUN apk add git curl zip
 
 # install php extensions
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
