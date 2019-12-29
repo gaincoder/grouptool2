@@ -10,6 +10,7 @@ services:
     - app-cache:/var/www/var/cache
     - ./:/var/www
     - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini
+    - node-modules:/var/www/node_modules
     links:
       - db:db
     environment:
@@ -67,6 +68,7 @@ services:
     build: docker/node
     volumes:
       - .:/var/www
+      - node-modules:/var/www/node_modules
     command: bash -c "yarn && yarn encore dev --watch --watch-poll"
 
 
