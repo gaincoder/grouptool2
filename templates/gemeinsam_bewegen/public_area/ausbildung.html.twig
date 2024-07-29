@@ -107,16 +107,23 @@
     <p style="text-align:right; color:black">
         Website powered by <img src="/ausbildung_logos/Logo%20Powered%20by%20CDS.png" alt="ws+f" height="25px">
     </p>
-    <header class="masthead">
-        <div class="inner">
-            <a href="{{ path('home') }}"><img class="masthead-brand" src="{{ asset('build/images/gemeinsambewegen.png') }}" /></a>
-            <div class="headleft"></div>
-            <div class="headleftB"></div>
-            <div class="headright"></div>
-            <div class="headrightMid"></div>
-            <div class="headrightLeft"></div>
+
         </div>
-    </header>
-        </div>
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+<header class="masthead">
+    <div class="inner">
+        <a href="{{ path('home') }}"><img class="masthead-brand" src="{{ asset('build/images/gemeinsambewegen.png') }}" /></a>
+        <div class="headleft"></div>
+        <div class="headleftB"></div>
+        <div class="headright"></div>
+        <div class="headrightMid"></div>
+        <div class="headrightLeft"></div>
+    </div>
+</header>
+</div>
+{{ encore_entry_script_tags('gemeinsam_bewegen/public_area') }}
+{% block endscripts %}
+{% endblock %}
+<script src="/cookie/cookiealert.js"></script>
 </body>
 </html>
