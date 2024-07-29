@@ -27,5 +27,14 @@ class PublicAreaController extends AbstractController
         return $this->render('public_area/datenschutz.html.twig');
     }
 
+    /**
+     * @Route("/ausbildung", name="ausbildung")
+     */
+    public function ausbildungAction()
+    {
+        return $this->render('public_area/ausbildung.html.twig');
+    }
+
+
 
 }
